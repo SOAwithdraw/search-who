@@ -29,27 +29,27 @@ for SOA big project
     - pip install yaml
     - yaml 结构，-代表list中的元素，:代表dict中的元素
     - yaml 结构示例 [{'a':'x', 'b':1}, {'a':'y'}， {'b':2}]
-``` yaml
--   a: 'x'
-    b：1
--   a: 'y'
-    b: 2
-```
+    ``` yaml
+    -   a: 'x'
+        b：1
+    -   a: 'y'
+        b: 2
+    ```
 
     - 读取示例代码，data为读取后的结果，结构和yaml文件对应
 
 
-```python
-    import yaml
-    fr = open('search.yaml', 'r')
-    data = yaml.load(fr)
-```
+    ```python
+        import yaml
+        fr = open('search.yaml', 'r')
+        data = yaml.load(fr)
+    ```
 
     - 存储示例代码，data为python的结构，打印到yaml文件对应
 
-```python
-    import yaml
-    output = codecs.open("search.yaml", "w", "utf-8")
-    yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+    ```python
+        import yaml
+        output = codecs.open("search.yaml", "w", "utf-8")
+        yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
 
-```
+    ```
