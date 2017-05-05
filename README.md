@@ -28,7 +28,7 @@ for SOA big project
 
     - pip install yaml
     - yaml 结构，-代表list中的元素，:代表dict中的元素
-    - yaml 结构示例 [{'a':'x', 'b':1}, {'a':'y'}， {'b':2}]
+    - yaml 结构示例 [{'a':'x', 'b':1}, {'a':'y', 'b':2}]
     ``` yaml
     -   a: 'x'
         b：1
@@ -53,3 +53,9 @@ for SOA big project
         yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
 
     ```
+
+### 20170505
+
++ 已完成工作
+    修改了readme的bug
+    修改了img的值，填充了http:

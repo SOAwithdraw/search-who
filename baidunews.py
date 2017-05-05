@@ -48,7 +48,7 @@ def get(s):
         request = urllib2.Request(newsurlitem)
         request.add_header('User-Agent' , user_agent)
         print newsurlitem
-        time.sleep(1);
+        time.sleep(0.1);
         response = urllib2.urlopen(request)
         html = response.read()
         #print html
@@ -68,7 +68,10 @@ def get(s):
                 text.append(ut)
             if 'img' in u:
                 try:
-                    img.append(soup0.img['src'])
+                    imgurl = soup0.img['src']
+                    if (imgurl[0] == '/' and imgurl[1] == '/'):
+                        imgurl = 'http:' + imgurl
+                    img.append(imgurl)
                 except:
                     print newsurlitem
                     pass
