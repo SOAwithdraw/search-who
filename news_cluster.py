@@ -23,18 +23,28 @@ def cluster_pages(all_info):
             url_list.append(i)
             featured_text.append(features)
 
-    fin = cluster.Cluster(featured_text, 0.3)
+    fin = cluster.Cluster(featured_text, 0.4)
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
-    print(json.dumps(clustered_page, ensure_ascii=False))
+    return clustered_page, featured_text, fin
 
+
+def print_page(i, all_info):
+    print(json.dumps(all_info[i]['text'], ensure_ascii=False))
 
 if __name__ == '__main__':
 
-    filename = 'search.yaml'
+    filename = 'search2.yaml'
     with open(filename) as f:
         all_info = yaml.load(f)
 
-    print(json.dumps(all_info[7]['text'], ensure_ascii=False))
-    # cluster_pages(all_info)
+    pages, featured_text, fin = cluster_pages(all_info)
+
+    for i in range(len(pages)):
+        with codecs.open(str(i) + '.txt', 'w', 'utf-8') as fout:
+            for j in range(len(pages[i])):
+                fout.write('[' + str(pages[i][j]) + ']\n')
+                # fout.write('\n'.join(all_info[pages[i][j]]['text']))
+                fout.write(json.dumps(featured_text[fin[i][j]], ensure_ascii=False))
+                fout.write('\n===========\n')
