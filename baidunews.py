@@ -6,18 +6,20 @@ import yaml
 import codecs
 import re
 import sys
+import datetime
 import time
 from bs4 import BeautifulSoup
 
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
-def get(s):
+def get(s, index0 = 0, newscnt = 10):
     fr = open('config.yaml', 'r')
     p = yaml.load(fr)
     par = p['baidunews']
     par['word'] = s;
-    
+    par['pn'] = index0
+    par['rn'] = newscnt
     data = urllib.urlencode(par)
 
     url = p['baidunewsurl']
@@ -47,13 +49,18 @@ def get(s):
     for newsurlitem in newsurl:
         request = urllib2.Request(newsurlitem)
         request.add_header('User-Agent' , user_agent)
-        print newsurlitem
-        time.sleep(0.1);
+        #print newsurlitem
+        time.sleep(1);
         response = urllib2.urlopen(request)
         html = response.read()
         #print html
         html = html.replace("\n", "")
         html = html.replace("\r", "")
+        html = html.replace("&nbsp;", " ")
+        html = html.replace("&quot;", "\"")
+        html = html.replace("&amp;", "&")
+        html = html.replace("&lt;", "<")
+        html = html.replace("&gt;", ">")
 
         pattern = re.compile("<p.*?</p>")
         gp = re.findall(pattern, html)
@@ -78,13 +85,26 @@ def get(s):
         eachnews = {}
         eachnews['text'] = text
         eachnews['img'] = img
+        eachnews['id'] = index0
+        pattern = re.compile("<title.*?</title>")
+        newstitle = re.search(pattern, html)
+        newstitle = newstitle.group(0)
+        pattern = re.compile("<.*?>", re.M)
+        ntitle = re.sub(pattern, "", newstitle)
+        eachnews['title'] = ntitle.decode('gbk', 'ignore')
+        print ntitle
+        index0 = index0 + 1
         result.append(eachnews)
     return result
 
 output = codecs.open("search.yaml", "w", "utf-8")
 
-word = unicode('郭文景', 'utf-8')
+word = unicode('陈驰', 'utf-8')
 
-searchresult = get(word)
+#cbegin = datetime.datetime.now()
+searchresult = get(word, 7, 50)
+#cend = datetime.datetime.now()
+#print cend - cbegin
 
 yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+

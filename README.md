@@ -59,3 +59,19 @@ for SOA big project
 + 已完成工作
     修改了readme的bug
     修改了img的值，填充了http:
+
+### 20170510
+
++ 已完成工作
+    对于每条百度新闻，添加了id和title
+    更新了search1.yaml，search2.yaml
+    
++ baidunews.py
+    get(word, index0 = 0, newscnt = 10)
+    word 表示查询单词，中文使用utf-8编码
+    index0 表示新闻的起始编号
+    newscnt 表示搜索条数
+    返回值为 [{id:id, img:[images], text:[texts], title:title}]
+
++ 已知问题
+    繁体标题乱码，目前假设百度新闻均为gbk格式
