@@ -24,7 +24,7 @@ def cluster_pages(all_info):
             url_list.append(i)
             featured_text.append(features)
 
-    fin, mat = cluster.Cluster(featured_text, 0.4)
+    fin, mat = cluster.Cluster(featured_text, 0.5)
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
@@ -42,7 +42,8 @@ if __name__ == '__main__':
 
     pages, featured_text, fin, mat = cluster_pages(all_info)
 
-    for i in range(len(pages)):
+    print(pages)
+    '''for i in range(len(pages)):
         with codecs.open(str(i) + '.txt', 'w', 'utf-8') as fout:
             for j in range(len(pages[i])):
                 fout.write('[' + str(fin[i][j]) + ']\n')
@@ -55,4 +56,4 @@ if __name__ == '__main__':
     while 1:
         inf = raw_input().split()
         i, j = int(inf[0]), int(inf[1])
-        print(mat[i, j])
+        print(mat[i, j])'''

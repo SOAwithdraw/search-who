@@ -59,7 +59,7 @@ def Cluster(vectors, tvalue):
         # print(t[2])
         if t[2] < tvalue:
             break
-        #print(t[2])
+        # print(t[2])
         Getfa(fa, t[0])
         Getfa(fa, t[1])
         if fa[t[0]] != fa[t[1]]:
@@ -84,7 +84,6 @@ def Cluster(vectors, tvalue):
     for i in range(tot):
         for j in range(i + 1, tot):
             matx[i].append(matx[j][i])
-    print(matx)
 
     return fin, matx
 
