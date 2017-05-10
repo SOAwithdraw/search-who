@@ -38,11 +38,16 @@ def Cluster(vectors, tvalue):
     tot = len(vectors)
 
     # use for sorting
-    sor = []
+    sor = []                                     # used for sort
+    matx = []
+    for i in range(tot):
+        matx.append([])
     for i in range(tot):
         for j in range(i + 1, tot):
             # print(i, j)
-            sor.append((i, j, Cos(vectors[i], vectors[j])))
+            cosval = Cos(vectors[i], vectors[j])
+            sor.append((i, j, cosval));
+            matx[j].append(cosval);
 
     sor = sorted(sor, key=lambda x: x[2], reverse=True)
 
@@ -73,10 +78,19 @@ def Cluster(vectors, tvalue):
         if i:
             fin.append(i)
 
-    return fin
+    for i in range(tot):
+        matx[i].append(1.0)
+    for i in range(tot):
+        for j in range(i + 1, tot):
+            matx[i].append(matx[j][i])
+    print(matx)
+
+    return fin, matx
 
 
 def Try():
     v = [{'a': 1, 'b': 1, 'c': 1}, {'x': 1, 'y': 1}, {'x': 1, 'z': 1}]
     fin = Cluster(v, 0.4)
     print(fin)
+
+Try()
