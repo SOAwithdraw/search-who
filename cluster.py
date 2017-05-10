@@ -59,11 +59,12 @@ def Cluster(vectors, tvalue):
         # print(t[2])
         if t[2] < tvalue:
             break
+        #print(t[2])
         Getfa(fa, t[0])
         Getfa(fa, t[1])
         if fa[t[0]] != fa[t[1]]:
             # print(t[0], t[1])
-            fa[t[0]] = t[1]
+            fa[fa[t[0]]] = fa[t[1]]
 
     for i in range(tot):
         Getfa(fa, i)
@@ -93,4 +94,5 @@ def Try():
     fin = Cluster(v, 0.4)
     print(fin)
 
-Try()
+if __name__ == '__main__':
+    Try()
