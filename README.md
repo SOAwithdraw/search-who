@@ -63,7 +63,7 @@ for SOA big project
 ### 20170510
 
 + 已完成工作
-    对于每条百度新闻，添加了id和title
+    对于每条百度新闻，添加了id,title和url
     更新了search1.yaml，search2.yaml
     
 + baidunews.py
@@ -71,7 +71,7 @@ for SOA big project
     word 表示查询单词，中文使用utf-8编码
     index0 表示新闻的起始编号
     newscnt 表示搜索条数
-    返回值为 [{id:id, img:[images], text:[texts], title:title}]
+    返回值为 [{id:id, img:[images], text:[texts], title:title， url:url}]
 
 + 已知问题
     繁体标题乱码，目前假设百度新闻均为gbk格式

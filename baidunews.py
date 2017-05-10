@@ -65,6 +65,8 @@ def get(s, index0 = 0, newscnt = 10):
         pattern = re.compile("<p.*?</p>")
         gp = re.findall(pattern, html)
 
+
+
         text = []
         img = []
         for u in gp:
@@ -92,6 +94,7 @@ def get(s, index0 = 0, newscnt = 10):
         pattern = re.compile("<.*?>", re.M)
         ntitle = re.sub(pattern, "", newstitle)
         eachnews['title'] = ntitle.decode('gbk', 'ignore')
+        eachnews['url'] = newsurlitem
         print ntitle
         index0 = index0 + 1
         result.append(eachnews)
@@ -99,10 +102,10 @@ def get(s, index0 = 0, newscnt = 10):
 
 output = codecs.open("search.yaml", "w", "utf-8")
 
-word = unicode('陈驰', 'utf-8')
+word = unicode('郭文景', 'utf-8')
 
 #cbegin = datetime.datetime.now()
-searchresult = get(word, 7, 50)
+searchresult = get(word, 0, 50)
 #cend = datetime.datetime.now()
 #print cend - cbegin
 
