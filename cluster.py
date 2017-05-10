@@ -46,8 +46,8 @@ def Cluster(vectors, tvalue):
         for j in range(i + 1, tot):
             # print(i, j)
             cosval = Cos(vectors[i], vectors[j])
-            sor.append((i, j, cosval));
-            matx[j].append(cosval);
+            sor.append((i, j, cosval))
+            matx[j].append(cosval)
 
     sor = sorted(sor, key=lambda x: x[2], reverse=True)
 
