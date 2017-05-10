@@ -34,7 +34,7 @@ def Getfa(fa, i):
     return fa[i]
 
 
-def Cluster(vectors, tvalue):
+def Cluster(vectors, tvalue, typ=0):
     tot = len(vectors)
 
     # use for sorting
@@ -45,7 +45,10 @@ def Cluster(vectors, tvalue):
     for i in range(tot):
         for j in range(i + 1, tot):
             # print(i, j)
-            cosval = Cos(vectors[i], vectors[j])
+            if typ:
+                cosval = Cos2(vectors[i], vectors[j])
+            else:
+                cosval = Cos(vectors[i], vectors[j])
             sor.append((i, j, cosval))
             matx[j].append(cosval)
 
@@ -84,6 +87,7 @@ def Cluster(vectors, tvalue):
     for i in range(tot):
         for j in range(i + 1, tot):
             matx[i].append(matx[j][i])
+    # print(matx)
 
     return fin, matx
 
