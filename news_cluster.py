@@ -6,6 +6,7 @@ import yaml
 import json
 import codecs
 import sys
+import numpy as np
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -23,11 +24,11 @@ def cluster_pages(all_info):
             url_list.append(i)
             featured_text.append(features)
 
-    fin = cluster.Cluster(featured_text, 0.4)
+    fin, mat = cluster.Cluster(featured_text, 0.4)
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
-    return clustered_page, featured_text, fin
+    return clustered_page, featured_text, fin, mat
 
 
 def print_page(i, all_info):
@@ -39,12 +40,19 @@ if __name__ == '__main__':
     with open(filename) as f:
         all_info = yaml.load(f)
 
-    pages, featured_text, fin = cluster_pages(all_info)
+    pages, featured_text, fin, mat = cluster_pages(all_info)
 
     for i in range(len(pages)):
         with codecs.open(str(i) + '.txt', 'w', 'utf-8') as fout:
             for j in range(len(pages[i])):
-                fout.write('[' + str(pages[i][j]) + ']\n')
+                fout.write('[' + str(fin[i][j]) + ']\n')
                 # fout.write('\n'.join(all_info[pages[i][j]]['text']))
                 fout.write(json.dumps(featured_text[fin[i][j]], ensure_ascii=False))
                 fout.write('\n===========\n')
+
+    mat = np.array(mat).astype(np.float)
+
+    while 1:
+        inf = raw_input().split()
+        i, j = int(inf[0]), int(inf[1])
+        print(mat[i, j])
