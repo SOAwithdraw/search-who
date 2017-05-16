@@ -26,7 +26,7 @@ for SOA big project
 
     yaml文件的读取和存储
 
-    - pip install yaml
+    - `pip install yaml` 或 `pip install pyymal`
     - yaml 结构，-代表list中的元素，:代表dict中的元素
     - yaml 结构示例 [{'a':'x', 'b':1}, {'a':'y', 'b':2}]
     ``` yaml
@@ -75,3 +75,33 @@ for SOA big project
 
 + 已知问题
     繁体标题乱码，目前假设百度新闻均为gbk格式
+
+### 20170516
+
++ 已完成工作
+    对于关键词，获取30个左右的微博
+    
++ weibo.py
+    
+    可以提取微博的昵称(name), 简介(info), 头像(img), 放入weibo.yaml中<br>
+
+    程序约需要10s时间执行<br>
+
+    使用 selenium 和 firefox实现<br>
+
++ weibo1.yaml 
+    
+    陈驰的搜索结果
+
++ weibo2.yaml 
+    
+    郭文景的搜索结果
+
++ weibo3.yaml 
+    
+    唐杰的搜索结果，同时对应增加了唐杰的 search3.yaml
+
++ 已知问题
+    
+    目前代码比较简单，参数通过代码修改
+    

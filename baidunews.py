@@ -100,14 +100,15 @@ def get(s, index0 = 0, newscnt = 10):
         result.append(eachnews)
     return result
 
-output = codecs.open("search.yaml", "w", "utf-8")
+if __name__ == '__main__':
+    output = codecs.open("search.yaml", "w", "utf-8")
 
-word = unicode('郭文景', 'utf-8')
+    word = unicode('唐杰', 'utf-8')
 
-#cbegin = datetime.datetime.now()
-searchresult = get(word, 0, 50)
-#cend = datetime.datetime.now()
-#print cend - cbegin
+    #cbegin = datetime.datetime.now()
+    searchresult = get(word, 0, 50)
+    #cend = datetime.datetime.now()
+    #print cend - cbegin
 
-yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+    yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
 
