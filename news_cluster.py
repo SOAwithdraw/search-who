@@ -6,7 +6,6 @@ import yaml
 import json
 import codecs
 import sys
-import numpy as np
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -28,7 +27,7 @@ def cluster_pages(all_info, th, tp1, tp2, banned_list):
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
-    return clustered_page, featured_text, fin, mat, finword
+    return clustered_page, featured_text, fin, finword
 
 
 def print_page(i, all_info):
@@ -41,13 +40,14 @@ if __name__ == '__main__':
     filename = 'wyl.yaml'
     with open(filename) as f:
         all_info = yaml.load(f)
-    dirname = filename.split('.')[0]
 
+    # make directory if necessary
+    dirname = filename.split('.')[0]
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    th, tp1, tp2 = 0.15, 0, 1
-    pages, featured_text, fin, mat, finword = cluster_pages(all_info, th, tp1, tp2, banned_list)
+    th, tp1, tp2 = 0.1, 0, 1
+    pages, featured_text = cluster_pages(all_info, th, tp1, tp2, banned_list)
 
     print(pages)
     print(json.dumps(finword, ensure_ascii=False))
@@ -59,5 +59,3 @@ if __name__ == '__main__':
                 fout.write(json.dumps(featured_text[fin[i][j]], ensure_ascii=False))
                 fout.write('\n')
                 fout.write('\n===========\n')
-
-    mat = np.array(mat).astype(np.float)

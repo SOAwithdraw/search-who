@@ -79,10 +79,12 @@ def get(s):
         result.append(eachnews)
     return result
 
-output = codecs.open("search.yaml", "w", "utf-8")
+if __name__ == '__main__':
 
-word = unicode('陈驰', 'utf-8')
+    output = codecs.open("lxy.yaml", "w", "utf-8")
 
-searchresult = get(word)
+    word = unicode('骆轩源', 'utf-8')
 
-yaml.dump(searchresult, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
+    searchresult = get(word)
+
+    yaml.dump(searchresult, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)

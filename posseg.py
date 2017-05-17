@@ -23,7 +23,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
                 return True
         return False
 
-    nouns_wanted = {'n': 1, 'ns': 2, 'nsf': 3, 'nt': 3, 'nz': 1}  # 名词,地名，音译地名，机构名，其他专名
+    nouns_wanted = {'n': 1, 'ns': 2, 'nsf': 3, 'nt': 3, 'nz': 2}  # 名词,地名，音译地名，机构名，其他专名
     all_nouns = {}
     for text in text_list:
         words = pseg.cut(text)
