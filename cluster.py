@@ -178,7 +178,22 @@ class CluClass:
             if i:
                 self.clu.append(i)
 
-def Cluster(vectors, tvalue, typ1, typ2):
+def Getmainword(group, vectors, idf):
+    fin = []
+    for i in group:
+        ma = 0
+        mainword = ''
+        for j in idf:
+            cur = 0
+            for k in i:
+                cur += vectors[k].get(j,0)
+            if cur > ma:
+                ma = cur
+                mainword = j
+        fin.append(mainword)
+    return fin
+
+def Cluster(vectors, tvalue, typ1 = 3, typ2 = 0):
     tot = len(vectors)
 
     # use for sorting
@@ -190,12 +205,13 @@ def Cluster(vectors, tvalue, typ1, typ2):
     cluclass.Clu(typ2)
     fin = cluclass.Return()
 
-    return fin, matx
+    finword = Getmainword(fin, vectors, cosclass.Getidf())
+    return fin, matx, finword
 
 def Try():
     v = [{'a': 1, 'b': 1, 'c': 1}, {'x': 1, 'y': 1}, {'x': 1, 'z': 1}]
-    fin = Cluster(v, 0.4)
-    print(fin)
+    fin, matx, finword= Cluster(v, 0.1)
+    print(finword)
 
 if __name__ == '__main__':
     Try()
