@@ -1,55 +1,30 @@
-# search-who
-for SOA big project
+# Search-Who
+<font color="Red">__DDL is coming !!!__</font>
 
-### 20170426
+### 已完成
 
-+ 已完成工作
+- 百度新闻的收集、整理、聚类
 
-    加入了github项目，search分支
+    - news_search.py
+        
+        search(name, describe=[], cache_dir="data")
 
-+ 本周工作
-
-    信息收集 baidu, bing, weibo
-    信息分析, 设计格式
-
-### 20170503
-
-+ 已完成工作 
-
-    从百度新闻搜索中提取主要信息和图片
-
-    - config.yaml 为配置文件
-    - baidunews.py 为主程序
-    - search.html 为调试时的临时文件
-    - search.yaml 为输出文件
-    - search*.yaml 是输出文件的例子
-
-    yaml文件的读取和存储
-
-    - pip install yaml
-    - yaml 结构，-代表list中的元素，:代表dict中的元素
-    - yaml 结构示例 [{'a':'x', 'b':1}, {'a':'y'}， {'b':2}]
-    ``` yaml
-    -   a: 'x'
-        b：1
-    -   a: 'y'
-        b: 2
-    ```
-
-    - 读取示例代码，data为读取后的结果，结构和yaml文件对应
+        - name：待搜索人名
+        - describe：可能有的一些描述词，如“唐杰 清华大学”中的“清华大学”
+        - cache_dir：
+            存放抓取的页面和聚类结果的文件夹
 
 
-    ```python
-        import yaml
-        fr = open('search.yaml', 'r')
-        data = yaml.load(fr)
-    ```
+### 待完成
 
-    - 存储示例代码，data为python的结构，打印到yaml文件对应
+- search函数返回url、类关键词(@cc)
 
-    ```python
-        import yaml
-        output = codecs.open("search.yaml", "w", "utf-8")
-        yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+- baidunews增加title部分(@jzc)
 
-    ```
+- 聚类考虑title的加权和名字附近字的加权(@general，__暂时延后__)
+
+- 图片信息的引入
+
+- 关联微博和知乎
+
+- 前端页面
