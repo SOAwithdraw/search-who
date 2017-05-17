@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import math
+from math import log, sqrt
 
 class CosClass:
 
@@ -19,15 +19,21 @@ class CosClass:
     def Getmatx(self):
         return self.matx
 
-    def Cos(self, typ):
-        self.Idf()
+    def Getidf(self):
+        return self.idf
+
+    def Cos(self, typ):                  # 0: simple neiji  1: bool appearence  2: naive tf-idf  3: inclass tf-idf
+        if typ >= 2:
+            self.Idf_class()
+        else:
+            self.Idf()
         for i in range(self.tot):
             for j in range(i + 1, self.tot):
                 # print(i, j)
                 if typ == 1:
                     cosval = self.Cos1(self.vectors[i], self.vectors[j])
-                elif typ == 2:
-                    cosval = self.Cos0(self.vectors[i], self.vectors[j], 2)
+                elif typ >= 2:
+                    cosval = self.Cos0(self.vectors[i], self.vectors[j], typ)
                 else:
                     cosval = self.Cos0(self.vectors[i], self.vectors[j])
                 self.matx[j].append(cosval);
@@ -48,10 +54,12 @@ class CosClass:
                     fin += dic1[i] * dic2[i]
                 elif typ == 2:
                     fin += dic1[i] * dic2[i] * self.idf[i]
+                elif typ == 3:
+                    fin += log(1 + dic1[i]) * log(1 + dic2[i]) * self.idf[i]
         return fin
 
     def Cos0(self, dic1, dic2, typ = 0):
-        fin = self.Dot(dic1, dic2, typ) / math.sqrt(self.Dot(dic1, dic1, typ) * self.Dot(dic2, dic2, typ))
+        fin = self.Dot(dic1, dic2, typ) / sqrt(self.Dot(dic1, dic1, typ) * self.Dot(dic2, dic2, typ))
         # print(fin)
         return fin
 
@@ -60,7 +68,7 @@ class CosClass:
         for i in dic1:
             if i in dic2:
                 fin += 1
-        thtot = math.sqrt(len(dic1) * len(dic2))
+        thtot = sqrt(len(dic1) * len(dic2))
         return fin / thtot
 
     def Idf(self):
@@ -71,6 +79,16 @@ class CosClass:
                 curidf[j] = cur + 1.0
         for i in curidf:
             self.idf[i] = (curidf[i]/self.tot) * (curidf[i]/self.tot)
+
+    def Idf_class(self):
+        curidf = {}
+        for i in self.vectors:
+            for j in i:
+                cur = curidf.get(j, 0)
+                curidf[j] = cur + 1.0
+        for i in curidf:
+            curlog = log(self.tot/curidf[i])
+            self.idf[i] = curlog * curlog
 
 class CluClass:
 
@@ -89,7 +107,7 @@ class CluClass:
         fa[i] = self.Getfa(fa, fa[i])
         return fa[i]
 
-    def Clu(self, typ = 1):
+    def Clu(self, typ = 1):                        # 0: min clu  1: average clu
         if typ == 0:
             self.Minclu()
         elif typ == 1:
@@ -160,16 +178,16 @@ class CluClass:
             if i:
                 self.clu.append(i)
 
-def Cluster(vectors, tvalue, typ = 0):
+def Cluster(vectors, tvalue, typ1, typ2):
     tot = len(vectors)
 
     # use for sorting
     cosclass = CosClass(vectors)
-    cosclass.Cos(2)
+    cosclass.Cos(typ1)
     matx = cosclass.Getmatx()
 
     cluclass = CluClass(matx, tvalue)
-    cluclass.Clu(1)
+    cluclass.Clu(typ2)
     fin = cluclass.Return()
 
     return fin, matx
