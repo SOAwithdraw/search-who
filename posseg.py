@@ -11,7 +11,7 @@ sys.setdefaultencoding("utf-8")
 jieba.enable_parallel()
 
 
-def nouns_extract(text_list):
+def nouns_extract(text_list, banned_list):
 
     nouns_wanted = ['n', 'ns', 'nsf', 'nt', 'nz']
     all_nouns = {}
@@ -19,6 +19,9 @@ def nouns_extract(text_list):
         words = pseg.cut(text)
         for w in words:
             if w.flag in nouns_wanted and len(w.word) > 1:
+                for j in banned_list:
+                    if w.word in j:
+                        continue
                 if w.word not in all_nouns:
                     all_nouns[w.word] = 1
                 else:
