@@ -52,8 +52,8 @@ def Try():
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    imggroup = cluster_img(all_info)
-    return
+    # we should do something while using this function, Attention!!
+    cluster_img(all_info)
 
     th, tp1, tp2 = 0.1, 0, 1
     pages, featured_text = cluster_pages(all_info, th, tp1, tp2, banned_list)
