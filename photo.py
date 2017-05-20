@@ -79,6 +79,7 @@ def Checkphoto(img):
         return context
 
 def Cluster(photos):
+    """Return 2 lists, one is [[14, 45, 47], [13, 24]], the other is ['http://isadb.jpg', 'htpp://bibjkbskd.jpg']"""
     #Checkphoto("http://upload.ahwang.cn/2015/1216/1450232258493.jpg")
     
     # id means api id, ind means returning ind
