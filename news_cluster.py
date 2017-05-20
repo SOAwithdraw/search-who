@@ -6,6 +6,7 @@ import yaml
 import json
 import codecs
 import sys
+import photo
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -33,11 +34,16 @@ def cluster_pages(all_info, th, tp1, tp2, banned_list):
 def print_page(i, all_info):
     print(json.dumps(all_info[i]['text'], ensure_ascii=False))
 
-if __name__ == '__main__':
+def cluster_img(all_info):
+    photos = [x['img'] for x in all_info]
+    fin, mainphoto = photo.Cluster(photos)
+
+def Try():
+    #if __name__ == '__main__':
 
     banned_list = ["王逸伦"]
 
-    filename = 'wyl.yaml'
+    filename = 'search2.yaml'
     with open(filename) as f:
         all_info = yaml.load(f)
 
@@ -45,6 +51,9 @@ if __name__ == '__main__':
     dirname = filename.split('.')[0]
     if not os.path.exists(dirname):
         os.mkdir(dirname)
+
+    imggroup = cluster_img(all_info)
+    return
 
     th, tp1, tp2 = 0.1, 0, 1
     pages, featured_text = cluster_pages(all_info, th, tp1, tp2, banned_list)
@@ -59,3 +68,5 @@ if __name__ == '__main__':
                 fout.write(json.dumps(featured_text[fin[i][j]], ensure_ascii=False))
                 fout.write('\n')
                 fout.write('\n===========\n')
+                
+Try()
