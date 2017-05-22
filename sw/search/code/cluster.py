@@ -112,17 +112,39 @@ class CluClass:
     def __init__(self, matx, tvalue):
         self.matx = matx
         self.tot = len(matx)
-        self.clu = []
+        self.clu = [[i] for i in range(self.tot)]
         self.tvalue = tvalue
-
-    def Return(self):
-        return self.clu
 
     def Getfa(self, fa, i):
         if fa[i] == i:
             return i
         fa[i] = self.Getfa(fa, fa[i])
         return fa[i]
+
+    def Imgclu(self, imggroup):
+        fa = [i for i in range(self.tot)]
+
+        for i in imggroup:
+            host = i[0]
+            for j in i:
+                if j != i and self.Getfa(fa, j) != self.Getfa(fa, host):
+                    fa[fa[j]] = host
+
+        for i in range(self.tot):
+            self.Getfa(fa, i)
+
+        fin = []
+        self.clu = []
+        for i in range(self.tot):
+            fin.append([])
+        for i in range(self.tot):
+            fin[fa[i]].append(i)
+        for i in fin:
+            if i:
+                self.clu.append(i)
+
+    def Return(self):
+        return self.clu
 
     def Clu(self, typ=1):                        # 0: min clu  1: average clu
         if typ == 0:
@@ -131,10 +153,6 @@ class CluClass:
             self.Aveclu()
 
     def Aveclu(self):
-        self.clu = []
-        for i in range(self.tot):
-            self.clu.append([i])
-
         while 1:
             # find closest pair
             ma = 0
@@ -167,10 +185,10 @@ class CluClass:
                 sor.append((i, j, self.matx[i][j]))
         sor = sorted(sor, key=lambda x: x[2], reverse=True)
 
-        fa = []
-
-        for i in range(self.tot):
-            fa.append(i)
+        fa = [i for i in range(self.tot)]
+        for i in self.clu:
+            for j in i:
+                fa[j] = i[0]
 
         for t in sor:
             # print(t[2])
@@ -187,6 +205,7 @@ class CluClass:
             self.Getfa(fa, i)
 
         fin = []
+        self.clu = []
         for i in range(self.tot):
             fin.append([])
         for i in range(self.tot):
@@ -211,8 +230,23 @@ def Getmainword(group, vectors, idf):
         fin.append(mainword)
     return fin
 
+def Getpictures(group, imggroup, imgs):
+    fin = []
+    for i in group:
+        ma = 0
+        cur = -1
+        for j in range(len(imggroup)):
+            inters = len([k for k in i if k in imggroup[j]])
+            if inters > ma:
+                ma = inters
+                cur = j
+        if cur > -1:
+            fin.append(imgs[j])
+        else:
+            fin.append('')
+    return fin
 
-def Cluster(vectors, tvalue, typ1=3, typ2=0):
+def Cluster(vectors, tvalue, imggroup, imgs, typ1=3, typ2=0):
     tot = len(vectors)
 
     # use for sorting
@@ -221,17 +255,22 @@ def Cluster(vectors, tvalue, typ1=3, typ2=0):
     matx = cosclass.Getmatx()
 
     cluclass = CluClass(matx, tvalue)
+    cluclass.Imgclu(imggroup)                     # use img infomation to cluster
     cluclass.Clu(typ2)
     fin = cluclass.Return()
 
     finword = Getmainword(fin, vectors, cosclass.Getidf())
-    return fin, matx, finword
+    pictures = Getpictures(fin, imggroup, imgs)
+    return fin, finword, pictures
 
 
 def Try():
-    v = [{'a': 1, 'b': 1, 'c': 1}, {'x': 1, 'y': 1}, {'x': 1, 'z': 1}]
-    fin, matx, finword = Cluster(v, 0.1)
-    print(finword)
+    v = [{'a': 1, 'b': 1, 'c': 1}, {'x': 1, 'y': 1}, {'x': 1, 'z': 1}, {'q': 1, 'w': 1}, {'q': 1, 'e': 1}]
+    imggroup = [[0, 1], [0, 1]]
+    imgs = ['img1', 'img2']
+    fin, finword, pictures = Cluster(v, 0.1, imggroup, imgs, 0, 1)
+    print fin
+    print pictures
 
 if __name__ == '__main__':
     Try()

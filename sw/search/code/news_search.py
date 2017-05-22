@@ -73,6 +73,14 @@ def cluster_pages(all_info, th, tp1, tp2, banned_list):
 
 
 def cluster_img(all_info):
+    """
+        图片聚类
+        Args:
+            all_info: 列表的列表，子列表里面是若干个url
+        Returns:
+            fin: 列表的列表，子列表里面是若干数字，代表是同一类的标号
+            mainphoto: 列表，里面是若干个url
+    """
     photos = [x['img'] for x in all_info]
     fin, mainphoto = photo.Cluster(photos)
     return fin, mainphoto
@@ -120,7 +128,7 @@ def search(name, describe=[], cache_dir="data"):
 
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
-    pages, finword = cluster_pages(baidu_result, th, tp1, tp2, banned_list)
+    pages, finword, pictures= cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
 
     search_result = []
     for i in range(len(pages)):
