@@ -6,7 +6,8 @@ def Group(photos):
         headers = {
             # Request headers
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': '0bb0d50d31034b4f8397ffacfb6e9185',
+            'Ocp-Apim-Subscription-Key': 'a0b8976eaa1d49a8980e162b7d7741c1',
+            #'Ocp-Apim-Subscription-Key': '0bb0d50d31034b4f8397ffacfb6e9185',
         }
 
         params = urllib.urlencode({})
@@ -36,7 +37,8 @@ def Checkphoto(img):
         headers = {
             # Request headers
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': '0bb0d50d31034b4f8397ffacfb6e9185',
+            'Ocp-Apim-Subscription-Key': 'a0b8976eaa1d49a8980e162b7d7741c1',
+            #'Ocp-Apim-Subscription-Key': '0bb0d50d31034b4f8397ffacfb6e9185',
         }
 
         params = urllib.urlencode({
@@ -57,7 +59,6 @@ def Checkphoto(img):
             response = conn.getresponse()
             data = response.read()
             data = eval(data)
-            print("data:" + data)
             conn.close()
         except Exception as e:
             print("Errer")
@@ -83,7 +84,7 @@ def Cluster(photos):
     #Checkphoto("http://upload.ahwang.cn/2015/1216/1450232258493.jpg")
     
     # id means api id, ind means returning ind
-    print photos
+    #print photos
     fo = open("ids.txt", "w")
     tot = len(photos)
     ids = []
