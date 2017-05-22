@@ -136,14 +136,11 @@ def search(name, describe=[], cache_dir="data"):
 
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
-<<<<<<< HEAD
+
     pages, finword, pictures= cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
     print(pages)
     print(finword)
     print(pictures)
-=======
-    pages, finword, pictures = cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
->>>>>>> cdd9c37bb10d3a32ab062137c7e61fbe9350b3ad
 
     search_result = []
     for i in range(len(pages)):
