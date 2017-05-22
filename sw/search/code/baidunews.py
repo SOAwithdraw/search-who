@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
 import urllib
 import urllib2
 import yaml
 import codecs
 import re
 import sys
+import datetime
 import time
 from bs4 import BeautifulSoup
 
@@ -13,12 +13,13 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-def get(s):
+def get(s, index0=0, newscnt=10):
     fr = open('config.yaml', 'r')
     p = yaml.load(fr)
     par = p['baidunews']
     par['word'] = s
-
+    par['pn'] = index0
+    par['rn'] = newscnt
     data = urllib.urlencode(par)
 
     url = p['baidunewsurl']
@@ -48,13 +49,18 @@ def get(s):
     for newsurlitem in newsurl:
         request = urllib2.Request(newsurlitem)
         request.add_header('User-Agent', user_agent)
-        print newsurlitem
+        # print newsurlitem
         time.sleep(1)
         response = urllib2.urlopen(request)
         html = response.read()
         # print html
         html = html.replace("\n", "")
         html = html.replace("\r", "")
+        html = html.replace("&nbsp;", " ")
+        html = html.replace("&quot;", "\"")
+        html = html.replace("&amp;", "&")
+        html = html.replace("&lt;", "<")
+        html = html.replace("&gt;", ">")
 
         pattern = re.compile("<p.*?</p>")
         gp = re.findall(pattern, html)
@@ -64,27 +70,42 @@ def get(s):
         for u in gp:
             u = u.decode('gbk', 'ignore')
             soup0 = BeautifulSoup(u)
-            ut = soup0.get_text().strip()
+            ut = soup0.get_text()
             if s in ut:
                 text.append(ut)
             if 'img' in u:
                 try:
-                    img.append(soup0.img['src'])
+                    imgurl = soup0.img['src']
+                    if (imgurl[0] == '/' and imgurl[1] == '/'):
+                        imgurl = 'http:' + imgurl
+                    img.append(imgurl)
                 except:
                     print newsurlitem
                     pass
         eachnews = {}
         eachnews['text'] = text
         eachnews['img'] = img
+        eachnews['id'] = index0
+        pattern = re.compile("<title.*?</title>")
+        newstitle = re.search(pattern, html)
+        newstitle = newstitle.group(0)
+        pattern = re.compile("<.*?>", re.M)
+        ntitle = re.sub(pattern, "", newstitle)
+        eachnews['title'] = ntitle.decode('gbk', 'ignore')
+        eachnews['url'] = newsurlitem
+        index0 = index0 + 1
         result.append(eachnews)
+        print(newsurlitem)
     return result
 
 if __name__ == '__main__':
+    output = codecs.open("search.yaml", "w", "utf-8")
 
-    output = codecs.open("lxy.yaml", "w", "utf-8")
+    word = unicode('唐杰', 'utf-8')
 
-    word = unicode('骆轩源', 'utf-8')
-
-    searchresult = get(word)
+    #cbegin = datetime.datetime.now()
+    searchresult = get(word, 0, 50)
+    #cend = datetime.datetime.now()
+    # print cend - cbegin
 
     yaml.dump(searchresult, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
