@@ -11,3 +11,7 @@ baidunewsurl: 'http://news.baidu.com/ns'
 weibourl: 'https://m.weibo.cn/p/100103type=3&q= ' #https://m.weibo.cn/p/100103type=3&q=唐杰?type=user 
 weibo:
     word: 'word'
+zhihuuserurl: 'https://www.zhihu.com/search'
+zhihuuser:
+    type: 'people'
+    q: 'word'

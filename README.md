@@ -34,7 +34,43 @@ for SOA big project
     >
         返回用户数量约等于num，如果搜索结果总数＜num则返回所有
         平均每10个用户需要1秒钟，预处理需要5秒钟
+
++ zhihuuser.py
+
+    getuser(word)
+    - 传入参数：
+    >
+        word 表示查询关键词，中文使用utf-8编码
     
+    - 返回结果：
+    >
+        [{name:昵称，reply:回答数，pn:文章数，img:头像图片 url，info:个人签名}]
+    - 其他说明：
+    >
+        暂无
+### 20150522
+
++ 已完成工作
+
+    完成zhihuuser.py，提供样例文件
+
++ zhihuuser.py
+
+    getuser(word), 传入关键词，返回用户信息
+    返回格式[{name:昵称，reply:回答数，pn:文章数，img:头像图片 url，info:个人签名}]
+
++ zhihuuser1.yaml 
+    
+    陈驰的搜索结果
+
++ zhihuuser2.yaml 
+    
+    郭文景的搜索结果
+
++ zhihuuser3.yaml 
+    
+    唐杰的搜索结果，同时对应增加了唐杰的 search3.yaml
+
 ### 20170517
 + 已完成工作
 
@@ -43,8 +79,11 @@ for SOA big project
 + weibo.py
 
     VisitPersonPage(word, num), 传入关键词，所需用户数，返回用户数量约等于num，如果搜索结果总数＜num则返回所有
-    返回格式[{name:昵称，id:编号，img:头像图片url，info:个人签名}]
+    返回格式[{name:昵称，id:编号，img:头像图片 url，info:个人签名}]
     更新了样例文件
+
+
+
 
 ### 20170516
 
