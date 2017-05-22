@@ -230,6 +230,7 @@ def Getmainword(group, vectors, idf):
         fin.append(mainword)
     return fin
 
+
 def Getpictures(group, imggroup, imgs):
     fin = []
     for i in group:
@@ -245,6 +246,7 @@ def Getpictures(group, imggroup, imgs):
         else:
             fin.append('')
     return fin
+
 
 def Cluster(vectors, tvalue, imggroup, imgs, typ1=3, typ2=0):
     tot = len(vectors)

@@ -54,6 +54,7 @@ def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
         Returns:
             clustered_page: 一个list，形式为[[class1_p1,class1_p2,...],[class2_p1,class2_p2,...],...]
             finword: 每一类的关键字
+            pictures: 一个list，形式为[class1_pic,class2_pic,...] 
     '''
     info_num = len(all_info)
 
@@ -65,11 +66,11 @@ def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
             url_list.append(i)
             featured_text.append(features)
 
-    fin, mat, finword = cluster.Cluster(featured_text, th, imggroup, imgs, tp1, tp2)
+    fin, finword, pictures = cluster.Cluster(featured_text, th, imggroup, imgs, tp1, tp2)
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
-    return clustered_page, finword
+    return clustered_page, finword, pictures
 
 
 def cluster_img(all_info):
@@ -94,7 +95,7 @@ def search(name, describe=[], cache_dir="data"):
             descrive: 辅助信息，如机构名，地名等等
             cache_dir: 搜索结果保存地址
         Returns:
-            search_result: 搜索结果，形式为[(类别关键字，[[url1,title1],[url2,titl2],...]), (类别2), (类别3)...]
+            search_result: 搜索结果，形式为[(类别关键字，类别图像url，[[url1,title1],[url2,titl2],...]), (类别2), (类别3)...]
     '''
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
@@ -112,9 +113,15 @@ def search(name, describe=[], cache_dir="data"):
             baidu_result = yaml.load(f)
     else:
         print("Start searching news...")
+        '''
         baidu_result = baidunews.get(search_word, newscnt=50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
+        '''
+        result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
+                  ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
+                  ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
+                  ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
 
     banned_list = describe
     banned_list.append(name)
@@ -129,17 +136,21 @@ def search(name, describe=[], cache_dir="data"):
 
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
+<<<<<<< HEAD
     pages, finword, pictures= cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
     print(pages)
     print(finword)
     print(pictures)
+=======
+    pages, finword, pictures = cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
+>>>>>>> cdd9c37bb10d3a32ab062137c7e61fbe9350b3ad
 
     search_result = []
     for i in range(len(pages)):
         class_info = []
         for page in pages[i]:
             class_info.append([baidu_result[page]['url'], baidu_result[page]['title']])
-        search_result.append([finword[i], class_info])
+        search_result.append([finword[i], pictures[i], class_info])
 
     # for Debug
     print(pages)
