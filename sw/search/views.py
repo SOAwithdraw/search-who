@@ -24,8 +24,16 @@ def search_person(request):
     print(content.encode('utf-8'))
     contents = content.split()
     name = contents[0]
+    '''
     if len(contents) > 1:
-        news_search.search(name, ''.join(contents[1:]))
+        result = news_search.search(name, ''.join(contents[1:]))
     else:
-        news_search.search(name)
-    return HttpResponse(content)
+        result = news_search.search(name)
+    '''
+    for i in range(int(1e7)):
+        pass
+    result = [['清华大学计算机系', [('url11', 'title11'), ('url12', 'title12')]],
+              ['FF14终身优秀玩家', [('url21', 'title21'), ('url22', 'title22')]],
+              ['资深睡眠大师', [('url31', 'title31'), ('url32', 'title32')]],
+              ['美食及外卖协会现任董事长', [('url41', 'title41'), ('url42', 'title42')]]]
+    return render(request, 'search/result.html', {'name': content, 'pn': len(result), 'result': result})
