@@ -43,7 +43,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
     return all_nouns
 
 
-def cluster_pages(all_info, th, tp1, tp2, banned_list):
+def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
     '''
         传入待聚类的页面信息all_info和一些参数，返回聚类的页面编号
         Args:
@@ -65,7 +65,7 @@ def cluster_pages(all_info, th, tp1, tp2, banned_list):
             url_list.append(i)
             featured_text.append(features)
 
-    fin, mat, finword = cluster.Cluster(featured_text, th, tp1, tp2)
+    fin, mat, finword = cluster.Cluster(featured_text, th, imggroup, imgs, tp1, tp2)
 
     clustered_page = [[url_list[i] for i in c] for c in fin]
 
@@ -104,7 +104,8 @@ def search(name, describe=[], cache_dir="data"):
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
     dirname = os.path.join(cache_dir, search_word)
-
+	
+    print(search_filename)
     if os.path.exists(search_filename):
         print("Load from cache...")
         with open(search_filename) as f:
@@ -129,6 +130,9 @@ def search(name, describe=[], cache_dir="data"):
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
     pages, finword, pictures= cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
+    print(pages)
+    print(finword)
+    print(pictures)
 
     search_result = []
     for i in range(len(pages)):
@@ -154,4 +158,4 @@ def search(name, describe=[], cache_dir="data"):
 
 
 if __name__ == '__main__':
-    search("周正平")
+    search("唐杰")
