@@ -15,3 +15,6 @@ zhihuuserurl: 'https://www.zhihu.com/search'
 zhihuuser:
     type: 'people'
     q: 'word'
+baidubaikeurl: 'http://baike.baidu.com/item/' #http://baike.baidu.com/item/唐杰?force=1
+baidubaike:
+    force: 1

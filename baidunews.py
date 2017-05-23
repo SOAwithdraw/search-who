@@ -47,63 +47,64 @@ def get(s, index0 = 0, newscnt = 10):
 
     result = []
     for newsurlitem in newsurl:
-        request = urllib2.Request(newsurlitem)
-        request.add_header('User-Agent' , user_agent)
-        #print newsurlitem
-        time.sleep(1);
-        response = urllib2.urlopen(request)
-        html = response.read()
-        #print html
-        html = html.replace("\n", "")
-        html = html.replace("\r", "")
-        html = html.replace("&nbsp;", " ")
-        html = html.replace("&quot;", "\"")
-        html = html.replace("&amp;", "&")
-        html = html.replace("&lt;", "<")
-        html = html.replace("&gt;", ">")
+        try:
+            request = urllib2.Request(newsurlitem)
+            request.add_header('User-Agent' , user_agent)
+            #print newsurlitem
+            time.sleep(1);
+            response = urllib2.urlopen(request)
+            html = response.read()
+            #print html
+            html = html.replace("\n", "")
+            html = html.replace("\r", "")
+            html = html.replace("&nbsp;", " ")
+            html = html.replace("&quot;", "\"")
+            html = html.replace("&amp;", "&")
+            html = html.replace("&lt;", "<")
+            html = html.replace("&gt;", ">")
 
-        pattern = re.compile("<p.*?</p>")
-        gp = re.findall(pattern, html)
+            pattern = re.compile("<p.*?</p>")
+            gp = re.findall(pattern, html)
 
-
-
-        text = []
-        img = []
-        for u in gp:
-            u = u.decode('gbk', 'ignore')
-            soup0 = BeautifulSoup(u)
-            ut = soup0.get_text()
-            if s in ut:
-                text.append(ut)
-            if 'img' in u:
-                try:
-                    imgurl = soup0.img['src']
-                    if (imgurl[0] == '/' and imgurl[1] == '/'):
-                        imgurl = 'http:' + imgurl
-                    img.append(imgurl)
-                except:
-                    print newsurlitem
-                    pass
-        eachnews = {}
-        eachnews['text'] = text
-        eachnews['img'] = img
-        eachnews['id'] = index0
-        pattern = re.compile("<title.*?</title>")
-        newstitle = re.search(pattern, html)
-        newstitle = newstitle.group(0)
-        pattern = re.compile("<.*?>", re.M)
-        ntitle = re.sub(pattern, "", newstitle)
-        eachnews['title'] = ntitle.decode('gbk', 'ignore')
-        eachnews['url'] = newsurlitem
-        print ntitle
-        index0 = index0 + 1
-        result.append(eachnews)
+            text = []
+            img = []
+            for u in gp:
+                u = u.decode('gbk', 'ignore')
+                soup0 = BeautifulSoup(u)
+                ut = soup0.get_text()
+                if s in ut:
+                    text.append(ut)
+                if 'img' in u:
+                    try:
+                        imgurl = soup0.img['src']
+                        if (imgurl[0] == '/' and imgurl[1] == '/'):
+                            imgurl = 'http:' + imgurl
+                        img.append(imgurl)
+                    except:
+                        print newsurlitem
+                        pass
+            eachnews = {}
+            eachnews['text'] = text
+            eachnews['img'] = img
+            eachnews['id'] = index0
+            pattern = re.compile("<title.*?</title>")
+            newstitle = re.search(pattern, html)
+            newstitle = newstitle.group(0)
+            pattern = re.compile("<.*?>", re.M)
+            ntitle = re.sub(pattern, "", newstitle)
+            eachnews['title'] = ntitle.decode('gbk', 'ignore')
+            eachnews['url'] = newsurlitem
+            print ntitle
+            index0 = index0 + 1
+            result.append(eachnews)
+        except:
+            pass
     return result
 
 if __name__ == '__main__':
     output = codecs.open("search.yaml", "w", "utf-8")
 
-    word = unicode('唐杰', 'utf-8')
+    word = unicode('周正平', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = get(word, 0, 50)

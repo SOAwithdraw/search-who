@@ -48,6 +48,43 @@ for SOA big project
     - 其他说明：
     >
         暂无
+
++ zhihuuser.py
+
+    getpeople(word)
+    - 传入参数：
+    >
+        word 表示查询关键词，中文使用utf-8编码
+    
+    - 返回结果：
+    >
+        [describe:简介，info:[信息列表], id:编号}]
+    - 其他说明：
+    >
+        搜索结果数<2时返回结果不可用，返回空
+### 20150524
+
++ 已完成工作
+
+    已完成baidubaike.py，提供样例文件
+
++ baidubaike.py
+
+    getpeople(word),传入关键词，返回搜索结果
+    返回格式[describe:简介，info:[信息列表], id:编号}]
+
++ baidubaike1.yaml 
+    
+    陈驰的搜索结果
+
++ baidubaike2.yaml 
+    
+    郭文景的搜索结果
+
++ baidubaike3.yaml 
+    
+    唐杰的搜索结果
+
 ### 20150522
 
 + 已完成工作
@@ -69,7 +106,7 @@ for SOA big project
 
 + zhihuuser3.yaml 
     
-    唐杰的搜索结果，同时对应增加了唐杰的 search3.yaml
+    唐杰的搜索结果
 
 ### 20170517
 + 已完成工作
