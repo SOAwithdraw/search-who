@@ -36,27 +36,23 @@ def getpeople(s):
         response = urllib2.urlopen(request)
         html = response.read()
         html = html.decode('utf-8')
-        pattern = re.compile(unicode("共[0-9]*个义项", 'utf-8'))
+        pattern = re.compile("<a target=_blank .*?>")
         useful = pattern.findall(html)
-        
-        uitem = useful[0]
-        strcount = ""
-        for x in uitem:
-            if '0' <= x and x <= '9':
-                strcount = strcount + x
-        count = int(strcount)
-        print count
-        if count < 2:
+        urllist = []
+        if len(useful) < 2:
             return people
+        pattern = re.compile("\".*?\"")
+
+        for x in useful:
+            he = pattern.findall(x)
+            urllist.append(he[0][7:-1])
+        count = len(urllist)
+        
         for i in range(0, count):
             try:
                 person = {}
-                k = i+2
-                par['force'] = k
-                data = urllib.urlencode(par)
-
                 url = p['baidubaikeurl']
-                url = url + s + '?' + data
+                url = url + urllist[i]
                 print url
                 time.sleep(1);
 
@@ -81,19 +77,24 @@ def getpeople(s):
     
                 pattern = re.compile("<div class=\"para\" label-module=\"para\">.*<div class=\"configModuleBanner\">")
                 usefullist = pattern.findall(html)
-                describe = usefullist[0]
+                try:
+                    describe = usefullist[0]
+                except:
+                    describe = ""
                 pattern = re.compile("<.*?>")
                 describe = re.sub(pattern, " ", describe)
+       
                 for x in messagelist:
                     message.append(re.sub(pattern, "", x))
+                    
                 person["describe"] = describe
                 person["info"] = message
-                person["id"] = k
+                person["id"] = i+1
                 people.append(person)
                 #pattern = re.compile(unicode("<dt class=\"basicInfo-item name\">.*?</dt>","utf-8"))
                 outputfile.write(html)
-            except:
-                pass
+            except Exception,e:
+                print e
             
     except:
         pass
@@ -104,7 +105,7 @@ def getpeople(s):
 if __name__ == '__main__':
     output = codecs.open("baidubaike.yaml", "w", "utf-8")
 
-    word = unicode('陈驰', 'utf-8')
+    word = unicode('唐杰', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = getpeople(word)
