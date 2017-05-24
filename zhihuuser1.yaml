@@ -22,6 +22,12 @@
     name: DarrenChan陈驰
     pn: '0'
     reply: '13'
+-   fans: !!python/str '文章'
+    img: https://pic2.zhimg.com/v2-ef95f277e550867a2d0db8bf6b7afcc9_m.jpg
+    info: 小猪短租联合创始人兼CEO
+    name: 陈驰Kelvin
+    pn: !!python/str '回答'
+    reply: !!python/str '小猪短租联合创始人兼CEO'
 -   fans: '9'
     img: https://pic4.zhimg.com/b91f5ff8f_m.jpg
     info: 电线电缆行业销售，华农大毕业
@@ -34,21 +40,15 @@
     name: 陈驰
     pn: '0'
     reply: '0'
--   fans: '6'
-    img: https://pic4.zhimg.com/4dd72d98f_m.jpg
-    info: !!python/unicode '...'
-    name: 陈驰
-    pn: '0'
-    reply: '0'
--   fans: '0'
-    img: https://pic3.zhimg.com/e89ebefd7600a539642291b34c9e0372_m.jpg
-    info: !!python/unicode ''
-    name: 陈驰
-    pn: '0'
-    reply: '1'
 -   fans: '8'
     img: https://pic1.zhimg.com/cd1234aac_m.jpg
     info: !!python/unicode ''
+    name: 陈驰
+    pn: '0'
+    reply: '0'
+-   fans: '6'
+    img: https://pic4.zhimg.com/4dd72d98f_m.jpg
+    info: !!python/unicode '...'
     name: 陈驰
     pn: '0'
     reply: '0'

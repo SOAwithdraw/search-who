@@ -59,6 +59,7 @@ def getuser(s):
                         useful.append(y)
 
         zhihuuser['name'] = useful[0].decode('utf-8')
+        print zhihuuser['name']
         zhihuuser['info'] = useful[1].decode('utf-8')
         zhihuuser['reply'] = useful[2]
         zhihuuser['pn'] = useful[4]
@@ -73,7 +74,7 @@ def getuser(s):
 if __name__ == '__main__':
     output = codecs.open("zhihuuser.yaml", "w", "utf-8")
 
-    word = unicode('唐杰', 'utf-8')
+    word = unicode('郭文景', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = getuser(word)
