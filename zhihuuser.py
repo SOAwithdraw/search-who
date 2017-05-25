@@ -45,6 +45,10 @@ def getuser(s):
         pattern = re.compile("\".*?\"")
         imgs = pattern.findall(img[0])
         zhihuuser["img"] = imgs[0][1:-1]
+        pattern = re.compile("<a href=\".*?\"")
+        urls = pattern.findall(x)
+        zhihuuser["url"] = "www.zhihu.com" + urls[0][9:-1]
+        #print zhihuuser["url"]
         pattern = re.compile("<.*?>")
         x = re.sub(pattern, "$", x)
         x = x.replace("$$", "$")
@@ -59,7 +63,7 @@ def getuser(s):
                         useful.append(y)
 
         zhihuuser['name'] = useful[0].decode('utf-8')
-        print zhihuuser['name']
+        #print zhihuuser['name']
         zhihuuser['info'] = useful[1].decode('utf-8')
         zhihuuser['reply'] = useful[2]
         zhihuuser['pn'] = useful[4]
@@ -74,7 +78,7 @@ def getuser(s):
 if __name__ == '__main__':
     output = codecs.open("zhihuuser.yaml", "w", "utf-8")
 
-    word = unicode('郭文景', 'utf-8')
+    word = unicode('唐杰', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = getuser(word)

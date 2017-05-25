@@ -55,6 +55,7 @@ def VisitPersonPage(s, t = 20):
             weibo = {}
             weibo['name'] = messages[ix]
             weibo['info'] = messages[ix+1]
+            
             weibo['img'] = imgs[x][10:-2].encode('utf-8')
             weibo['id'] = x
             weibolist.append(weibo)

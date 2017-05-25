@@ -90,6 +90,7 @@ def getpeople(s):
                 person["describe"] = describe
                 person["info"] = message
                 person["id"] = i+1
+                person["url"] = url
                 people.append(person)
                 #pattern = re.compile(unicode("<dt class=\"basicInfo-item name\">.*?</dt>","utf-8"))
                 outputfile.write(html)
@@ -105,7 +106,7 @@ def getpeople(s):
 if __name__ == '__main__':
     output = codecs.open("baidubaike.yaml", "w", "utf-8")
 
-    word = unicode('唐杰', 'utf-8')
+    word = unicode('郭文景', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = getpeople(word)
