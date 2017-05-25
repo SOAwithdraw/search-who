@@ -44,12 +44,12 @@ for SOA big project
     
     - 返回结果：
     >
-        [{name:昵称，reply:回答数，pn:文章数，img:头像图片 url，info:个人签名}]
+        [{name:昵称，reply:回答数，pn:文章数，img:头像图片 url，info:个人签名，url:网址}]
     - 其他说明：
     >
         暂无
 
-+ zhihuuser.py
++ baidubaike.py
 
     getpeople(word)
     - 传入参数：
@@ -58,10 +58,16 @@ for SOA big project
     
     - 返回结果：
     >
-        [describe:简介，info:[信息列表], id:编号}]
+        [describe:简介，info:[信息列表], id:编号， url:网址}]
     - 其他说明：
     >
         搜索结果数<2时返回结果不可用，返回空
+### 20150525
+
++ 已完成工作
+    
+    百度百科，知乎添加了url项
+
 ### 20150524
 
 + 已完成工作
