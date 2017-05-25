@@ -4,6 +4,43 @@ from math import log, sqrt
 import json
 
 
+class Person:
+    def __init__(self):
+        self.baike = ''
+        self.weibo = ''
+        self.zhihu = ''
+        self.news = []
+        self.picture = ''
+        self.keyword = ''
+        self.index = []
+        self.weight = 0
+
+    def Merge(self, per):
+        if self.baike == '':
+            self.baike = per.baike
+        if self.weibo == '':
+            self.weibo = per.weibo
+        if self.zhihu == '':
+            self.zhihu = per.zhihu
+        if self.picture == '':
+            self.picture = per.picture
+        self.news.extend(per.news)
+        self.index.extend(per.index)
+
+    def Calcweight(self):
+        self.weight = len(self.index)
+
+    def __str__(self):
+        fin = ''
+        fin = fin + 'news ' + str(self.index) + '\n'
+        fin = fin + 'baike' + ' ' + self.baike + '\n'
+        fin = fin + 'weibo' + ' ' + self.weibo + '\n'
+        fin = fin + 'zhihu' + ' ' + self.zhihu + '\n'
+        fin = fin + 'picture' + ' ' + self.picture + '\n'
+        fin = fin + 'keyword ' + self.keyword + '\n'
+        fin = fin + 'weight ' + str(self.weight) + '\n'
+        return fin
+
 class CosClass:
 
     def __init__(self, vectors):
@@ -75,16 +112,20 @@ class CosClass:
         return fin
 
     def Cos0(self, dic1, dic2, typ=0):
-        fin = self.Dot(dic1, dic2, typ) / sqrt(self.Dot(dic1, dic1, typ) * self.Dot(dic2, dic2, typ))
-        # print(fin)
-        return fin
+        innerproduct = self.Dot(dic1, dic2, typ)
+        if innerproduct == 0:
+            return 0
+        else:
+            fin = self.Dot(dic1, dic2, typ) / sqrt(self.Dot(dic1, dic1, typ) * self.Dot(dic2, dic2, typ))
+            # print(fin)
+            return fin
 
     def Cos1(self, dic1, dic2):
         fin = 0
         for i in dic1:
             if i in dic2:
                 fin += 1
-        thtot = sqrt(len(dic1) * len(dic2))
+        thtot = sqrt((len(dic1) + 1) * (len(dic2) + 1))
         return fin / thtot
 
     # def Idf(self):
@@ -247,8 +288,39 @@ def Getpictures(group, imggroup, imgs):
             fin.append('')
     return fin
 
+def Organize(infos, groups, keywords, pictures):
+    tot = len(groups)
+    persons = []
+    for i in range(tot):
+        persons.append(Person())
+        for j in groups[i]:
+            if infos[j]['type'] == 'news':
+                persons[i].news.append(j)
+            elif infos[j]['type'] == 'baike':
+                persons[i].baike = infos[j]['url']
+            elif infos[j]['type'] == 'weibo':
+                persons[i].weibo = infos[j]['url']
+            elif infos[j]['type'] == 'zhihu':
+                persons[i].zhihu = infos[j]['url']
+        persons[i].index = groups[i]
+        persons[i].picture = pictures[i]
+        persons[i].keyword = keywords[i]
+        persons[i].Calcweight()
+    return persons
 
-def Cluster(vectors, tvalue, imggroup, imgs, typ1=3, typ2=0):
+def Cluster(infos, tvalue, imggroup, imgs, typ1=3, typ2=0):
+    """
+    main function
+    Args:
+        infos: [{'type':'news', 'img':'', 'url':'', 'text':{'x':1}}]
+        imggroup: [[1, 2],[3, 4, 1]]
+        imgs: ['http.jpg', 'http.png']
+    Return:
+        fin: [Person, Person]
+        """
+    vectors = []
+    for i in infos:
+        vectors.append(i['text'])
     tot = len(vectors)
 
     # use for sorting
@@ -259,20 +331,25 @@ def Cluster(vectors, tvalue, imggroup, imgs, typ1=3, typ2=0):
     cluclass = CluClass(matx, tvalue)
     cluclass.Imgclu(imggroup)                     # use img infomation to cluster
     cluclass.Clu(typ2)
-    fin = cluclass.Return()
+    groups = cluclass.Return()
 
-    finword = Getmainword(fin, vectors, cosclass.Getidf())
-    pictures = Getpictures(fin, imggroup, imgs)
-    return fin, finword, pictures
+    finword = Getmainword(groups, vectors, cosclass.Getidf())
+    pictures = Getpictures(groups, imggroup, imgs)
+    persons = Organize(infos, groups, finword, pictures) 
 
+    return persons
 
 def Try():
-    v = [{'a': 1, 'b': 1, 'c': 1}, {'x': 1, 'y': 1}, {'x': 1, 'z': 1}, {'q': 1, 'w': 1}, {'q': 1, 'e': 1}]
+    v = [{'type': 'baike', 'img':'1', 'url':'1', 'text':{'a': 1, 'b': 1, 'c': 1}},
+         {'type': 'zhihu', 'img':'2', 'url':'2', 'text':{'y': 1, 'x': 1}},
+         {'type': 'weibo', 'img':'3', 'url':'3', 'text':{'w': 1, 'x': 1}},
+         {'type': 'zhihu', 'img':'4', 'url':'4', 'text':{'f': 1, 'g': 1}},
+         {'type': 'weibo', 'img':'5', 'url':'5', 'text':{'h': 1, 'g': 1}}]
     imggroup = [[0, 1], [0, 1]]
     imgs = ['img1', 'img2']
-    fin, finword, pictures = Cluster(v, 0.1, imggroup, imgs, 0, 1)
-    print fin
-    print pictures
+    persons = Cluster(v, 0.1, imggroup, imgs, 0, 1)
+    for i in persons:
+        print i
 
 if __name__ == '__main__':
     Try()
