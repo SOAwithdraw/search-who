@@ -19,7 +19,15 @@ sys.setdefaultencoding("utf-8")
 
 
 def nouns_extract(text_list, banned_list, max_length=20):
-
+    '''
+        提取名词特征用作聚类
+        Args:
+            text_list: 待提取的文本集合
+            banned_list: 禁词表，包含人名或其他搜索信息
+            max_length: 特征维数限制
+        Returns:
+            all_nouns: 文本集合中所有的特征名词
+    '''
     def banned(word):
         for banned_word in banned_list:
             if word in banned_word:
@@ -37,7 +45,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
                 else:
                     all_nouns[w.word] += nouns_wanted[w.flag]
 
-    if len(all_nouns) > 20:
+    if len(all_nouns) > max_length:
         all_nouns = dict(sorted(all_nouns.items(), key=lambda x: x[1], reverse=True)[:20])
 
     return all_nouns
@@ -63,8 +71,6 @@ def Order_data(info, info_type, banned_list, feature_len=1):
             else:
                 text = [i['info']]
 
-        text = json.dumps(text).encode('utf-8')
-        print(text)
         features = nouns_extract(text, banned_list)
 
         if len(features) > feature_len:

@@ -6,7 +6,8 @@ import pickle
 
 
 class Person:
-    def __init__(self):
+
+    def __init__(self, baike='', weibo='', zhihu='', news=[], picture='', keyword='', index=[], weight=0):
         self.baike = ''
         self.weibo = ''
         self.zhihu = ''
@@ -41,6 +42,7 @@ class Person:
         fin = fin + 'keyword ' + self.keyword + '\n'
         fin = fin + 'weight ' + str(self.weight) + '\n'
         return fin
+
 
 class CosClass:
 
@@ -289,6 +291,7 @@ def Getpictures(group, imggroup, imgs):
             fin.append('')
     return fin
 
+
 def Organize(infos, groups, keywords, pictures):
     tot = len(groups)
     persons = []
@@ -309,12 +312,14 @@ def Organize(infos, groups, keywords, pictures):
         persons[i].Calcweight()
     return persons
 
+
 def Pickle(infos, imggroup, imgs):
-    f = open('pickle.txt','wb')
+    f = open('pickle.txt', 'wb')
     pickle.dump(infos, f)
     pickle.dump(imggroup, f)
     pickle.dump(imgs, f)
     f.close()
+
 
 def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
     """
@@ -345,24 +350,26 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
 
     finword = Getmainword(groups, vectors, cosclass.Getidf())
     pictures = Getpictures(groups, imggroup, imgs)
-    persons = Organize(infos, groups, finword, pictures) 
+    persons = Organize(infos, groups, finword, pictures)
 
     return persons
 
+
 def Try():
-    v = [{'type': 'baike',  'url':'1', 'text':{'a': 1, 'b': 1, 'c': 1}},
-         {'type': 'zhihu',  'url':'2', 'text':{'y': 1, 'x': 1}},
-         {'type': 'weibo',  'url':'3', 'text':{'w': 1, 'x': 1}},
-         {'type': 'zhihu',  'url':'4', 'text':{'f': 1, 'g': 1}},
-         {'type': 'weibo',  'url':'5', 'text':{'h': 1, 'g': 1}}]
+    v = [{'type': 'baike', 'url': '1', 'text': {'a': 1, 'b': 1, 'c': 1}},
+         {'type': 'zhihu', 'url': '2', 'text': {'y': 1, 'x': 1}},
+         {'type': 'weibo', 'url': '3', 'text': {'w': 1, 'x': 1}},
+         {'type': 'zhihu', 'url': '4', 'text': {'f': 1, 'g': 1}},
+         {'type': 'weibo', 'url': '5', 'text': {'h': 1, 'g': 1}}]
     imggroup = [[0, 1], [0, 1]]
     imgs = ['img1', 'img2']
     persons = Cluster(v, 0.1, imggroup, imgs, 0, 1)
     for i in persons:
         print i
 
+
 def Trypickle():
-    f = open('pickle.txt','rb')
+    f = open('pickle.txt', 'rb')
     infos = pickle.load(f)
     imggroup = pickle.load(f)
     print len(infos)
