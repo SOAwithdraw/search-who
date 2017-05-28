@@ -58,10 +58,9 @@ def Order_data(info, info_type, banned_list, feature_len = 1):
             text = i['text']
         elif i.has_key('info'):
             if 'list' in str(type(i['info'])):
-                for j in i['info']:
-                    text = text + ' ' + j
-            else:
                 text = i['info']
+            else:
+                text = [i['info']]
 
         text = json.dumps(text).encode('utf-8')
         print(text)
