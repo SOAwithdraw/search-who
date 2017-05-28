@@ -2,6 +2,7 @@
 import os
 from math import log, sqrt
 import json
+import pickle
 
 
 class Person:
@@ -295,7 +296,7 @@ def Organize(infos, groups, keywords, pictures):
         persons.append(Person())
         for j in groups[i]:
             if infos[j]['type'] == 'news':
-                persons[i].news.append(j)
+                persons[i].news.append(infos[j]['url'])
             elif infos[j]['type'] == 'baike':
                 persons[i].baike = infos[j]['url']
             elif infos[j]['type'] == 'weibo':
@@ -308,16 +309,25 @@ def Organize(infos, groups, keywords, pictures):
         persons[i].Calcweight()
     return persons
 
-def Cluster(infos, tvalue, imggroup, imgs, typ1=3, typ2=0):
+def Pickle(infos, imggroup, imgs):
+    f = open('pickle.txt','wb')
+    pickle.dump(infos, f)
+    pickle.dump(imggroup, f)
+    pickle.dump(imgs, f)
+    f.close()
+
+def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
     """
     main function
     Args:
-        infos: [{'type':'news', 'img':'', 'url':'', 'text':{'x':1}}]
+        infos: [{'type':'news' , 'url':'', 'text':{'x':1}}]
         imggroup: [[1, 2],[3, 4, 1]]
         imgs: ['http.jpg', 'http.png']
     Return:
         fin: [Person, Person]
         """
+    #Pickle(infos, imggroup, imgs)
+
     vectors = []
     for i in infos:
         vectors.append(i['text'])
@@ -340,16 +350,27 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=3, typ2=0):
     return persons
 
 def Try():
-    v = [{'type': 'baike', 'img':'1', 'url':'1', 'text':{'a': 1, 'b': 1, 'c': 1}},
-         {'type': 'zhihu', 'img':'2', 'url':'2', 'text':{'y': 1, 'x': 1}},
-         {'type': 'weibo', 'img':'3', 'url':'3', 'text':{'w': 1, 'x': 1}},
-         {'type': 'zhihu', 'img':'4', 'url':'4', 'text':{'f': 1, 'g': 1}},
-         {'type': 'weibo', 'img':'5', 'url':'5', 'text':{'h': 1, 'g': 1}}]
+    v = [{'type': 'baike',  'url':'1', 'text':{'a': 1, 'b': 1, 'c': 1}},
+         {'type': 'zhihu',  'url':'2', 'text':{'y': 1, 'x': 1}},
+         {'type': 'weibo',  'url':'3', 'text':{'w': 1, 'x': 1}},
+         {'type': 'zhihu',  'url':'4', 'text':{'f': 1, 'g': 1}},
+         {'type': 'weibo',  'url':'5', 'text':{'h': 1, 'g': 1}}]
     imggroup = [[0, 1], [0, 1]]
     imgs = ['img1', 'img2']
     persons = Cluster(v, 0.1, imggroup, imgs, 0, 1)
     for i in persons:
         print i
 
+def Trypickle():
+    f = open('pickle.txt','rb')
+    infos = pickle.load(f)
+    imggroup = pickle.load(f)
+    print len(infos)
+    imgs = pickle.load(f)
+    f.close()
+    persons = Cluster(infos, 0.15, imggroup, imgs)
+    for i in persons:
+        print i
+
 if __name__ == '__main__':
-    Try()
+    Trypickle()

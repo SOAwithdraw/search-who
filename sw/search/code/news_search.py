@@ -42,6 +42,39 @@ def nouns_extract(text_list, banned_list, max_length=20):
 
     return all_nouns
 
+def Order_data(info, info_type, banned_list, feature_len = 1):
+    '''
+        整理数据，传入某网页数据，输出标准化数据用于聚类
+        Args:
+            info: yaml data
+            info_type: 'baike'/'news'
+        Returns:
+            fin: ordered data, a list with several dicts
+    '''
+    fin = []
+    for i in info:
+        text = ''
+        if i.has_key('text'):
+            text = i['text']
+        elif i.has_key('info'):
+            if 'list' in str(type(i['info'])):
+                for j in i['info']:
+                    text = text + ' ' + j
+            else:
+                text = i['info']
+
+        text = json.dumps(text).encode('utf-8')
+        print(text)
+        features = nouns_extract(text, banned_list)
+        
+        if len(features) > feature_len:
+            fin.append({})
+            fin[-1]['url'] = i.get('url', '')
+            fin[-1]['text'] = features
+            fin[-1]['type'] = info_type
+
+    print("ordered data: " + info_type +  ' ' + str(len(fin)))
+    return fin
 
 def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
     '''
@@ -73,7 +106,7 @@ def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
     return clustered_page, finword, pictures
 
 
-def cluster_img(all_info):
+def cluster_img(baidu_info, baike_info, zhihu_info, weibo_info):
     """
         图片聚类
         Args:
@@ -82,9 +115,16 @@ def cluster_img(all_info):
             fin: 列表的列表，子列表里面是若干数字，代表是同一类的标号
             mainphoto: 列表，里面是若干个url
     """
-    photos = [x['img'] for x in all_info]
-    fin, mainphoto = photo.Cluster(photos)
-    return fin, mainphoto
+    photos = [x['img'] for x in baidu_info]
+    baike_photos = [[] for x in baike_info]
+    zhihu_photos = [[x['img']] for x in zhihu_info]
+    weibo_photos = [[x['img']] for x in weibo_info]
+    photos.extend(baike_photos)
+    photos.extend(zhihu_photos)
+    photos.extend(weibo_photos)
+
+    groups, mainphoto = photo.Cluster(photos)
+    return groups, mainphoto
 
 
 def search(name, describe=[], cache_dir="data"):
@@ -104,6 +144,9 @@ def search(name, describe=[], cache_dir="data"):
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
+    baike_filename = os.path.join(cache_dir, "baidubaike1.yaml")
+    zhihu_filename = os.path.join(cache_dir, "zhihuuser1.yaml")
+    weibo_filename = os.path.join(cache_dir, "weibo1.yaml")
     dirname = os.path.join(cache_dir, search_word)
 	
     print(search_filename)
@@ -129,29 +172,38 @@ def search(name, describe=[], cache_dir="data"):
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    print(json.dumps(baidu_result, ensure_ascii=False))
+    #这里添加了几句测试用的社交帐号的语句
+    with open(baike_filename) as baike_f:
+        baike_result = yaml.load(baike_f)
+    with open(zhihu_filename) as zhihu_f:
+        zhihu_result = yaml.load(zhihu_f)
+    with open(weibo_filename) as weibo_f:
+        weibo_result = yaml.load(weibo_f)
+    ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
+    ordered_data.extend( Order_data(baike_result, 'baike', banned_list))
+    ordered_data.extend( Order_data(zhihu_result, 'zhihu', banned_list))
+    ordered_data.extend( Order_data(weibo_result, 'weibo', banned_list))
+
+    #print(json.dumps(baidu_result, ensure_ascii=False))
     print('Cluster by images.')
-    fin, mainphoto = cluster_img(baidu_result)
-    print(mainphoto)
+    #imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
+    #print(mainphoto)
 
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
 
-    pages, finword, pictures= cluster_pages(baidu_result, th, fin, mainphoto, tp1, tp2, banned_list)
-    print(pages)
-    print(finword)
-    print(pictures)
+    persons = cluster.Cluster(ordered_data, th, [], [], tp1, tp2)
 
     search_result = []
-    for i in range(len(pages)):
+    for i in range(len(persons)):
         class_info = []
-        for page in pages[i]:
+        for page in persons[i].news:
             class_info.append([baidu_result[page]['url'], baidu_result[page]['title']])
         search_result.append([finword[i], pictures[i], class_info])
 
     # for Debug
-    print(pages)
-    print(json.dumps(finword, ensure_ascii=False))
+    #print(pages)
+    #print(json.dumps(finword, ensure_ascii=False))
 
     # for i in range(len(pages)):
     #     with codecs.open(dirname + '/' + str(i) + '.txt', 'w', 'utf-8') as fout:
