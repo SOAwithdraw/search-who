@@ -42,7 +42,8 @@ def nouns_extract(text_list, banned_list, max_length=20):
 
     return all_nouns
 
-def Order_data(info, info_type, banned_list, feature_len = 1):
+
+def Order_data(info, info_type, banned_list, feature_len=1):
     '''
         整理数据，传入某网页数据，输出标准化数据用于聚类
         Args:
@@ -66,15 +67,16 @@ def Order_data(info, info_type, banned_list, feature_len = 1):
         text = json.dumps(text).encode('utf-8')
         print(text)
         features = nouns_extract(text, banned_list)
-        
+
         if len(features) > feature_len:
             fin.append({})
             fin[-1]['url'] = i.get('url', '')
             fin[-1]['text'] = features
             fin[-1]['type'] = info_type
 
-    print("ordered data: " + info_type +  ' ' + str(len(fin)))
+    print("ordered data: " + info_type + ' ' + str(len(fin)))
     return fin
+
 
 def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
     '''
@@ -148,7 +150,7 @@ def search(name, describe=[], cache_dir="data"):
     zhihu_filename = os.path.join(cache_dir, "zhihuuser1.yaml")
     weibo_filename = os.path.join(cache_dir, "weibo1.yaml")
     dirname = os.path.join(cache_dir, search_word)
-	
+
     print(search_filename)
     if os.path.exists(search_filename):
         print("Load from cache...")
@@ -172,7 +174,7 @@ def search(name, describe=[], cache_dir="data"):
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    #这里添加了几句测试用的社交帐号的语句
+    # 这里添加了几句测试用的社交帐号的语句
     with open(baike_filename) as baike_f:
         baike_result = yaml.load(baike_f)
     with open(zhihu_filename) as zhihu_f:
@@ -180,14 +182,14 @@ def search(name, describe=[], cache_dir="data"):
     with open(weibo_filename) as weibo_f:
         weibo_result = yaml.load(weibo_f)
     ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
-    ordered_data.extend( Order_data(baike_result, 'baike', banned_list))
-    ordered_data.extend( Order_data(zhihu_result, 'zhihu', banned_list))
-    ordered_data.extend( Order_data(weibo_result, 'weibo', banned_list))
+    ordered_data.extend(Order_data(baike_result, 'baike', banned_list))
+    ordered_data.extend(Order_data(zhihu_result, 'zhihu', banned_list))
+    ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
 
     #print(json.dumps(baidu_result, ensure_ascii=False))
     print('Cluster by images.')
     #imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
-    #print(mainphoto)
+    # print(mainphoto)
 
     th, tp1, tp2 = 0.15, 0, 1
     print('Cluster by texts.')
@@ -202,7 +204,7 @@ def search(name, describe=[], cache_dir="data"):
         search_result.append([finword[i], pictures[i], class_info])
 
     # for Debug
-    #print(pages)
+    # print(pages)
     #print(json.dumps(finword, ensure_ascii=False))
 
     # for i in range(len(pages)):
