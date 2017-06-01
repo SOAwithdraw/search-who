@@ -33,7 +33,15 @@ def VisitPersonPage(s, t = 20):
     try:
         print u'准备访问个人网站.....'
 
-        
+        if not os.path.exists("weiboresult/"):
+            os.mkdir("weiboresult")
+        try:
+            fr = open('weiboresult/%s.yaml'%(s), 'r')
+            existresult = yaml.load(fr)
+            print "load %s.yaml success"%(s)
+            return existresult
+        except:
+            pass
         driver = webdriver.Firefox()
         wait = ui.WebDriverWait(driver, 10)
 
@@ -64,10 +72,15 @@ def VisitPersonPage(s, t = 20):
         output = codecs.open("weibo.yaml", "w", "utf-8")
         yaml.dump(weibolist, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
         
+        savefile = codecs.open("weiboresult/%s.yaml"%s, "w", "utf-8")
+        yaml.dump(weibolist, default_flow_style=False,stream=savefile,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
     except Exception, e:
         print "Error: ", e
     finally:
-        driver.close()
+        try:
+            driver.close()
+        except Exception, e:
+            pass
         
         print u'End\n\n'
         print '**********************************************\n'
