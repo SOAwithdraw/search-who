@@ -48,6 +48,14 @@ def getpeople(s):
             urllist.append(he[0][7:-1])
         count = len(urllist)
         
+        pattern = re.compile("<a target=_blank .*?</a>")
+        allmessage = pattern.findall(html)
+
+        introduct = []
+        for x in allmessage:
+            pattern = re.compile("<.*?>")
+            th = re.sub(pattern, "", x)
+            introduct.append(th.split(u"：")[1])
         for i in range(0, count):
             try:
                 person = {}
@@ -91,6 +99,7 @@ def getpeople(s):
                 person["info"] = message
                 person["id"] = i+1
                 person["url"] = url
+                person["introdution"] = introduct[i]
                 people.append(person)
                 #pattern = re.compile(unicode("<dt class=\"basicInfo-item name\">.*?</dt>","utf-8"))
                 outputfile.write(html)
@@ -106,7 +115,7 @@ def getpeople(s):
 if __name__ == '__main__':
     output = codecs.open("baidubaike.yaml", "w", "utf-8")
 
-    word = unicode('郭文景', 'utf-8')
+    word = unicode('唐杰', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = getpeople(word)

@@ -33,6 +33,7 @@ def VisitPersonPage(s, t = 20):
     try:
         print u'准备访问个人网站.....'
 
+        
         driver = webdriver.Firefox()
         wait = ui.WebDriverWait(driver, 10)
 

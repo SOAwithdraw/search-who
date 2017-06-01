@@ -58,10 +58,17 @@ for SOA big project
     
     - 返回结果：
     >
-        [describe:简介，info:[信息列表], id:编号， url:网址}]
+        [describe:简介，info:[信息列表], id:编号， url:网址， introduction:职务}]
     - 其他说明：
     >
         搜索结果数<2时返回结果不可用，返回空
+
+### 20150602
+
++ 已完成工作
+
+    百度百科添加了introduction项
+
 ### 20150525
 
 + 已完成工作

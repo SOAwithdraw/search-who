@@ -1,17 +1,214 @@
--   describe: ' 郭文景，1956年出生在四川省。现任中央音乐学院作曲系主任。       预定交响声乐作品音乐会演出票   -国家大剧院官网提供   '
+-   describe: ' 唐杰，男，汉族，1955年7月生，四川省 德阳市 人，1978年11月加入中国共产党，1971年1月参加工作，南开大学经济研究所政治经济学专业毕业，研究生学历，经济学博士，研究员，博士研究生导师。  2015年 9月11日，深圳市原副市长唐杰任哈尔滨工业大学（深圳）临时党委书记。 [1]       '
     id: 1
     info:
-    - 郭文景
-    - 中国
-    - 四川省
-    - !!python/unicode '1956'
-    - 中央音乐学院作曲
-    url: !!python/unicode 'http://baike.baidu.com/item/%E9%83%AD%E6%96%87%E6%99%AF/10071508'
--   describe: ' 郭文景，是杭二中竞赛班的一名女 学生 。她是杭二中第一个在本科阶段被 哈佛大学 录取的学生，也是浙江省第一个被哈佛本科提前录取的学生。 [1]       '
+    - 唐杰
+    - 1955年7月
+    - 深圳市副市长
+    - 南开大学
+    introdution: 深圳市副市长
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/1848946'
+-   describe: '  唐杰 ，清华大学计算机科学与技术系副教授，系科研办公室主任。2006年6月在清华大学计算机科学与技术系获得博士学位，曾在 康奈尔 大学、伊利诺伊香槟分校、香港中文大学、香港科技大学进行学术访问。  主要研究内容包括：社会网络分析、数据挖掘和语义Web。发表论文100多篇（包括：SIGKDD，IJCAI, ACL, SIGMOD, SIGIR等），申请专利10项，获2011北京市科技新星，2011 Scopus全国青年科技之星，2010年度清华大学学术新人奖（清华青年教师的最高学术荣誉），2010年IBM全球创新教师奖以及ECML/PKDD&#39;2011 Best Student Paper Runnerup。担任国际权威期刊ACM Trans. on Know. Disc. from Data和ACM Trans. on Int. Sys. and Tech.的客座编辑；担任数据挖掘顶级国际会议SIGKDD2012的本地主席，SIGKDD2011的Publication主席，SocInfo2012和ADMA2011的程序委员会主席，WSDM2011的Poster主席等。  研发了研究者社会网络ArnetMiner系统，吸引了220个国家277万个独立IP的访问。   '
     id: 2
     info:
-    - 郭文景
-    - 美国
-    - '学生 '
-    - 全国青少年信息学奥林匹克联赛（浙江省赛区）一等奖
-    url: !!python/unicode 'http://baike.baidu.com/item/%E9%83%AD%E6%96%87%E6%99%AF/19133243'
+    - 唐杰
+    - 清华大学
+    - 社会网络挖掘，社会影响力分析等
+    - 国际SIMagine开发大赛等
+    introdution: 清华大学副教授
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/12019960'
+-   describe: ' 唐杰，湖南 邵阳 人，出生于新邵县的一个偏远农村，从小酷爱音乐的他在13岁时考进邵阳市花鼓剧团表演班，经历3年的刻苦训练，步入社会后受到了中国原创音乐的熏陶，在8年的演艺生涯中不断地进修于学习，2007年年底推出了首张原创单曲《 好兄弟 》并参加了“E曲成名”全国网络歌手大赛荣获冠军，2008年参加了5.12 汶川大地震 湖南义演多达30余场，筹得善款110多万元，被湖南省红十字会评为“荣誉爱心大使”称号。2009年至2011年先后推出原创歌曲《分开的理由》、《男儿之尊》、《雪》、《你会不会像我一样》、《落幕》等……     '
+    id: 3
+    info:
+    - 唐杰
+    - 中国
+    - 汉
+    - 新邵县的一个农村
+    - 11月06日
+    - 歌手
+    - 超越梦想文化发展有限公司
+    - 《分开的理由》，《雪》，《好兄弟》，《你会不会像我一样》
+    introdution: 中国内地歌手
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/17928'
+-   describe: ' 唐杰，英文名JACK，1982年11月13日生，出生于山东，导演、经纪人、制片人。   '
+    id: 4
+    info:
+    - 唐杰
+    - !!python/unicode 'JACK'
+    - 中国
+    - 山东
+    - 中国.深圳
+    - 1982年11月13日
+    - !!python/unicode '172cm'
+    - !!python/unicode '65kg'
+    - 资深策划人
+    introdution: 资深策划人
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/3255841'
+-   describe: ' 唐杰，1999年至2001年就读于湖南省艺术学院表演系，参与湖南卫视多期节目和短片的拍摄。   '
+    id: 5
+    info:
+    - 唐杰
+    - !!python/unicode 'Tang Jie'
+    - 中国
+    - 9月4日
+    - SDT舞蹈天团艺人
+    - 曾多次参加浙江省街舞比赛获得冠军
+    - 拍摄MTV 刘承俊 （重回我世界） （在说一次我爱你）
+    introdution: SDT舞蹈天团艺人唐杰
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/10581066'
+-   describe: ' 唐杰，男，汉族，中共党员，1967年7月生，研究生学历。  现任叙永县委副书记、人民政府县长。 [1]       '
+    id: 6
+    info:
+    - 唐杰
+    - '中国 '
+    - 汉
+    - 四川省泸州市环保局党组书记、局长
+    introdution: 叙永县人民政府县长
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/1849008'
+-   describe: ' 唐杰大将军，是中国民间奉祀的神灵，属于六十甲子神之一。字子文，丁酉太岁。在唐代时降生在安乡（今 湖北省 安乡县）。自幼练习武艺，力量奇大，科举中武举人。   '
+    id: 7
+    info:
+    - 唐杰
+    - 子文
+    - 唐代
+    - 安乡（今湖北省安乡县）
+    - 神仙
+    introdution: 唐代大将军
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/290640'
+-   describe: ' 唐杰，男， 医学博士 ， 中国人民解放军总医院 超声科主任，主任医师、教授、博士研究生导师。   '
+    id: 8
+    info:
+    - 唐杰
+    - 中国
+    - 中国人民解放军总医院教授、主任医师
+    - 2005年获医院建设贡献奖
+    - 《腹部和外周血管彩色多普勒诊断学》
+    - 男
+    introdution: 中国人民解放军总医院教授、主任医师
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/1848977'
+-   describe: ' 唐杰，现任湖南省怀化市经济和信息化委员会副主任。 [1]       '
+    id: 9
+    info: []
+    introdution: 湖南省怀化市经济和信息化委员会副主任
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/20415892'
+-   describe: ' 唐杰， 新疆医科大学附属肿瘤医院 副主任医师，讲师， 中华医学会 会员，中共党员，硕士研究生，汉族，1969年10月20日出生于 四川  成都 。1993年加入中国共产党，1994年毕业于 石河子大学医学院 ，取得临床医疗医学学士学位。2003年毕业于 新疆医科大学 ，取得临床硕士学位。   '
+    id: 10
+    info:
+    - '唐杰 '
+    - 副主任医师
+    - 讲师
+    - 新疆医科大学附属肿瘤医院
+    introdution: 新疆医科大学附属肿瘤医院副主任医师
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/1848963'
+-   describe: ' 唐杰，男，副教授，硕士生导师，IEEE会员，IET会员。2008年本科毕业于 华南理工大学 信息工程专业，毕业后留学英国，先后于2009年及2012年在 布里斯托大学 与 拉夫堡大学 获得硕士及博士学位。2013年被 曼彻斯特大学 聘为博士后副研究员，负责英国工程与自然科学研究理事会项目（EPSRC）“Green Heterogeneous Networks”，并代表曼彻斯特大学参与GreenTouch国际合作项目。2015年12月被华南理工大学“兴华人才工程”引进为副教授。主要研究无线通信系统的优化设计, 包括5G, 无线携能通信，全双工通信，MIMO多天线无线通信系统，能效优化，资源分配算法，异构网络，认知无线电，智能电网等。  主持及参与国家自然科学基金青年项目，英国工程与自然科学研究理事会项目（三项），广州市科技计划项目，华南理工大学兴化人才工程项目等。目前已发表高水平学术论文40余篇，其中IEEE期刊论文15篇，包括IEEE JSAC, COMMUN MAG, TIT, TWC, TCOM, TVT, WCL, CL等。获得2011年度国家优秀自费留学生奖学金；英国工程与自然科学研究理事会优秀博士奖学金(2009-2012)；2009年度德州仪器杰出硕士奖。担任国际权威期刊IEEE JSAC, TIT, TWC, TCOM, TVT审稿人，多次被本领域国际会议邀请作TPC Member, 包括IEEE GLOBECOM, ICC, VTC, WCNC, 并担任2012EPSRC Smart Grid Workshop主席。   '
+    id: 11
+    info:
+    - 唐杰
+    - 中国
+    - 副教授
+    - 华南理工大学，布里斯托大学，拉夫堡大学
+    introdution: 华南理工大学副教授
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/20105399'
+-   describe: '  唐杰，副主任医师唐杰 10多年三甲医院工作经历，擅长将口腔医学研究最新成果应用于临床   '
+    id: 12
+    info:
+    - 唐杰
+    - 中国
+    - 医生
+    - 女
+    introdution: 上海交通大学医学院博士后
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/6481679'
+-   describe: ''
+    id: 13
+    info: []
+    introdution: 重庆大学人文社会科学高等研究院讲师
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/19308732'
+-   describe: ' 唐杰，男，原黑水县中学副校长。   '
+    id: 14
+    info: []
+    introdution: 原黑水县中学副校长职务
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/18816205'
+-   describe: ' 2015年11月5日，中国共产主义青年团罗定市第十七次代表大会在罗定市委党校召开。   '
+    id: 15
+    info: []
+    introdution: 罗定市共青团副书记
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/18796236'
+-   describe: ' 唐杰，男，汉族，湖南湘潭县人，1971年02月出生，在职大学学历，工商管理硕士学位，中共党员。 [1]      现任湖南韶山市委副书记、韶山市第八届委员会常务委员会委员 [2]    、韶山市人民政府市长。 [3]       '
+    id: 16
+    info:
+    - 唐杰
+    - 中华人民共和国
+    - 汉族
+    - 湖南湘潭
+    - 1971年02月
+    - 公务员
+    introdution: 湖南韶山市委副书记
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/19815881'
+-   describe: ' 唐杰，男，汉族，四川省 隆昌 人，生于1964年4月， 1992年12月加入中国共产党，1982年9月参加工作，现任高县政府副县长。   '
+    id: 17
+    info:
+    - 唐杰
+    - 汉族
+    - 四川省隆昌
+    - 1964年4月
+    introdution: 高县政府副县长
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/19390306'
+-   describe: ' 唐杰，男，汉族，1961年11月生，四川岳池人，1991年12月加入中国共产党，1982年8月参加工作，成都科技大学电子技术及电力工程系电力及自动化专业毕业，大学学历，工学学士学位。  现任四川省自贡市委常委，市人民政府副市长、党组成员。   '
+    id: 18
+    info:
+    - 唐杰
+    - 中国
+    - 汉族
+    - 四川岳池
+    - 1961年11月
+    - 成都科技大学
+    introdution: 四川省自贡市委常委、副市长
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/9016423'
+-   describe: ' 唐杰  系所：城市规划与管理系  中国人民大学公共管理学院副教授、硕士生导师   '
+    id: 19
+    info:
+    - 唐杰
+    - 中国
+    - 中国人民大学公共管理学院副教授
+    - 男
+    - 城市规划与管理系
+    - 法学学士
+    introdution: 中国人民大学公共管理学院副教授
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/4213006'
+-   describe: ' 唐杰，男，汉族，1973年5月生，云南省盈江县人，大学本科学历（云南省委党校函授法律专业毕业），2005年2月加入中国共产党，1992年9月参加工作，现任盈江县公安局治安管理大队大队长。   '
+    id: 20
+    info:
+    - 唐杰
+    - 中国
+    - 汉族
+    - 1973年5月
+    introdution: 盈江县公安局勐腊派出所教导员
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/14894755'
+-   describe: ' 唐杰，现任四川宜宾市人民政府台湾事务办公室副主任。   '
+    id: 21
+    info: []
+    introdution: 四川宜宾市人民政府台湾事务办公室副主任
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/20137856'
+-   describe: ' 唐杰，现任四川省 成都市 政协港澳台侨和外事委员会副主任。   '
+    id: 22
+    info: []
+    introdution: 成都市政协港澳台侨和外事委员会副主任
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/18441911'
+-   describe: ' 唐杰，男，1980年8月出生于 湖北  房县 。   '
+    id: 23
+    info:
+    - 唐杰
+    - 湖北房县
+    - 1980年8月
+    - 男
+    introdution: 十堰红阳职业技术学校校长
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/1848992'
+-   describe: ''
+    id: 24
+    info:
+    - 唐杰
+    - 中国
+    - 安徽省砀山县
+    - !!python/unicode '1948'
+    - 男
+    introdution: 安徽砀山籍烈士
+    url: !!python/unicode 'http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/20619900'
