@@ -1,0 +1,20 @@
+baidunews:
+    cl: 2
+    rn: 50     #每页显示新闻条数
+    pn: 0      #从0编号，表示rn个新闻中第一个的编号
+    tn: 'news'
+    word: 'word'
+    ie: 'utf-8'
+    bt: 0
+    et: 0
+baidunewsurl: 'http://news.baidu.com/ns'
+weibourl: 'https://m.weibo.cn/p/100103type=3&q= ' #https://m.weibo.cn/p/100103type=3&q=唐杰?type=user 
+weibo:
+    word: 'word'
+zhihuuserurl: 'https://www.zhihu.com/search'
+zhihuuser:
+    type: 'people'
+    q: 'word'
+baidubaikeurl: 'http://baike.baidu.com/item/' #http://baike.baidu.com/item/唐杰?force=1
+baidubaike:
+    force: 1

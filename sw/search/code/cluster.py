@@ -7,9 +7,9 @@ import pickle
 
 class Person:
     def __init__(self):
-        self.baike = ''
-        self.weibo = ''
-        self.zhihu = ''
+        self.baike = []
+        self.weibo = []
+        self.zhihu = []
         self.news = []
         self.picture = ''
         self.keyword = ''
@@ -33,10 +33,11 @@ class Person:
 
     def __str__(self):
         fin = ''
-        fin = fin + 'news ' + str(self.index) + '\n'
-        fin = fin + 'baike' + ' ' + self.baike + '\n'
-        fin = fin + 'weibo' + ' ' + self.weibo + '\n'
-        fin = fin + 'zhihu' + ' ' + self.zhihu + '\n'
+        fin = fin + 'index ' + str(self.index) + '\n'
+        fin = fin + 'news ' + ''  + str(self.news) + '\n'
+        fin = fin + 'baike' + ' ' + str(self.baike) + '\n'
+        fin = fin + 'weibo' + ' ' + str(self.weibo) + '\n'
+        fin = fin + 'zhihu' + ' ' + str(self.zhihu) + '\n'
         fin = fin + 'picture' + ' ' + self.picture + '\n'
         fin = fin + 'keyword ' + self.keyword + '\n'
         fin = fin + 'weight ' + str(self.weight) + '\n'
@@ -289,20 +290,20 @@ def Getpictures(group, imggroup, imgs):
             fin.append('')
     return fin
 
-def Organize(infos, groups, keywords, pictures):
+def Organize(infos, vectors, groups, keywords, pictures):
     tot = len(groups)
     persons = []
     for i in range(tot):
         persons.append(Person())
         for j in groups[i]:
             if infos[j]['type'] == 'news':
-                persons[i].news.append(infos[j]['url'])
+                persons[i].news.append({'url':infos[j]['url']})
             elif infos[j]['type'] == 'baike':
-                persons[i].baike = infos[j]['url']
+                persons[i].baike.append(infos[j]['url'])
             elif infos[j]['type'] == 'weibo':
-                persons[i].weibo = infos[j]['url']
+                persons[i].weibo.append(infos[j]['url'])
             elif infos[j]['type'] == 'zhihu':
-                persons[i].zhihu = infos[j]['url']
+                persons[i].zhihu.append(infos[j]['url'])
         persons[i].index = groups[i]
         persons[i].picture = pictures[i]
         persons[i].keyword = keywords[i]
@@ -345,7 +346,7 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
 
     finword = Getmainword(groups, vectors, cosclass.Getidf())
     pictures = Getpictures(groups, imggroup, imgs)
-    persons = Organize(infos, groups, finword, pictures) 
+    persons = Organize(infos, vectors, groups, finword, pictures) 
 
     return persons
 
