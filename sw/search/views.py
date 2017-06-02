@@ -22,10 +22,6 @@ def index(request):
     return render(request, 'search/index.html')
 
 
-def restore_person(p):
-    return Person_cluster(baike=p.baike, weibo=p.weibo, zhihu=p.zhihu, news=json.loads(p.news), picture=p.picture, keyword=p.keyword, weight=p.weight)
-
-
 def fake_data():
     tj1 = Person_cluster(baike='http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/12019960',
                          weibo='http://weibo.com/jietangthu', zhihu='',
@@ -50,13 +46,6 @@ def fake_data():
     return [tj1, tj2, tj3]
 
 
-def dict_from_person(p):
-
-    return {'baike': p.baike, 'weibo': p.weibo, 'zhihu': p.zhihu,
-            'news': p.news, 'picture': p.picture, 'keyword': p.keyword,
-            'weight': p.weight}
-
-
 def search_person(request):
     content = request.GET['person']
     print(content.encode('utf-8'))
@@ -76,12 +65,10 @@ def search_person(request):
                                   weight=p.weight)
             p_save.save()
     else:
-        result = [restore_person(p) for p in data_from_db]
-        result = fake_data()
+        result = data_from_db
 
     for p in result:
         print(p)
 
-    result = [dict_from_person(p) for p in result]
     print(result)
     return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result})

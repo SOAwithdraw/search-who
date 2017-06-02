@@ -25,10 +25,10 @@
 </nav>
 
 <div class="row">
-<div class="col s3">
+<div class="col s0 m3 l3">
 </div>
 
-<div class="col s9">
+<div class="col s12 m9 l9">
 
 <p><font size="3px" color="#B0B0B0"> 为您搜索到相关结果共 {{pn}} 人。</font></p>
 
@@ -37,13 +37,32 @@
 <div class="col s12 m6">
   <div class="card small horizontal">
     <div class="card-image">
-      <img src="{{person.picture}}" width="482">
+      <img width="482" src="{{person.picture}}">
     </div>
-    <div class="card-content">
-      <p>{{name}}</p><br>
-      <p>{{person.keyword}}</p>
+    <div class="card-stacked">
+      <div class="card-content">
+        <p style="font-family: yahei;font-size: 300%;">{{name}}</p><br>
+        <p>{{person.keyword}}</p>
+      </div>
+      <div class="card-content">
+      {% if person.baike == '' %}
+        <span><img src="/static/image/baikegrey.png" width="32" /></span>
+      {% else %}
+        <span><a href="{{person.baike}}"><img src="/static/image/baike.png" width="32" /></a></span>
+      {% endif %}
+      {% if person.zhihu == '' %}
+        <span><img src="/static/image/zhihugrey.png" width="32" /></span>
+      {% else %}
+        <span><a href="{{person.zhihu}}"><img src="/static/image/zhihu.png" width="32" /></a></span>
+      {% endif %}
+      {% if person.weibo == '' %}
+        <span><img src="/static/image/weibogrey.png" width="32" /></span>
+      {% else %}
+        <span><a href="{{person.weibo}}"><img src="/static/image/weibo.png" width="32" /></a></span>
+      {% endif %}
+      </div>
     </div>
-    <a class="btn-floating halfway-fab waves-effect waves-light blue-grey darken-4"><i class="material-icons">toc</i></a>
+    <a class="btn-floating halfway-fab waves-effect waves-light blue-grey darken-4" href="/profile/{{person.id}}"><i class="material-icons">toc</i></a>
   </div>
 </div>
 {% endfor %}

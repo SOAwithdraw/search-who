@@ -12,6 +12,8 @@ import jieba.posseg as pseg
 import baidunews
 import cluster
 import photo
+import baike
+import zhihuuser
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -30,11 +32,11 @@ def nouns_extract(text_list, banned_list, max_length=20):
     '''
     def banned(word):
         for banned_word in banned_list:
-            if word in banned_word:
+            if word in banned_word or word == u'中国':
                 return True
         return False
 
-    nouns_wanted = {'n': 1, 'ns': 2, 'nsf': 3, 'nt': 3, 'nz': 2}  # 名词,地名，音译地名，机构名，其他专名
+    nouns_wanted = {'n': 1, 'ns': 4, 'nsf': 4, 'nt': 3, 'nz': 2}  # 名词,地名，音译地名，机构名，其他专名
     all_nouns = {}
     for text in text_list:
         words = pseg.cut(text)
@@ -47,6 +49,15 @@ def nouns_extract(text_list, banned_list, max_length=20):
 
     if len(all_nouns) > max_length:
         all_nouns = dict(sorted(all_nouns.items(), key=lambda x: x[1], reverse=True)[:20])
+
+    cityname=[]
+    for i in all_nouns:
+        if i[-1] == u'市' or i[-1] == u'省' or i[-1] == u'县':
+            cityname.append(i)
+    for i in cityname:
+        val = all_nouns[i]
+        del all_nouns[i]
+        all_nouns[i[:-1]] = val
 
     return all_nouns
 
@@ -63,13 +74,18 @@ def Order_data(info, info_type, banned_list, feature_len=1):
     fin = []
     for i in info:
         text = ''
-        if i.has_key('text'):
+        if i.has_key('introdution'):
+            text = [i['introdution']]
+        elif i.has_key('text'):
             text = i['text']
         elif i.has_key('info'):
             if 'list' in str(type(i['info'])):
                 text = i['info']
             else:
                 text = [i['info']]
+
+        #text = json.dumps(text).encode('utf-8')
+        #print(text)
 
         features = nouns_extract(text, banned_list)
 
@@ -151,9 +167,11 @@ def search(name, describe=[], cache_dir="data"):
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
-    baike_filename = os.path.join(cache_dir, "baidubaike1.yaml")
-    zhihu_filename = os.path.join(cache_dir, "zhihuuser1.yaml")
-    weibo_filename = os.path.join(cache_dir, "weibo1.yaml")
+    #search_filename = os.path.join(cache_dir, "search1.yaml")
+    baike_filename = os.path.join(cache_dir, search_word + "baike.yaml")
+    print(baike_filename)
+    zhihu_filename = os.path.join(cache_dir, search_word + "zhihu.yaml")
+    weibo_filename = os.path.join(cache_dir, "weibo3.yaml")
     dirname = os.path.join(cache_dir, search_word)
 
     print(search_filename)
@@ -163,15 +181,33 @@ def search(name, describe=[], cache_dir="data"):
             baidu_result = yaml.load(f)
     else:
         print("Start searching news...")
-        '''
         baidu_result = baidunews.get(search_word, newscnt=50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
-        '''
-        result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
-                  ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
-                  ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
-                  ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
+        #result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
+         #         ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
+          #        ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
+           #       ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
+
+    if os.path.exists(baike_filename):
+        print("Load baike from cache...")
+        with open(baike_filename) as baike_f:
+            baike_result = yaml.load(baike_f)
+    else:
+        print("Start searching baike...")
+        baike_result = baike.getpeople(search_word)
+        output = codecs.open(baike_filename, "w", "utf-8")
+        yaml.dump(baike_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
+
+    if os.path.exists(zhihu_filename):
+        print("Load zhihu from cache...")
+        with open(zhihu_filename) as zhihu_f:
+            zhihu_result = yaml.load(zhihu_f)
+    else:
+        print("Start searching zhihu...")
+        zhihu_result = zhihuuser.getuser(search_word)
+        output = codecs.open(zhihu_filename, "w", "utf-8")
+        yaml.dump(zhihu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
 
     banned_list = describe
     banned_list.append(name)
@@ -179,11 +215,7 @@ def search(name, describe=[], cache_dir="data"):
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    # 这里添加了几句测试用的社交帐号的语句
-    with open(baike_filename) as baike_f:
-        baike_result = yaml.load(baike_f)
-    with open(zhihu_filename) as zhihu_f:
-        zhihu_result = yaml.load(zhihu_f)
+    #这里添加了几句测试用的社交帐号的语句
     with open(weibo_filename) as weibo_f:
         weibo_result = yaml.load(weibo_f)
     ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
@@ -196,17 +228,19 @@ def search(name, describe=[], cache_dir="data"):
     #imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
     # print(mainphoto)
 
-    th, tp1, tp2 = 0.15, 0, 1
+    th, tp1, tp2 = 0.1, 0, 1
     print('Cluster by texts.')
 
     persons = cluster.Cluster(ordered_data, th, [], [], tp1, tp2)
 
-    search_result = []
+    for i in persons:
+        print(i)
+    """search_result = []
     for i in range(len(persons)):
         class_info = []
         for page in persons[i].news:
             class_info.append([baidu_result[page]['url'], baidu_result[page]['title']])
-        search_result.append([finword[i], pictures[i], class_info])
+        search_result.append([finword[i], pictures[i], class_info])"""
 
     # for Debug
     # print(pages)
@@ -221,8 +255,8 @@ def search(name, describe=[], cache_dir="data"):
     #             fout.write('\n')
     #             fout.write('\n===========\n')
 
-    return search_result
+    return persons
 
 
 if __name__ == '__main__':
-    search("唐杰")
+    search("陈驰")

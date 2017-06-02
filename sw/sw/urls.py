@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from search import views as search_view
+from ppage import views as page_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', search_view.redirect_homepage),
     url(r'^index/$', search_view.index, name='index'),
     url(r'^search/$', search_view.search_person, name='search_person'),
+    url(r'^profile/(\d+)$', page_view.profile, name='profile')
 ]
