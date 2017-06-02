@@ -8,14 +8,14 @@ import pickle
 class Person:
 
     def __init__(self, baike='', weibo='', zhihu='', news=[], picture='', keyword='', index=[], weight=0):
-        self.baike = ''
-        self.weibo = ''
-        self.zhihu = ''
-        self.news = []
-        self.picture = ''
-        self.keyword = ''
-        self.index = []
-        self.weight = 0
+        self.baike = baike
+        self.weibo = weibo
+        self.zhihu = zhihu
+        self.news = news
+        self.picture = picture
+        self.keyword = keyword
+        self.index = index
+        self.weight = weight
 
     def Merge(self, per):
         if self.baike == '':
