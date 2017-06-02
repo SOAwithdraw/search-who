@@ -50,7 +50,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
     if len(all_nouns) > max_length:
         all_nouns = dict(sorted(all_nouns.items(), key=lambda x: x[1], reverse=True)[:20])
 
-    cityname=[]
+    cityname = []
     for i in all_nouns:
         if i[-1] == u'市' or i[-1] == u'省' or i[-1] == u'县':
             cityname.append(i)
@@ -84,8 +84,8 @@ def Order_data(info, info_type, banned_list, feature_len=1):
             else:
                 text = [i['info']]
 
-        #text = json.dumps(text).encode('utf-8')
-        #print(text)
+        # text = json.dumps(text).encode('utf-8')
+        # print(text)
 
         features = nouns_extract(text, banned_list)
 
@@ -110,7 +110,7 @@ def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
         Returns:
             clustered_page: 一个list，形式为[[class1_p1,class1_p2,...],[class2_p1,class2_p2,...],...]
             finword: 每一类的关键字
-            pictures: 一个list，形式为[class1_pic,class2_pic,...] 
+            pictures: 一个list，形式为[class1_pic,class2_pic,...]
     '''
     info_num = len(all_info)
 
@@ -167,7 +167,7 @@ def search(name, describe=[], cache_dir="data"):
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
-    #search_filename = os.path.join(cache_dir, "search1.yaml")
+    # search_filename = os.path.join(cache_dir, "search1.yaml")
     baike_filename = os.path.join(cache_dir, search_word + "baike.yaml")
     print(baike_filename)
     zhihu_filename = os.path.join(cache_dir, search_word + "zhihu.yaml")
@@ -184,10 +184,10 @@ def search(name, describe=[], cache_dir="data"):
         baidu_result = baidunews.get(search_word, newscnt=50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
-        #result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
-         #         ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
-          #        ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
-           #       ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
+        # result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
+        #         ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
+        #        ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
+        #       ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
 
     if os.path.exists(baike_filename):
         print("Load baike from cache...")
@@ -215,17 +215,18 @@ def search(name, describe=[], cache_dir="data"):
     if not os.path.exists(dirname):
         os.mkdir(dirname)
 
-    #这里添加了几句测试用的社交帐号的语句
-    with open(weibo_filename) as weibo_f:
-        weibo_result = yaml.load(weibo_f)
+    # 这里添加了几句测试用的社交帐号的语句
+    # with open(weibo_filename) as weibo_f:
+      # yaml.load(weibo_f)
+    weibo_result = []
     ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
     ordered_data.extend(Order_data(baike_result, 'baike', banned_list))
     ordered_data.extend(Order_data(zhihu_result, 'zhihu', banned_list))
-    ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
+    #ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
 
-    #print(json.dumps(baidu_result, ensure_ascii=False))
+    # print(json.dumps(baidu_result, ensure_ascii=False))
     print('Cluster by images.')
-    #imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
+    # imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
     # print(mainphoto)
 
     th, tp1, tp2 = 0.1, 0, 1
@@ -244,7 +245,7 @@ def search(name, describe=[], cache_dir="data"):
 
     # for Debug
     # print(pages)
-    #print(json.dumps(finword, ensure_ascii=False))
+    # print(json.dumps(finword, ensure_ascii=False))
 
     # for i in range(len(pages)):
     #     with codecs.open(dirname + '/' + str(i) + '.txt', 'w', 'utf-8') as fout:

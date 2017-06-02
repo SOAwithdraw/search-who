@@ -6,6 +6,7 @@ import pickle
 
 
 class Person:
+
     def __init__(self, baike='', weibo='', zhihu='', news=[], picture='', keyword='', index=[], weight=0):
         self.baike = baike
         self.weibo = weibo
@@ -16,17 +17,7 @@ class Person:
         self.index = index
         self.weight = weight
 
-    def Merge(self, per):
-        if self.baike == '':
-            self.baike = per.baike
-        if self.weibo == '':
-            self.weibo = per.weibo
-        if self.zhihu == '':
-            self.zhihu = per.zhihu
-        if self.picture == '':
-            self.picture = per.picture
-        self.news.extend(per.news)
-        self.index.extend(per.index)
+        self.baikes = self.weibos = self.zhihus = []
 
     def Calcweight(self):
         self.weight = len(self.index)
@@ -34,7 +25,7 @@ class Person:
     def __str__(self):
         fin = ''
         fin = fin + 'index ' + str(self.index) + '\n'
-        fin = fin + 'news ' + ''  + str(self.news) + '\n'
+        fin = fin + 'news ' + '' + str(self.news) + '\n'
         fin = fin + 'baike' + ' ' + str(self.baike) + '\n'
         fin = fin + 'weibo' + ' ' + str(self.weibo) + '\n'
         fin = fin + 'zhihu' + ' ' + str(self.zhihu) + '\n'
@@ -291,6 +282,7 @@ def Getpictures(group, imggroup, imgs):
             fin.append('')
     return fin
 
+
 def Organize(infos, vectors, groups, keywords, pictures):
     tot = len(groups)
     persons = []
@@ -298,17 +290,21 @@ def Organize(infos, vectors, groups, keywords, pictures):
         persons.append(Person())
         for j in groups[i]:
             if infos[j]['type'] == 'news':
-                persons[i].news.append({'url':infos[j]['url']})
+                persons[i].news.append({'url': infos[j]['url']})
             elif infos[j]['type'] == 'baike':
-                persons[i].baike.append(infos[j]['url'])
+                persons[i].baikes.append(infos[j]['url'])
             elif infos[j]['type'] == 'weibo':
-                persons[i].weibo.append(infos[j]['url'])
+                persons[i].weibos.append(infos[j]['url'])
             elif infos[j]['type'] == 'zhihu':
-                persons[i].zhihu.append(infos[j]['url'])
+                persons[i].zhihus.append(infos[j]['url'])
         persons[i].index = groups[i]
         persons[i].picture = pictures[i]
         persons[i].keyword = keywords[i]
         persons[i].Calcweight()
+        persons[i].baike = persons[i].baikes[0] if len(persons[i].baikes) else ''
+        persons[i].weibo = persons[i].weibos[0] if len(persons[i].weibos) else ''
+        persons[i].zhihu = persons[i].zhihus[0] if len(persons[i].zhihus) else ''
+
     return persons
 
 
@@ -349,7 +345,7 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
 
     finword = Getmainword(groups, vectors, cosclass.Getidf())
     pictures = Getpictures(groups, imggroup, imgs)
-    persons = Organize(infos, vectors, groups, finword, pictures) 
+    persons = Organize(infos, vectors, groups, finword, pictures)
 
     return persons
 

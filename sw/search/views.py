@@ -54,11 +54,11 @@ def search_person(request):
 
     data_from_db = Person_model.objects.filter(name=name)
     if len(data_from_db) == 0:
-        # if len(contents) > 1:
-        #     result = news_search.search(name, ''.join(contents[1:]))
-        # else:
-        #     result = news_search.search(name)
-        result = fake_data()
+        if len(contents) > 1:
+            result = news_search.search(name, ''.join(contents[1:]))
+        else:
+            result = news_search.search(name)
+        # result = fake_data()
         for p in result:
             p_save = Person_model(name=name, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
                                   news=json.dumps(p.news), picture=p.picture, keyword=p.keyword,
