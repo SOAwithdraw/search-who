@@ -21,7 +21,15 @@ sys.setdefaultencoding("utf-8")
 
 
 def nouns_extract(text_list, banned_list, max_length=20):
-
+    '''
+        提取名词特征用作聚类
+        Args:
+            text_list: 待提取的文本集合
+            banned_list: 禁词表，包含人名或其他搜索信息
+            max_length: 特征维数限制
+        Returns:
+            all_nouns: 文本集合中所有的特征名词
+    '''
     def banned(word):
         for banned_word in banned_list:
             if word in banned_word or word == u'中国':
@@ -39,7 +47,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
                 else:
                     all_nouns[w.word] += nouns_wanted[w.flag]
 
-    if len(all_nouns) > 20:
+    if len(all_nouns) > max_length:
         all_nouns = dict(sorted(all_nouns.items(), key=lambda x: x[1], reverse=True)[:20])
 
     cityname=[]
@@ -53,7 +61,8 @@ def nouns_extract(text_list, banned_list, max_length=20):
 
     return all_nouns
 
-def Order_data(info, info_type, banned_list, feature_len = 1):
+
+def Order_data(info, info_type, banned_list, feature_len=1):
     '''
         整理数据，传入某网页数据，输出标准化数据用于聚类
         Args:
@@ -77,16 +86,18 @@ def Order_data(info, info_type, banned_list, feature_len = 1):
 
         #text = json.dumps(text).encode('utf-8')
         #print(text)
+
         features = nouns_extract(text, banned_list)
-        
+
         if len(features) > feature_len:
             fin.append({})
             fin[-1]['url'] = i.get('url', '')
             fin[-1]['text'] = features
             fin[-1]['type'] = info_type
 
-    print("ordered data: " + info_type +  ' ' + str(len(fin)))
+    print("ordered data: " + info_type + ' ' + str(len(fin)))
     return fin
+
 
 def cluster_pages(all_info, th, imggroup, imgs, tp1, tp2, banned_list):
     '''
@@ -162,7 +173,7 @@ def search(name, describe=[], cache_dir="data"):
     zhihu_filename = os.path.join(cache_dir, search_word + "zhihu.yaml")
     weibo_filename = os.path.join(cache_dir, "weibo3.yaml")
     dirname = os.path.join(cache_dir, search_word)
-	
+
     print(search_filename)
     if os.path.exists(search_filename):
         print("Load from cache...")
@@ -208,14 +219,14 @@ def search(name, describe=[], cache_dir="data"):
     with open(weibo_filename) as weibo_f:
         weibo_result = yaml.load(weibo_f)
     ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
-    ordered_data.extend( Order_data(baike_result, 'baike', banned_list))
-    ordered_data.extend( Order_data(zhihu_result, 'zhihu', banned_list))
-    ordered_data.extend( Order_data(weibo_result, 'weibo', banned_list))
+    ordered_data.extend(Order_data(baike_result, 'baike', banned_list))
+    ordered_data.extend(Order_data(zhihu_result, 'zhihu', banned_list))
+    ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
 
     #print(json.dumps(baidu_result, ensure_ascii=False))
     print('Cluster by images.')
     #imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
-    #print(mainphoto)
+    # print(mainphoto)
 
     th, tp1, tp2 = 0.1, 0, 1
     print('Cluster by texts.')
@@ -232,7 +243,7 @@ def search(name, describe=[], cache_dir="data"):
         search_result.append([finword[i], pictures[i], class_info])"""
 
     # for Debug
-    #print(pages)
+    # print(pages)
     #print(json.dumps(finword, ensure_ascii=False))
 
     # for i in range(len(pages)):
