@@ -11,13 +11,15 @@ class Person:
         self.baike = baike
         self.weibo = weibo
         self.zhihu = zhihu
-        self.news = news
+        self.news = news[:]
         self.picture = picture
         self.keyword = keyword
         self.index = index
         self.weight = weight
 
-        self.baikes = self.weibos = self.zhihus = []
+        self.baikes = []
+        self.weibos = []
+        self.zhihus = []
 
     def Calcweight(self):
         self.weight = len(self.index)
@@ -284,6 +286,7 @@ def Getpictures(group, imggroup, imgs):
 
 
 def Organize(infos, vectors, groups, keywords, pictures):
+    print(groups)
     tot = len(groups)
     persons = []
     for i in range(tot):
@@ -347,8 +350,11 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
     pictures = Getpictures(groups, imggroup, imgs)
     persons = Organize(infos, vectors, groups, finword, pictures)
 
+    fo = open('output.txt','w')
+    for i in persons:
+        fo.write(str(i))
+    fo.close()
     return persons
-
 
 def Try():
     v = [{'type': 'baike', 'url': '1', 'text': {'a': 1, 'b': 1, 'c': 1}},
