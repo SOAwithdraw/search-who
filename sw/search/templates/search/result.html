@@ -18,7 +18,7 @@
 <div class="nav-wrapper">
   <a href="/index" style="display: inline-block;margin-left: 2%"><img src="/static/image/logo.png" style="vertical-align: middle;"></a>
   <ul id="nav-mobile" class="right hide-on-med-and-down">
-    <li><a href="#">Settings</a></li>
+    <li><a href="#setting">Settings</a></li>
     <li><a href="#">About us</a></li>
   </ul>
 </div>
@@ -45,17 +45,17 @@
         <p>{{person.keyword}}</p>
       </div>
       <div class="card-content">
-      {% if person.baike == '' %}
+      {% if person.baike == 'https://' %}
         <span><img src="/static/image/baikegrey.png" width="32" /></span>
       {% else %}
         <span><a href="{{person.baike}}"><img src="/static/image/baike.png" width="32" /></a></span>
       {% endif %}
-      {% if person.zhihu == '' %}
+      {% if person.zhihu == 'https://' %}
         <span><img src="/static/image/zhihugrey.png" width="32" /></span>
       {% else %}
         <span><a href="{{person.zhihu}}"><img src="/static/image/zhihu.png" width="32" /></a></span>
       {% endif %}
-      {% if person.weibo == '' %}
+      {% if person.weibo == 'https://' %}
         <span><img src="/static/image/weibogrey.png" width="32" /></span>
       {% else %}
         <span><a href="{{person.weibo}}"><img src="/static/image/weibo.png" width="32" /></a></span>
@@ -69,8 +69,60 @@
 </div>
 </div>
 
+<!-- Settings -->
+  <div id="setting" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s6">
+          <p style="font-weight: bold; font-size: 15px">
+            设置
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6" id="threshold">
+          <select>
+            <option value="2" disabled selected>中等</option>
+            <option value="1">较粗</option>
+            <option value="2">中等</option>
+            <option value="3">较细</option>
+          </select>
+          <label>分类精度</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <p> 重新搜索 </p>
+          <p>
+            <div class="switch">
+              <label>
+                关
+              <input type="checkbox" id="re_search">
+              <span class="lever"></span>
+                开
+              </label>
+            </div>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">应用</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">取消</a>
+    </div>
+  </div>
+
   <!--  Scripts-->
   <script type="text/javascript" src="/static/js/jquery.min.js"></script>
   <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+    });
+    $(document).ready(function() {
+    $('select').material_select();
+  }); 
+  </script>
   </body>
 </html>

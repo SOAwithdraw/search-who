@@ -18,7 +18,7 @@
 <div class="nav-wrapper">
   <a href="/index" style="display: inline-block;margin-left: 2%"><img src="/static/image/logo.png" style="vertical-align: middle;"></a>
   <ul id="nav-mobile" class="right hide-on-med-and-down">
-    <li><a href="#">Settings</a></li>
+    <li><a href="#setting">Settings</a></li>
     <li><a href="#">About us</a></li>
   </ul>
 </div>
@@ -33,6 +33,7 @@
     <div class="col s12 m7 l7 offset-m1 offset-l1">
       <p>{{p.baike}}</p>
       <p>{{p.weibo}}</p>
+      <p>{{p.zhihu}}</p>
     </div>
     </div>
   </div>
@@ -40,7 +41,7 @@
   <div class="col s12 m10 l10 offset-m2 offset-l2">
   {% if news_list %}
   {% for news in news_list %}
-  <a href="{{news.1}}">{{news.0}}</a>
+  <a href="{{news.url}}">{{news.title}}</a>
   {% endfor %}
   {% else %}
   <p>抱歉，没有查到相关新闻</p>
@@ -48,8 +49,28 @@
   </div>
 </div>
 
+<!-- Modal Structure -->
+  <div id="setting" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>模态标题</h4>
+      <p>一堆文本</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">同意</a>
+    </div>
+  </div>
+
   <!--  Scripts-->
   <script type="text/javascript" src="/static/js/jquery.min.js"></script>
   <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+    $(document).ready(function() {
+    $('select').material_select();
+  }); 
+  </script>
   </body>
 </html>

@@ -22,6 +22,19 @@ def index(request):
     return render(request, 'search/index.html')
 
 
+def resetting(request):
+    th = request.GET.get('th', 0)
+    re_search = request.GET.get('re_search', False)
+    if re_search:
+        # search
+        # cluster(th)
+        pass
+    else:
+        # cluster(th)
+        #
+        pass
+
+
 def fake_data():
     tj1 = Person_cluster(baike='http://baike.baidu.com/item/%E5%94%90%E6%9D%B0/12019960',
                          weibo='http://weibo.com/jietangthu', zhihu='',
@@ -46,12 +59,14 @@ def fake_data():
     return [tj1, tj2, tj3]
 
 
-def search_person(request):
+def search_person(request, recluster=True):
     content = request.GET['person']
     print(content.encode('utf-8'))
     contents = content.split()
     name = contents[0]
 
+    if recluster:
+        Person_model.objects.filter(name=name).delete()
     data_from_db = Person_model.objects.filter(name=name)
     if len(data_from_db) == 0:
         if len(contents) > 1:
@@ -59,7 +74,16 @@ def search_person(request):
         else:
             result = news_search.search(name)
         # result = fake_data()
+        head = 'https://'
         for p in result:
+            if head not in p.baike:
+                p.baike = head + p.baike
+            if head not in p.weibo:
+                p.weibo = head + p.weibo
+            if head not in p.zhihu:
+                p.zhihu = head + p.zhihu
+            if p.picture == '':
+                p.picture = '/static/image/fake.jpg'
             p_save = Person_model(name=name, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
                                   news=json.dumps(p.news), picture=p.picture, keyword=p.keyword,
                                   weight=p.weight)
@@ -68,7 +92,7 @@ def search_person(request):
         result = data_from_db
 
     for p in result:
-        print(p)
+        print(p.picture)
 
     print(result)
     return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result})
