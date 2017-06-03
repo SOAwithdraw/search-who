@@ -94,6 +94,8 @@ def Cluster(photos):
     ids = []
     for i in range(tot):
         ids.append([])
+        if len(photos[i])>5:
+            continue
         for j in photos[i]:
             if len(j) < 6 or j[:4] != 'http' or (j[-3:] != 'jpg' and j[-3:] != 'png'):
                 continue
