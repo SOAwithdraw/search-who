@@ -194,7 +194,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
 
-    print("Search {0} with description {1}".format(name, describe))
+    print("Search {0} with description {1} and tvalue {2}".format(name, describe, tvalue))
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
@@ -205,7 +205,6 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     dirname = os.path.join(cache_dir, search_word)
 
     redoimg = False
-    print(search_filename)
     if os.path.exists(search_filename):
         print("Load from cache...")
         with open(search_filename) as f:
@@ -243,7 +242,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         output = codecs.open(zhihu_filename, "w", "utf-8")
         yaml.dump(zhihu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
 
-    banned_list = describe
+    banned_list = describe[:]
     banned_list.append(name)
 
     if not os.path.exists(dirname):
@@ -272,8 +271,8 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
     persons = Findnewstitle(baidu_result, persons)
 
-    for i in persons:
-        print(i)
+    # for i in persons:
+    # print(i)
     """search_result = []
     for i in range(len(persons)):
         class_info = []

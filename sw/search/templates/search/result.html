@@ -89,9 +89,9 @@
       <div class="row">
         <div class="input-field col s6">
           <select id="threshold">
-            <option value="1">较粗</option>
-            <option value="2" selected="selected">中等</option>
-            <option value="3">较细</option>
+            <option value="0">较粗</option>
+            <option value="1" selected="selected">中等</option>
+            <option value="2">较细</option>
           </select>
           <label>分类精度</label>
         </div>
@@ -134,6 +134,7 @@
       var content = $('#title').text();
       console.log(content);
       console.log(th);
+      location.href = '/search/?th='+th+'&content='+content;
     });
   </script>
   </body>

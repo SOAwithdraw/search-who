@@ -48,8 +48,10 @@ def fake_data():
 
 
 def get_result(content, refresh=False):
+    print(content, refresh)
     contents = content.split()
     name = contents[0]
+    print(name)
     description = ' '.join(contents[1:]) if len(contents) > 1 else ''
 
     if refresh:
@@ -57,13 +59,15 @@ def get_result(content, refresh=False):
 
     data_from_db = Person_model.objects.filter(name=name, description=description)
     if len(data_from_db) == 0:
+        print('INSIDE')
+        result = []
         if len(contents) > 1:
-            result = news_search.search(name, search_settings['th'], describe=contents[1:])
+            search_result = news_search.search(name, search_settings['th'], describe=contents[1:])
         else:
-            result = news_search.search(name, search_settings['th'])
+            search_result = news_search.search(name, search_settings['th'])
         # result = fake_data()
         head = 'https://'
-        for p in result:
+        for p in search_result:
             if head not in p.baike:
                 p.baike = head + p.baike
             if head not in p.weibo:
@@ -76,6 +80,7 @@ def get_result(content, refresh=False):
                                   news=json.dumps(p.news), picture=p.picture, keyword=p.keyword,
                                   weight=p.weight)
             p_save.save()
+            result.append(p_save)
     else:
         result = data_from_db
 
@@ -84,16 +89,13 @@ def get_result(content, refresh=False):
 
 def search_person(request):
     refresh = False
-    if 'th' in request.GET:
+    if ('th' in request.GET) and (search_settings['th'] != th_list[int(request.GET.get('th'))]):
         search_settings['th'] = th_list[int(request.GET.get('th'))]
+        print('TH: ', search_settings['th'])
         refresh = True
     content = request.GET['content']
     print(content.encode('utf-8'))
-
     result, name = get_result(content, refresh)
-
-    for p in result:
-        print(p.picture)
 
     print(result)
     return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result})

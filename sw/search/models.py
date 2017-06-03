@@ -16,4 +16,4 @@ class Person(models.Model):
     weight = models.FloatField()
 
     def __unicode__(self):
-        return self.name + ' ' + self.keyword
+        return self.name + ' ' + self.description + ' ' + self.keyword
