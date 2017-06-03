@@ -5,6 +5,7 @@ import os
 import yaml
 import json
 import codecs
+import pickle
 import sys
 import jieba
 import jieba.posseg as pseg
@@ -165,6 +166,21 @@ def Findnewstitle(news_result, persons):
     return persons
 
 
+def Picklein(img_filename, imggroup, imgs):
+    f = open(img_filename, 'wb')
+    pickle.dump(imggroup, f)
+    pickle.dump(imgs, f)
+    f.close()
+
+
+def Pickleout(img_filename):
+    f = open(img_filename, 'rb')
+    imggroup = pickle.load(f)
+    imgs = pickle.load(f)
+    f.close()
+    return imggroup, imgs
+
+
 def search(name, tvalue, describe=[], cache_dir="data"):
     '''
         主要搜索函数，传入名称和其他搜索信息，返回搜索结果
@@ -182,13 +198,13 @@ def search(name, tvalue, describe=[], cache_dir="data"):
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
-    # search_filename = os.path.join(cache_dir, "search1.yaml")
     baike_filename = os.path.join(cache_dir, search_word + "baike.yaml")
-    print(baike_filename)
     zhihu_filename = os.path.join(cache_dir, search_word + "zhihu.yaml")
     weibo_filename = os.path.join(cache_dir, "weibo3.yaml")
+    img_filename = os.path.join(cache_dir, search_word + "img.pic")
     dirname = os.path.join(cache_dir, search_word)
 
+    redoimg = False
     print(search_filename)
     if os.path.exists(search_filename):
         print("Load from cache...")
@@ -196,6 +212,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
             baidu_result = yaml.load(f)
     else:
         print("Start searching news...")
+        redoimg = True
         baidu_result = baidunews.get(search_word, newscnt=50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
@@ -210,6 +227,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
             baike_result = yaml.load(baike_f)
     else:
         print("Start searching baike...")
+        redoimg = True
         baike_result = baike.getpeople(search_word)
         output = codecs.open(baike_filename, "w", "utf-8")
         yaml.dump(baike_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
@@ -220,6 +238,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
             zhihu_result = yaml.load(zhihu_f)
     else:
         print("Start searching zhihu...")
+        redoimg = True
         zhihu_result = zhihuuser.getuser(search_word)
         output = codecs.open(zhihu_filename, "w", "utf-8")
         yaml.dump(zhihu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
@@ -239,15 +258,18 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     ordered_data.extend(Order_data(zhihu_result, 'zhihu', banned_list))
     #ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
 
-    # print(json.dumps(baidu_result, ensure_ascii=False))
-    print('Cluster by images.')
-    # imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
-    # print(mainphoto)
+    if os.path.exists(img_filename) and not redoimg:
+        print("Load image infomation from cache...")
+        imggroup, imgs = Pickleout(img_filename)
+    else:
+        print('Cluster by images.')
+        imggroup, imgs = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
+        Picklein(img_filename, imggroup, imgs)
 
     tp1, tp2 = 0, 1
     print('Cluster by texts.')
 
-    persons = cluster.Cluster(ordered_data, tvalue, [], [], tp1, tp2)
+    persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
     persons = Findnewstitle(baidu_result, persons)
 
     for i in persons:
