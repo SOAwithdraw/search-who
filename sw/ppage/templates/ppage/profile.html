@@ -17,12 +17,20 @@
 <nav class="blue-grey darken-1 z-depth-0">
 <div class="nav-wrapper">
   <a href="/index" style="display: inline-block;margin-left: 2%"><img src="/static/image/logo.png" style="vertical-align: middle;"></a>
+    <form action="/search" method="get" class="col s8" style="display: inline-block;margin-left: 15%;width: 50%">
+        <div class="input-field">
+          <input id="person_search" name="content" type="search" placeholder="搜搜其他人">
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
   <ul id="nav-mobile" class="right hide-on-med-and-down">
     <li><a href="#setting">Settings</a></li>
     <li><a href="#">About us</a></li>
   </ul>
 </div>
 </nav>
+
 <br>
 <div class="container">
   <div class="col s12" >
@@ -31,17 +39,23 @@
       <img src="{{p.picture}}" style="width: 300px; height: 400px;">
     </div>
     <div class="col s12 m7 l7 offset-m1 offset-l1">
+      {% if p.baike != 'https://'%}
       <p>{{p.baike}}</p>
+      {% endif %}
+      {% if p.weibo != 'https://'%}
       <p>{{p.weibo}}</p>
+      {% endif %}
+      {% if p.zhihu != 'https://'%}
       <p>{{p.zhihu}}</p>
+      {% endif %}
     </div>
     </div>
   </div>
-  <p>新闻</p>
+  <p style="font-weight: bold; font-size: 20px">新闻</p>
   <div class="col s12 m10 l10 offset-m2 offset-l2">
   {% if news_list %}
   {% for news in news_list %}
-  <a href="{{news.url}}">{{news.title}}</a>
+  <p><a href="{{news.url}}">{{news.title}}</a></p>
   {% endfor %}
   {% else %}
   <p>抱歉，没有查到相关新闻</p>
@@ -56,7 +70,7 @@
       <p>一堆文本</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">同意</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">同意</a>
     </div>
   </div>
 

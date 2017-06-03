@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from search.models import Person as Person_model
+from sw.settings import search_settings, th_list
 
 import os
 import sys
@@ -20,19 +21,6 @@ def redirect_homepage(request):
 
 def index(request):
     return render(request, 'search/index.html')
-
-
-def resetting(request):
-    th = request.GET.get('th', 0)
-    re_search = request.GET.get('re_search', False)
-    if re_search:
-        # search
-        # cluster(th)
-        pass
-    else:
-        # cluster(th)
-        #
-        pass
 
 
 def fake_data():
@@ -59,20 +47,20 @@ def fake_data():
     return [tj1, tj2, tj3]
 
 
-def search_person(request, recluster=True):
-    content = request.GET['person']
-    print(content.encode('utf-8'))
+def get_result(content, refresh=False):
     contents = content.split()
     name = contents[0]
+    description = ' '.join(contents[1:]) if len(contents) > 1 else ''
 
-    if recluster:
-        Person_model.objects.filter(name=name).delete()
-    data_from_db = Person_model.objects.filter(name=name)
+    if refresh:
+        Person_model.objects.filter(name=name, description=description).delete()
+
+    data_from_db = Person_model.objects.filter(name=name, description=description)
     if len(data_from_db) == 0:
         if len(contents) > 1:
-            result = news_search.search(name, ''.join(contents[1:]))
+            result = news_search.search(name, search_settings['th'], describe=contents[1:])
         else:
-            result = news_search.search(name)
+            result = news_search.search(name, search_settings['th'])
         # result = fake_data()
         head = 'https://'
         for p in result:
@@ -84,12 +72,25 @@ def search_person(request, recluster=True):
                 p.zhihu = head + p.zhihu
             if p.picture == '':
                 p.picture = '/static/image/fake.jpg'
-            p_save = Person_model(name=name, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
+            p_save = Person_model(name=name, description=description, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
                                   news=json.dumps(p.news), picture=p.picture, keyword=p.keyword,
                                   weight=p.weight)
             p_save.save()
     else:
         result = data_from_db
+
+    return result, name
+
+
+def search_person(request):
+    refresh = False
+    if 'th' in request.GET:
+        search_settings['th'] = th_list[int(request.GET.get('th'))]
+        refresh = True
+    content = request.GET['content']
+    print(content.encode('utf-8'))
+
+    result, name = get_result(content, refresh)
 
     for p in result:
         print(p.picture)

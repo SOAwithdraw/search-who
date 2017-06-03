@@ -123,3 +123,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+th_list = ['0.01', '0.1', '0.3']
+search_settings = {'th': 0.1}

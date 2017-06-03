@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>{{title}}</title>
+  <title id="title">{{title}}</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,6 +17,13 @@
 <nav class="blue-grey darken-1 z-depth-0">
 <div class="nav-wrapper">
   <a href="/index" style="display: inline-block;margin-left: 2%"><img src="/static/image/logo.png" style="vertical-align: middle;"></a>
+    <form action="/search" method="get" class="col s8" style="display: inline-block;margin-left: 15%;width: 50%">
+        <div class="input-field">
+          <input id="person_search" name="content" type="search" placeholder="搜搜其他人">
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
   <ul id="nav-mobile" class="right hide-on-med-and-down">
     <li><a href="#setting">Settings</a></li>
     <li><a href="#">About us</a></li>
@@ -80,11 +87,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s6" id="threshold">
-          <select>
-            <option value="2" disabled selected>中等</option>
+        <div class="input-field col s6">
+          <select id="threshold">
             <option value="1">较粗</option>
-            <option value="2">中等</option>
+            <option value="2" selected="selected">中等</option>
             <option value="3">较细</option>
           </select>
           <label>分类精度</label>
@@ -107,8 +113,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">应用</a>
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">取消</a>
+      <div class="modal-action modal-close waves-effect waves-green btn-flat " id="apply">应用</div>
+      <div class="modal-action modal-close waves-effect waves-green btn-flat ">取消</div>
     </div>
   </div>
 
@@ -123,6 +129,12 @@
     $(document).ready(function() {
     $('select').material_select();
   }); 
+    $('#apply').click(function(){
+      var th = $('#threshold').val();
+      var content = $('#title').text();
+      console.log(content);
+      console.log(th);
+    });
   </script>
   </body>
 </html>

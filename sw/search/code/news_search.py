@@ -153,6 +153,7 @@ def cluster_img(baidu_info, baike_info, zhihu_info, weibo_info):
     groups, mainphoto = photo.Cluster(photos)
     return groups, mainphoto
 
+
 def Findnewstitle(news_result, persons):
     for person in persons:
         for i in person.news:
@@ -162,6 +163,7 @@ def Findnewstitle(news_result, persons):
                     break
 
     return persons
+
 
 def search(name, tvalue, describe=[], cache_dir="data"):
     '''

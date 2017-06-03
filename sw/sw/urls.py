@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^index/$', search_view.index, name='index'),
     url(r'^search/$', search_view.search_person, name='search_person'),
     url(r'^profile/(\d+)$', page_view.profile, name='profile'),
-    url(r'^resetting/$', search_view.resetting, name='resetting')
 ]

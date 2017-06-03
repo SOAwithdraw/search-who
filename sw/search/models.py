@@ -6,6 +6,7 @@ from django.db import models
 
 class Person(models.Model):
     name = models.CharField(verbose_name="姓名", max_length=30)
+    description = models.TextField(verbose_name="描述")
     baike = models.TextField(verbose_name="百度百科")
     weibo = models.TextField(verbose_name="新浪微博")
     zhihu = models.TextField(verbose_name="知乎")
