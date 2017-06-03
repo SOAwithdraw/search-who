@@ -74,7 +74,11 @@ def Order_data(info, info_type, banned_list, feature_len=1):
     fin = []
     for i in info:
         text = ''
-        if i.has_key('introdution'):
+        if info_type == 'news':
+            text = i['text'][:]
+            text.append(i['title'])
+            text.append(i['title'])
+        elif i.has_key('introdution'):
             text = [i['introdution']]
         elif i.has_key('text'):
             text = i['text']
@@ -149,8 +153,17 @@ def cluster_img(baidu_info, baike_info, zhihu_info, weibo_info):
     groups, mainphoto = photo.Cluster(photos)
     return groups, mainphoto
 
+def Findnewstitle(news_result, persons):
+    for person in persons:
+        for i in person.news:
+            for j in news_result:
+                if i['url'] == j['url']:
+                    i['title'] = j['title']
+                    break
 
-def search(name, describe=[], cache_dir="data"):
+    return persons
+
+def search(name, tvalue, describe=[], cache_dir="data"):
     '''
         主要搜索函数，传入名称和其他搜索信息，返回搜索结果
         Args:
@@ -229,10 +242,11 @@ def search(name, describe=[], cache_dir="data"):
     # imggroup, mainphoto = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
     # print(mainphoto)
 
-    th, tp1, tp2 = 0.1, 0, 1
+    tp1, tp2 = 0, 1
     print('Cluster by texts.')
 
-    persons = cluster.Cluster(ordered_data, th, [], [], tp1, tp2)
+    persons = cluster.Cluster(ordered_data, tvalue, [], [], tp1, tp2)
+    persons = Findnewstitle(baidu_result, persons)
 
     for i in persons:
         print(i)
@@ -260,4 +274,4 @@ def search(name, describe=[], cache_dir="data"):
 
 
 if __name__ == '__main__':
-    search("陈驰")
+    search("陈驰", 0.1)
