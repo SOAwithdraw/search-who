@@ -62,7 +62,7 @@ def get(s, index0 = 0, newscnt = 10):
             html = html.replace("&amp;", "&")
             html = html.replace("&lt;", "<")
             html = html.replace("&gt;", ">")
-
+            html.encode("utf-8")
             pattern = re.compile("<p.*?</p>")
             gp = re.findall(pattern, html)
 

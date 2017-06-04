@@ -19,17 +19,16 @@ for SOA big project
     - 其他说明
     >
         由于百度反爬虫机制，大约每一条新闻需要1秒钟
-+ weibo.py
++ newweibo.py
 
-    VisitPersonPage(word, num = 20)
+    VisitPersonPage(word)
     - 传入参数：
     >
         word 表示查询关键词，中文使用utf-8编码
-        num 表示搜索数
     
     - 返回结果：
     >
-        [{name:昵称，id:编号，img:头像图片url，info:个人签名}]
+        [{name:昵称，img:头像图片url，fans:粉丝数，guanzhu：关注数，weibo:发表微博数}]
     - 其他说明：
     >
         返回用户数量约等于num，如果搜索结果总数＜num则返回所有
@@ -62,6 +61,12 @@ for SOA big project
     - 其他说明：
     >
         搜索结果数<2时返回结果不可用，返回空
+
+### 20150604
+
++ 已完成工作
+
+    更新新浪微博，newweibo.py
 
 ### 20150602
 
