@@ -5,20 +5,20 @@ for SOA big project
 
 + baidu.py
         
-    get(word, index0 = 0, newscnt = 10)
+    get(word, newscnt = 10)
     - 传入参数:
     >
         word 表示查询关键词，中文使用utf-8编码
-        index0 表示新闻的起始编号
         newscnt 表示搜索条数
     
     - 返回结果:
     >
-        [{id:id, img:[images], text:[texts], title:title， url:url}]
+        [{img:[images], text:[texts], title:title， url:url}]
     
     - 其他说明
     >
         由于百度反爬虫机制，大约每一条新闻需要1秒钟
+        cnt五等分，分别从163，sohu，凤凰，新浪，腾讯查找新闻
 + newweibo.py
 
     VisitPersonPage(word)
@@ -31,8 +31,7 @@ for SOA big project
         [{name:昵称，img:头像图片url，fans:粉丝数，guanzhu：关注数，weibo:发表微博数}]
     - 其他说明：
     >
-        返回用户数量约等于num，如果搜索结果总数＜num则返回所有
-        平均每10个用户需要1秒钟，预处理需要5秒钟
+        
 
 + zhihuuser.py
 
@@ -67,6 +66,7 @@ for SOA big project
 + 已完成工作
 
     更新新浪微博，newweibo.py
+    更新了百度新闻
 
 ### 20150602
 

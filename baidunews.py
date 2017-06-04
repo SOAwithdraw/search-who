@@ -13,12 +13,11 @@ from bs4 import BeautifulSoup
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
-def get(s, index0 = 0, newscnt = 10):
+def getnews(s, s0, newscnt = 10):
     fr = open('config.yaml', 'r')
     p = yaml.load(fr)
     par = p['baidunews']
-    par['word'] = s;
-    par['pn'] = index0
+    par['word'] = s0
     par['rn'] = newscnt
     data = urllib.urlencode(par)
 
@@ -43,8 +42,9 @@ def get(s, index0 = 0, newscnt = 10):
         if "http://cache.baidu.com/" in u['href']:
             text += u['href'] + '\n'
             newsurl.append(u['href'])
+    
     text += '********************\n'
-
+    print text
     result = []
     for newsurlitem in newsurl:
         try:
@@ -62,7 +62,7 @@ def get(s, index0 = 0, newscnt = 10):
             html = html.replace("&amp;", "&")
             html = html.replace("&lt;", "<")
             html = html.replace("&gt;", ">")
-            html.encode("utf-8")
+            #html.encode("utf-8")
             pattern = re.compile("<p.*?</p>")
             gp = re.findall(pattern, html)
 
@@ -86,7 +86,6 @@ def get(s, index0 = 0, newscnt = 10):
             eachnews = {}
             eachnews['text'] = text
             eachnews['img'] = img
-            eachnews['id'] = index0
             pattern = re.compile("<title.*?</title>")
             newstitle = re.search(pattern, html)
             newstitle = newstitle.group(0)
@@ -95,19 +94,34 @@ def get(s, index0 = 0, newscnt = 10):
             eachnews['title'] = ntitle.decode('gbk', 'ignore')
             eachnews['url'] = newsurlitem
             print ntitle
-            index0 = index0 + 1
             result.append(eachnews)
-        except:
-            pass
+        except Exception, e:
+            print e
     return result
+
+def get(word, cnt):
+    x = cnt/5
+    word163 = word + " site:163.com"
+    wordsina = word + " site:sina.com"
+    wordqq = word + " site:qq.com"
+    wordfh = word + " site:ifeng.com"
+    wordsh = word + " site:sohu.com"
+    result = []
+    result = result + getnews(word, word163,x)
+    result = result + getnews(word, wordsina,x)
+    result = result + getnews(word, wordqq,x)
+    result = result + getnews(word, wordfh,x)
+    result = result + getnews(word, wordsh,x)
+    return result
+
 
 if __name__ == '__main__':
     output = codecs.open("search.yaml", "w", "utf-8")
 
-    word = unicode('周正平', 'utf-8')
+    word = unicode('唐杰', 'utf-8')
 
     #cbegin = datetime.datetime.now()
-    searchresult = get(word, 0, 50)
+    searchresult = get(word, 50)
     #cend = datetime.datetime.now()
     #print cend - cbegin
 
