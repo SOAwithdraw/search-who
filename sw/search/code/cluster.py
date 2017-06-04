@@ -50,7 +50,7 @@ class Person:
             fin.append({'name':j, 'weight':cur})
 
         fin = sorted(fin, key=lambda x: x['weight'], reverse=True)
-        self.keywords = [x for x in fin if x['weight'] > 0.9]
+        self.keywords = [x['name'] for x in fin if x['weight'] > 0.9]
 
 class CosClass:
 
