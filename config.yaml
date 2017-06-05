@@ -5,6 +5,14 @@ baidunews:
     tn: 'news'
     word: 'word'
     ie: 'utf-8'
+baidunewssite:
+    - 163.com
+    - sina.com.cn
+    - ifeng.com
+    - qq.com
+    - sohu.com
+    - xinhuanet.com
+    - people.com.cn
 
 baidunewsurl: 'http://news.baidu.com/ns'
 weibourl: 'https://m.weibo.cn/p/100103type=3&q= ' #https://m.weibo.cn/p/100103type=3&q=唐杰?type=user 
