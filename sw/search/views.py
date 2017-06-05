@@ -62,17 +62,17 @@ def get_result(content, refresh=False):
         print('INSIDE')
         result = []
         if len(contents) > 1:
-            search_result = news_search.search(name, search_settings['th'], describe=contents[1:])
+            search_result = news_search.search(name, th_list[search_settings['th']], describe=contents[1:])
         else:
-            search_result = news_search.search(name, search_settings['th'])
+            search_result = news_search.search(name, th_list[search_settings['th']])
         # result = fake_data()
         head = 'https://'
         for p in search_result:
-            if head not in p.baike:
+            if 'https://' not in p.baike and 'http://' not in p.baike:
                 p.baike = head + p.baike
-            if head not in p.weibo:
+            if 'https://' not in p.weibo and 'http://' not in p.weibo:
                 p.weibo = head + p.weibo
-            if head not in p.zhihu:
+            if 'https://' not in p.zhihu and 'http://' not in p.zhihu:
                 p.zhihu = head + p.zhihu
             if p.picture == '':
                 p.picture = '/static/image/fake.jpg'
@@ -90,12 +90,12 @@ def get_result(content, refresh=False):
 def search_person(request):
     refresh = False
     if ('th' in request.GET) and (search_settings['th'] != th_list[int(request.GET.get('th'))]):
-        search_settings['th'] = th_list[int(request.GET.get('th'))]
-        print('TH: ', search_settings['th'])
+        search_settings['th'] = int(request.GET.get('th'))
+        print('TH: ', th_list[search_settings['th']])
         refresh = True
     content = request.GET['content']
     print(content.encode('utf-8'))
     result, name = get_result(content, refresh)
 
     print(result)
-    return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result})
+    return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result, 'th': search_settings['th']})

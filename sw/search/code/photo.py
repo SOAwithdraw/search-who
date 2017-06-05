@@ -94,7 +94,7 @@ def Cluster(photos):
     ids = []
     for i in range(tot):
         ids.append([])
-        if len(photos[i])>5:
+        if len(photos[i]) > 5:
             continue
         for j in photos[i]:
             if len(j) < 6 or j[:4] != 'http' or (j[-3:] != 'jpg' and j[-3:] != 'png'):
@@ -119,7 +119,10 @@ def Cluster(photos):
 
     fin = []
     mainphoto = []
-    ctot = len(bago_group['groups'])
+    if bago_group.has_key('groups'):
+        ctot = len(bago_group['groups'])
+    else:
+        ctot = 0
     for i in range(ctot):
         fin.append([])
         ma = 0

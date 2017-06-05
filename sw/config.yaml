@@ -5,8 +5,15 @@ baidunews:
     tn: 'news'
     word: 'word'
     ie: 'utf-8'
-    bt: 0
-    et: 0
+baidunewssite:
+    - 163.com
+    - sina.com.cn
+    - ifeng.com
+    - qq.com
+    - sohu.com
+    - xinhuanet.com
+    - people.com.cn
+
 baidunewsurl: 'http://news.baidu.com/ns'
 weibourl: 'https://m.weibo.cn/p/100103type=3&q= ' #https://m.weibo.cn/p/100103type=3&q=唐杰?type=user 
 weibo:
@@ -18,3 +25,6 @@ zhihuuser:
 baidubaikeurl: 'http://baike.baidu.com/item/' #http://baike.baidu.com/item/唐杰?force=1
 baidubaike:
     force: 1
+newweibourl: 'http://s.weibo.com/user/&'
+newweibo:
+    nickname: 'weibo_user'
