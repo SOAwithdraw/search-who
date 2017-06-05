@@ -115,24 +115,23 @@ def VisitPersonPage(s):
                 url = al[1]
                 name = al[3]
                 if 'refer_flag' in url:
-                    
                     cnt = cnt+1
                     if( cnt % 2 == 0):
-
                         user['name'] = name.decode('unicode_escape')
                         user['img'] = img[((cnt/2)-1)]
                         user['url'] = url
                         user['guanzhu'] = me[((cnt/2)-1) * 3]
                         user['fans'] = me[((cnt/2)-1) * 3 + 1].decode('unicode_escape')
                         user['weibo'] = me[((cnt/2)-1) * 3 + 2]
-                weibolist.append(user)
+            weibolist.append(user)
             
         output = codecs.open("weibo.yaml", "w", "utf-8")
         yaml.dump(weibolist, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
         
         savefile = codecs.open("newweiboresult/%s.yaml"%(s), "w", "utf-8")
         yaml.dump(weibolist, default_flow_style=False,stream=savefile,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
-    except Exception, e:
+        return weibolist
+    except Exception, e: 
         print "Error: ", e
     finally:
         print u'End\n\n'
