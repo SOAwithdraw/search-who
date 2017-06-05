@@ -66,51 +66,72 @@ def VisitPersonPage(s):
         html = html.replace("&amp;", "&")
         html = html.replace("&lt;", "<")
         html = html.replace("&gt;", ">")
-        
-        outhtml = codecs.open("weibo.html", "w", "utf-8")
-        
-        pattern = re.compile(">[0-9]+?\\\\?u?[a-f0-9]*?<\\\\/a>")
-        messages = pattern.findall(html)
-        me = []
-        for x in messages:
-            x = x.encode('utf8')
-            me.append(x[1:-5].encode('utf-8'))
-        pattern = re.compile("src=\\\\\"(http:\\\\/\\\\/tva.*?)\"")
-        imgs = pattern.findall(html)
-        img = []
-        for x in imgs:
-            img.append(x.replace("\\", ""))
-        pattern = re.compile("href=[^\"]*?\"[^\"]*?\" title=[^\"]*?\"[^\"]*?\"")
-        users = pattern.findall(html)
-        outhtml.write(html)
         weibolist = []
-        cnt = 0;
-        for x in users:
-            x = x.replace("\\u", "$")
-            x = x.replace("\\", "")
-            x = x.replace("$", "\\u")
+        outhtml = codecs.open("weibo.html", "w", "utf-8")
+        sp = "<div class=\\\"list_person"
+        listhtml = html.split(sp)
+        outhtml.write(html)
+        for listcnt in range(1, len(listhtml)):
+            html = listhtml[listcnt]
+            pattern = re.compile(">[0-9]+?\\\\?u?[a-f0-9]*?<\\\\/a>")
+            messages = pattern.findall(html)
+            me = []
+            for x in messages:
+                x = x.encode('utf8')
+                me.append(x[1:-5].encode('utf-8'))
+            pattern = re.compile("src=\\\\\"(http:\\\\/\\\\/tva.*?)\"")
+            imgs = pattern.findall(html)
+            img = []
+            for x in imgs:
+                img.append(x.replace("\\", ""))
+            pattern = re.compile("href=[^\"]*?\"[^\"]*?\" title=[^\"]*?\"[^\"]*?\"")
+            users = pattern.findall(html)
+           
+            user = {}
+            cnt = 0
+            info = ""
+            pattern = re.compile("<p class=\\\\\"person_card\\\\\">(.*?)<\\\\/p>")
+            infos = pattern.findall(html)
+            try:
+                info = info + infos[0].decode('unicode_escape') + " "
+            except:
+                pass
 
-            al = x.split('\"')
-            url = al[1]
-            name = al[3]
-            if 'refer_flag' in url:
-                
-                cnt = cnt+1
-                if( cnt % 2 == 0):
-                    user = {}
-                    user['name'] = name.decode('unicode_escape')
-                    user['img'] = img[((cnt/2)-1)]
-                    user['url'] = url
-                    user['guanzhu'] = me[((cnt/2)-1) * 3]
-                    user['fans'] = me[((cnt/2)-1) * 3 + 1].decode('unicode_escape')
-                    user['weibo'] = me[((cnt/2)-1) * 3 + 2]
-                    weibolist.append(user)
-        
+            pattern = re.compile("<div class=\\\\\"person_info\\\\\">(.*?)<\\\\/p>")
+            infos = pattern.findall(html)
+            try:
+                info = info + infos[0].decode('unicode_escape')
+            except:
+                pass
+            info = info.replace("\n", "")
+            info = info.replace("\t", "")
+            user['info'] = info
+            for x in users:
+                x = x.replace("\\u", "$")
+                x = x.replace("\\", "")
+                x = x.replace("$", "\\u")
+
+                al = x.split('\"')
+                url = al[1]
+                name = al[3]
+                if 'refer_flag' in url:
+                    
+                    cnt = cnt+1
+                    if( cnt % 2 == 0):
+
+                        user['name'] = name.decode('unicode_escape')
+                        user['img'] = img[((cnt/2)-1)]
+                        user['url'] = url
+                        user['guanzhu'] = me[((cnt/2)-1) * 3]
+                        user['fans'] = me[((cnt/2)-1) * 3 + 1].decode('unicode_escape')
+                        user['weibo'] = me[((cnt/2)-1) * 3 + 2]
+                weibolist.append(user)
+            
         output = codecs.open("weibo.yaml", "w", "utf-8")
         yaml.dump(weibolist, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
         
-        #savefile = codecs.open("newweiboresult/%s.yaml"%(s), "w", "utf-8")
-        #yaml.dump(weibolist, default_flow_style=False,stream=savefile,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+        savefile = codecs.open("newweiboresult/%s.yaml"%(s), "w", "utf-8")
+        yaml.dump(weibolist, default_flow_style=False,stream=savefile,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
     except Exception, e:
         print "Error: ", e
     finally:
@@ -131,4 +152,4 @@ if __name__ == '__main__':
 
     # 在if __name__ == '__main__':引用全局变量不需要定义 global inforead 省略即可
     
-    VisitPersonPage(u'唐杰')
+    VisitPersonPage(u'陈驰')

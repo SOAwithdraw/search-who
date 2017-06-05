@@ -28,7 +28,7 @@ for SOA big project
     
     - 返回结果：
     >
-        [{name:昵称，img:头像图片url，fans:粉丝数，guanzhu：关注数，weibo:发表微博数}]
+        [{name:昵称，img:头像图片url，fans:粉丝数，guanzhu：关注数，weibo:发表微博数， info：简介}]
     - 其他说明：
     >
         
@@ -67,6 +67,8 @@ for SOA big project
 
     对百度新闻搜索关键词进行拆分
     添加了新闻缓存
+    添加了微博info
+    添加了新微博缓存
 
 ### 20150604
 
