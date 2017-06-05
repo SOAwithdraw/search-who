@@ -100,6 +100,7 @@ def Order_data(info, info_type, banned_list, feature_len=1):
             fin[-1]['url'] = i.get('url', '')
             fin[-1]['text'] = features
             fin[-1]['type'] = info_type
+            fin[-1]['img'] = i.get('img', '')
 
     print("ordered data: " + info_type + ' ' + str(len(fin)))
     return fin
@@ -151,6 +152,9 @@ def cluster_img(baidu_info, baike_info, zhihu_info, weibo_info):
     photos.extend(baike_photos)
     photos.extend(zhihu_photos)
     photos.extend(weibo_photos)
+    print(len(baike_photos))
+    print(len(zhihu_photos))
+    print(len(weibo_photos))
 
     groups, mainphoto = photo.Cluster(photos)
     return groups, mainphoto
@@ -273,13 +277,16 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         imggroup, imgs = Pickleout(img_filename)
     else:
         print('Cluster by images.')
-        imggroup, imgs = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
+        #imggroup, imgs = cluster_img(baidu_result, baike_result, zhihu_result, weibo_result)
+        photos = [x['img'] for x in ordered_data]
+        imggroup, imgs = photo.Cluster(photos)
         Picklein(img_filename, imggroup, imgs)
 
     tp1, tp2 = 0, 1
     print('Cluster by texts.')
 
     persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
+    persons = [x for x in persons if x.weight > 1]
     persons = Findnewstitle(baidu_result, persons)
 
     for i in persons:
