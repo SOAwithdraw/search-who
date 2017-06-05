@@ -5,7 +5,7 @@ import urllib2
 import yaml
 import codecs
 import re
-import sys
+import sys, os
 import datetime
 import time
 from bs4 import BeautifulSoup
@@ -72,8 +72,10 @@ def getnews(s, s0, newscnt = 10):
                 u = u.decode('gbk', 'ignore')
                 soup0 = BeautifulSoup(u)
                 ut = soup0.get_text()
-                if s in ut:
-                    text.append(ut)
+                for ss in s:
+                    if ss in ut:
+                        text.append(ut)
+                        break
                 if 'img' in u:
                     try:
                         imgurl = soup0.img['src']
@@ -101,24 +103,38 @@ def getnews(s, s0, newscnt = 10):
 
 def get(word, cnt):
     x = cnt/5
+    s = word + " " + str(cnt)
+    if not os.path.exists("newsresult/"):
+        os.mkdir("newsresult")
+    try:
+        fr = codecs.open('newsresult/%s.yaml'%(s), 'r', "utf-8")
+        existresult = yaml.load(fr)
+        print "load %s.yaml success"%(s)
+        return existresult
+    except:
+        pass
     word163 = word + " site:163.com"
     wordsina = word + " site:sina.com"
     wordqq = word + " site:qq.com"
     wordfh = word + " site:ifeng.com"
     wordsh = word + " site:sohu.com"
     result = []
-    result = result + getnews(word, word163,x)
-    result = result + getnews(word, wordsina,x)
-    result = result + getnews(word, wordqq,x)
-    result = result + getnews(word, wordfh,x)
-    result = result + getnews(word, wordsh,x)
+    wordlist = word.split(" ")
+    result = result + getnews(wordlist, word163,x)
+    result = result + getnews(wordlist, wordsina,x)
+    result = result + getnews(wordlist, wordqq,x)
+    result = result + getnews(wordlist, wordfh,x)
+    result = result + getnews(wordlist, wordsh,x)
+
+    output = codecs.open('newsresult/%s.yaml'%(s), "w", "utf-8")
+    yaml.dump(result, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
     return result
 
 
 if __name__ == '__main__':
     output = codecs.open("search.yaml", "w", "utf-8")
 
-    word = unicode('唐杰', 'utf-8')
+    word = unicode('唐杰 清华', 'utf-8')
 
     #cbegin = datetime.datetime.now()
     searchresult = get(word, 50)
