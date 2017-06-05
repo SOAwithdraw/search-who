@@ -14,6 +14,7 @@ import baidunews
 import cluster
 import photo
 import baike
+import newweibo
 import zhihuuser
 
 reload(sys)
@@ -198,9 +199,10 @@ def search(name, tvalue, describe=[], cache_dir="data"):
 
     search_word = name if not describe else name + ' ' + ' '.join(describe)
     search_filename = os.path.join(cache_dir, search_word + ".yaml")
-    baike_filename = os.path.join(cache_dir, search_word + "baike.yaml")
-    zhihu_filename = os.path.join(cache_dir, search_word + "zhihu.yaml")
-    weibo_filename = os.path.join(cache_dir, "weibo3.yaml")
+    baike_filename = os.path.join(cache_dir, name + "baike.yaml")
+    zhihu_filename = os.path.join(cache_dir, name + "zhihu.yaml")
+    weibo_filename = os.path.join(cache_dir, name + "weibo.yaml")
+    print(search_word, weibo_filename)
     img_filename = os.path.join(cache_dir, search_word + "img.pic")
     dirname = os.path.join(cache_dir, search_word)
 
@@ -212,7 +214,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     else:
         print("Start searching news...")
         redoimg = True
-        baidu_result = baidunews.get(search_word, newscnt=50)
+        baidu_result = baidunews.get(search_word, 50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
         # result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
@@ -227,9 +229,21 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     else:
         print("Start searching baike...")
         redoimg = True
-        baike_result = baike.getpeople(search_word)
+        baike_result = baike.getpeople(name)
         output = codecs.open(baike_filename, "w", "utf-8")
         yaml.dump(baike_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
+
+    if os.path.exists(weibo_filename):
+        print("Load weibo from cache...")
+        with open(weibo_filename) as weibo_f:
+            weibo_result = yaml.load(weibo_f)
+    else:
+        print("Start searching weibo...")
+        redoimg = True
+        weibo_result = newweibo.VisitPersonPage(name)
+        print(weibo_result)
+        output = codecs.open(weibo_filename, "w", "utf-8")
+        yaml.dump(weibo_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
 
     if os.path.exists(zhihu_filename):
         print("Load zhihu from cache...")
@@ -238,7 +252,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     else:
         print("Start searching zhihu...")
         redoimg = True
-        zhihu_result = zhihuuser.getuser(search_word)
+        zhihu_result = zhihuuser.getuser(name)
         output = codecs.open(zhihu_filename, "w", "utf-8")
         yaml.dump(zhihu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
 
@@ -249,13 +263,10 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         os.mkdir(dirname)
 
     # 这里添加了几句测试用的社交帐号的语句
-    # with open(weibo_filename) as weibo_f:
-      # yaml.load(weibo_f)
-    weibo_result = []
     ordered_data = Order_data(baidu_result, 'news', banned_list, 10)
     ordered_data.extend(Order_data(baike_result, 'baike', banned_list))
     ordered_data.extend(Order_data(zhihu_result, 'zhihu', banned_list))
-    #ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
+    ordered_data.extend(Order_data(weibo_result, 'weibo', banned_list))
 
     if os.path.exists(img_filename) and not redoimg:
         print("Load image infomation from cache...")
@@ -271,8 +282,8 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
     persons = Findnewstitle(baidu_result, persons)
 
-    # for i in persons:
-    # print(i)
+    for i in persons:
+        print(i)
     """search_result = []
     for i in range(len(persons)):
         class_info = []
@@ -297,4 +308,4 @@ def search(name, tvalue, describe=[], cache_dir="data"):
 
 
 if __name__ == '__main__':
-    search("陈驰", 0.1)
+    search("唐杰", 0.1, ['清华'])

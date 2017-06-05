@@ -5,7 +5,7 @@ import urllib2
 import yaml
 import codecs
 import re
-import sys
+import sys, os
 import datetime
 import time
 from bs4 import BeautifulSoup
@@ -13,12 +13,11 @@ from bs4 import BeautifulSoup
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
-def get(s, index0 = 0, newscnt = 10):
+def getnews(s, s0, newscnt = 10):
     fr = open('config.yaml', 'r')
     p = yaml.load(fr)
     par = p['baidunews']
-    par['word'] = s;
-    par['pn'] = index0
+    par['word'] = s0
     par['rn'] = newscnt
     data = urllib.urlencode(par)
 
@@ -43,8 +42,9 @@ def get(s, index0 = 0, newscnt = 10):
         if "http://cache.baidu.com/" in u['href']:
             text += u['href'] + '\n'
             newsurl.append(u['href'])
+    
     text += '********************\n'
-
+    print text
     result = []
     for newsurlitem in newsurl:
         try:
@@ -62,7 +62,7 @@ def get(s, index0 = 0, newscnt = 10):
             html = html.replace("&amp;", "&")
             html = html.replace("&lt;", "<")
             html = html.replace("&gt;", ">")
-
+            #html.encode("utf-8")
             pattern = re.compile("<p.*?</p>")
             gp = re.findall(pattern, html)
 
@@ -72,8 +72,10 @@ def get(s, index0 = 0, newscnt = 10):
                 u = u.decode('gbk', 'ignore')
                 soup0 = BeautifulSoup(u)
                 ut = soup0.get_text()
-                if s in ut:
-                    text.append(ut)
+                for ss in s:
+                    if ss in ut:
+                        text.append(ut)
+                        break
                 if 'img' in u:
                     try:
                         imgurl = soup0.img['src']
@@ -86,7 +88,6 @@ def get(s, index0 = 0, newscnt = 10):
             eachnews = {}
             eachnews['text'] = text
             eachnews['img'] = img
-            eachnews['id'] = index0
             pattern = re.compile("<title.*?</title>")
             newstitle = re.search(pattern, html)
             newstitle = newstitle.group(0)
@@ -95,21 +96,51 @@ def get(s, index0 = 0, newscnt = 10):
             eachnews['title'] = ntitle.decode('gbk', 'ignore')
             eachnews['url'] = newsurlitem
             print ntitle
-            index0 = index0 + 1
             result.append(eachnews)
-        except:
-            pass
+        except Exception, e:
+            print e
     return result
+
+def get(word, cnt):
+    x = cnt/5
+    s = word + " " + str(cnt)
+    if not os.path.exists("newsresult/"):
+        os.mkdir("newsresult")
+    try:
+        fr = codecs.open('newsresult/%s.yaml'%(s), 'r', "utf-8")
+        existresult = yaml.load(fr)
+        print "load %s.yaml success"%(s)
+        return existresult
+    except:
+        pass
+    word163 = word + " site:163.com"
+    wordsina = word + " site:sina.com"
+    wordqq = word + " site:qq.com"
+    wordfh = word + " site:ifeng.com"
+    wordsh = word + " site:sohu.com"
+    result = []
+    wordlist = word.split(" ")
+    result = result + getnews(wordlist, word163,x)
+    result = result + getnews(wordlist, wordsina,x)
+    result = result + getnews(wordlist, wordqq,x)
+    result = result + getnews(wordlist, wordfh,x)
+    result = result + getnews(wordlist, wordsh,x)
+
+    output = codecs.open('newsresult/%s.yaml'%(s), "w", "utf-8")
+    yaml.dump(result, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+    return result
+
 
 if __name__ == '__main__':
     output = codecs.open("search.yaml", "w", "utf-8")
 
-    word = unicode('周正平', 'utf-8')
+    word = unicode('唐杰 清华', 'utf-8')
 
     #cbegin = datetime.datetime.now()
-    searchresult = get(word, 0, 50)
+    searchresult = get(word, 50)
     #cend = datetime.datetime.now()
     #print cend - cbegin
 
     yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+
 
