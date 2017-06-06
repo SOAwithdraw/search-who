@@ -206,7 +206,6 @@ def search(name, tvalue, describe=[], cache_dir="data"):
     baike_filename = os.path.join(cache_dir, name + "baike.yaml")
     zhihu_filename = os.path.join(cache_dir, name + "zhihu.yaml")
     weibo_filename = os.path.join(cache_dir, name + "weibo.yaml")
-    print(search_word, weibo_filename)
     img_filename = os.path.join(cache_dir, search_word + "img.pic")
     dirname = os.path.join(cache_dir, search_word)
 
@@ -282,7 +281,7 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         imggroup, imgs = photo.Cluster(photos)
         Picklein(img_filename, imggroup, imgs)
 
-    tp1, tp2 = 0, 1
+    tp1, tp2 = 4, 1
     print('Cluster by texts.')
 
     persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
@@ -315,4 +314,4 @@ def search(name, tvalue, describe=[], cache_dir="data"):
 
 
 if __name__ == '__main__':
-    search("唐杰", 0.1, ['清华'])
+    search("唐杰", 0.6, [])
