@@ -33,20 +33,15 @@ def getnews(s, s0, newscnt = 10):
     response = urllib2.urlopen(request)
     html = response.read()
     #html = html.decode("utf-8")
-
-    soup = BeautifulSoup(html)
+    
 
     newsurl = []
-    text = ""
-    for u in soup.find_all('a'):
-        if "http://cache.baidu.com/" in u['href']:
-            text += u['href'] + '\n'
-            newsurl.append(u['href'])
-    
-    text += '********************\n'
-    print text
+    pattern = re.compile("href=\"(http://cache.*?)\"")
+    newsurl = pattern.findall(html)
+    #print text
     result = []
     for newsurlitem in newsurl:
+        print newsurlitem
         try:
             request = urllib2.Request(newsurlitem)
             request.add_header('User-Agent' , user_agent)
@@ -83,7 +78,7 @@ def getnews(s, s0, newscnt = 10):
                             imgurl = 'http:' + imgurl
                         img.append(imgurl)
                     except:
-                        print newsurlitem
+                        #print newsurlitem
                         pass
             eachnews = {}
             eachnews['text'] = text
@@ -95,14 +90,15 @@ def getnews(s, s0, newscnt = 10):
             ntitle = re.sub(pattern, "", newstitle)
             eachnews['title'] = ntitle.decode('gbk', 'ignore')
             eachnews['url'] = newsurlitem
-            print ntitle
+            #print ntitle
             result.append(eachnews)
         except Exception, e:
             print e
     return result
 
 def get(word, cnt):
-    x = cnt/5
+    fr = open('config.yaml', 'r')
+    p = yaml.load(fr)
     s = word + " " + str(cnt)
     if not os.path.exists("newsresult/"):
         os.mkdir("newsresult")
@@ -113,18 +109,14 @@ def get(word, cnt):
         return existresult
     except:
         pass
-    word163 = word + " site:163.com"
-    wordsina = word + " site:sina.com"
-    wordqq = word + " site:qq.com"
-    wordfh = word + " site:ifeng.com"
-    wordsh = word + " site:sohu.com"
+
     result = []
     wordlist = word.split(" ")
-    result = result + getnews(wordlist, word163,x)
-    result = result + getnews(wordlist, wordsina,x)
-    result = result + getnews(wordlist, wordqq,x)
-    result = result + getnews(wordlist, wordfh,x)
-    result = result + getnews(wordlist, wordsh,x)
+    x = len(p['baidunewssite'])
+    for y in p['baidunewssite']:
+        wordy = word + ' site:' + y
+        result = result + getnews(wordlist, wordy, cnt/x)
+
 
     output = codecs.open('newsresult/%s.yaml'%(s), "w", "utf-8")
     yaml.dump(result, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
@@ -142,5 +134,4 @@ if __name__ == '__main__':
     #print cend - cbegin
 
     yaml.dump(searchresult, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
-
 

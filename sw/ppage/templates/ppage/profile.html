@@ -26,8 +26,8 @@
         </div>
       </form>
   <ul id="nav-mobile" class="right hide-on-med-and-down">
-    <li><a href="#setting">Settings</a></li>
-    <li><a href="#">About us</a></li>
+    <li><a href="#setting"><i class="material-icons">settings</i></a></li>
+    <li><a href="#"><i class="material-icons">supervisor_account</i></a></li>
   </ul>
 </div>
 </nav>
@@ -41,7 +41,7 @@
       <img src="{{p.picture}}" style="width: 300px; height: 400px;">
     </div>
     <div class="col s12 m7 l7 offset-m1 offset-l1">
-      <p> {{p.name}} </p>
+      <p style="color:#78909c; font-size: 26px; margin-top: 0px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;"> {{p.name}} </p>
       {% if p.baike != 'https://'%}
       <p>{{p.baike}}</p>
       {% endif %}
@@ -57,7 +57,8 @@
     </div>
   </div>
   </div>
-  <p style="font-weight: bold; font-size: 20px">相关页面</p>
+  <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">相关页面</span></p>
+  <hr style="margin-top: -7px; margin-bottom: 0px; opacity: 0.2;" class="col s7 offset-s3"/>
   <div class="col s12 m10 l10 offset-m2 offset-l2">
   {% if news_list %}
   {% for news in news_list %}

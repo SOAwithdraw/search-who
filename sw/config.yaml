@@ -2,19 +2,18 @@ baidunews:
     cl: 2
     rn: 50     #每页显示新闻条数
     pn: 0      #从0编号，表示rn个新闻中第一个的编号
-    tn: 'news'
     word: 'word'
     ie: 'utf-8'
 baidunewssite:
-    - 163.com
-    - sina.com.cn
-    - ifeng.com
-    - qq.com
-    - sohu.com
-    - xinhuanet.com
+    - news.163.com
+    - news.sina.com.cn
+    - news.ifeng.com
+    - news.qq.com
+    - news.sohu.com
+    - news.xinhuanet.com
     - people.com.cn
 
-baidunewsurl: 'http://news.baidu.com/ns'
+baidunewsurl: 'http://www.baidu.com/s'
 weibourl: 'https://m.weibo.cn/p/100103type=3&q= ' #https://m.weibo.cn/p/100103type=3&q=唐杰?type=user 
 weibo:
     word: 'word'
