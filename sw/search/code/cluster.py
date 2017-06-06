@@ -48,11 +48,12 @@ class Person:
             for k in self.index:
                 cur += vectors[k].get(j, 0)
             cur = cur * 1.0 / len(self.index)
-        
-            fin.append({'name':j, 'weight':cur})
+
+            fin.append({'name': j, 'weight': cur})
 
         fin = sorted(fin, key=lambda x: x['weight'], reverse=True)
         self.keywords = [x['name'] for x in fin if x['weight'] > 0.9]
+
 
 class CosClass:
 
@@ -289,6 +290,7 @@ class CluClass:
             if i:
                 self.clu.append(i)
 
+
 def Fitbest(infos, group, matx, info_type):
     """
     To find the best baike/zhihu of the user if he has more than one url in the list
@@ -316,6 +318,7 @@ def Fitbest(infos, group, matx, info_type):
 
     return infos[indw]['url']
 
+
 def Getmainword(group, vectors, idf):
     fin = []
     for i in group:
@@ -330,6 +333,7 @@ def Getmainword(group, vectors, idf):
                 mainword = j
         fin.append(mainword)
     return fin
+
 
 def Getpictures(group, imggroup, imgs):
     fin = []
@@ -372,12 +376,14 @@ def Organize(infos, vectors, groups, keywords, pictures, matx):
 
     return persons
 
+
 def Pickle(infos, imggroup, imgs):
     f = open('pickle.txt', 'wb')
     pickle.dump(infos, f)
     pickle.dump(imggroup, f)
     pickle.dump(imgs, f)
     f.close()
+
 
 def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
     """
@@ -416,6 +422,7 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
 
     persons = sorted(persons, key=lambda x: x.weight, reverse=True)
     return persons
+
 
 def Try():
     v = [{'type': 'baike', 'url': '1', 'text': {'a': 1, 'b': 1, 'c': 1}},

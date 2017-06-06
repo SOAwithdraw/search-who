@@ -29,6 +29,7 @@ from chardet import detect
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+
 def VisitPersonPage(s):
     try:
 
@@ -39,20 +40,20 @@ def VisitPersonPage(s):
         ya = yaml.load(fr)
         data = ya['newweibo']
         data['nickname'] = s
-       
+
         urldata = urllib.urlencode(data)
         url = ya['newweibourl'] + urldata
-          
+
         print url
 
-        user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'    
-        headers = { 'User-Agent' : user_agent }  
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'
+        headers = {'User-Agent': user_agent}
 
         request = urllib2.Request(url)
-        request.add_header('User-Agent' , user_agent)
+        request.add_header('User-Agent', user_agent)
         response = urllib2.urlopen(request)
         html = response.read()
-        
+
         #html = html.replace("\n", "")
         #html = html.replace("\r", "")
         html = html.replace("&nbsp;", " ")
@@ -80,7 +81,7 @@ def VisitPersonPage(s):
                 img.append(x.replace("\\", ""))
             pattern = re.compile("href=[^\"]*?\"[^\"]*?\" title=[^\"]*?\"[^\"]*?\"")
             users = pattern.findall(html)
-           
+
             user = {}
             cnt = 0
             info = ""
@@ -109,23 +110,23 @@ def VisitPersonPage(s):
                 url = al[1]
                 name = al[3]
                 if 'refer_flag' in url:
-                    cnt = cnt+1
-                    if( cnt % 2 == 0):
+                    cnt = cnt + 1
+                    if(cnt % 2 == 0):
                         user['name'] = name.decode('unicode_escape')
-                        user['img'] = img[((cnt/2)-1)]
+                        user['img'] = img[((cnt / 2) - 1)]
                         user['url'] = url
-                        user['guanzhu'] = me[((cnt/2)-1) * 3]
-                        user['fans'] = me[((cnt/2)-1) * 3 + 1].decode('unicode_escape')
-                        user['weibo'] = me[((cnt/2)-1) * 3 + 2]
+                        user['guanzhu'] = me[((cnt / 2) - 1) * 3]
+                        user['fans'] = me[((cnt / 2) - 1) * 3 + 1].decode('unicode_escape')
+                        user['weibo'] = me[((cnt / 2) - 1) * 3 + 2]
             weibolist.append(user)
-            
+
         output = codecs.open("weibo.yaml", "w", "utf-8")
-        yaml.dump(weibolist, default_flow_style=False,stream=output,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
-        
-        savefile = codecs.open("newweiboresult/%s.yaml"%(s), "w", "utf-8")
-        yaml.dump(weibolist, default_flow_style=False,stream=savefile,indent=4,encoding='utf-8',allow_unicode=True, width=1000)
+        yaml.dump(weibolist, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
+
+        savefile = codecs.open("newweiboresult/%s.yaml" % (s), "w", "utf-8")
+        yaml.dump(weibolist, default_flow_style=False, stream=savefile, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
         return weibolist
-    except Exception, e: 
+    except Exception, e:
         print "Error: ", e
     finally:
         print u'End\n\n'
@@ -144,6 +145,5 @@ if __name__ == '__main__':
     user_id = 'soawithdraw'  # 用户id url+id访问个人
 
     # 在if __name__ == '__main__':引用全局变量不需要定义 global inforead 省略即可
-    
-    VisitPersonPage(u'陈驰')
 
+    VisitPersonPage(u'陈驰')
