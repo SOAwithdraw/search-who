@@ -34,7 +34,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
     '''
     def banned(word):
         for banned_word in banned_list:
-            if word in banned_word or word == u'中国':
+            if word in banned_word or word == u'中国' or len(word) == 1:
                 return True
         return False
 
@@ -54,7 +54,7 @@ def nouns_extract(text_list, banned_list, max_length=20):
 
     cityname = []
     for i in all_nouns:
-        if i[-1] == u'市' or i[-1] == u'省' or i[-1] == u'县':
+        if len(i)>2 and (i[-1] == u'市' or i[-1] == u'省' or i[-1] == u'县'):
             cityname.append(i)
     for i in cityname:
         val = all_nouns[i]
@@ -170,6 +170,14 @@ def Findnewstitle(news_result, persons):
 
     return persons
 
+def Findzhihuinfo(zhihu_result, persons):
+    for person in persons:
+        if person.zhihu != '':
+            for j in zhihu_result:
+                if person.zhihu == j['url']:
+                    person.zhihuinfo = j['info']
+
+    return persons
 
 def Picklein(img_filename, imggroup, imgs):
     f = open(img_filename, 'wb')
@@ -277,15 +285,16 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         imggroup, imgs = photo.Cluster(photos)
         Picklein(img_filename, imggroup, imgs)
 
-    tp1, tp2 = 4, 1
+    tp1, tp2 = 0, 1
     print('Cluster by texts.')
 
     persons = cluster.Cluster(ordered_data, tvalue, imggroup, imgs, tp1, tp2)
-    persons = [x for x in persons if x.weight > 1]
-    persons = Findnewstitle(baidu_result, persons)
-
+    persons = [x for x in persons if x.weight > 2]
     for i in persons:
         print(i)
+
+    persons = Findnewstitle(baidu_result, persons)
+    persons = Findzhihuinfo(zhihu_result, persons)
 
     return persons
 

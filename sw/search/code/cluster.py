@@ -17,6 +17,7 @@ class Person:
         self.keyword = keyword
         self.index = index
         self.weight = weight
+        self.zhihuinfo = ''
 
         self.baikes = []
         self.weibos = []
@@ -25,7 +26,13 @@ class Person:
         self.keywordsweight = 0
 
     def Calcweight(self):
-        self.weight = len(self.index)
+        self.weight = len(self.news)
+        if self.baike != '':
+            self.weight += 2
+        if self.weibo != '':
+            self.weight += 2
+        if self.zhihu != '':
+            self.weight += 2
 
     def __str__(self):
         fin = ''
@@ -180,7 +187,7 @@ class CluClass:
         for i in imggroup:
             host = i[0]
             for j in i:
-                if j != i and self.Getfa(fa, j) != self.Getfa(fa, host):
+                if j != host and self.Getfa(fa, j) != self.Getfa(fa, host):
                     fa[fa[j]] = host
 
         for i in range(self.tot):
@@ -320,13 +327,14 @@ def Getpictures(group, imggroup, imgs):
                 ma = inters
                 cur = j
         if cur > -1:
-            fin.append(imgs[j])
+            fin.append(imgs[cur])
         else:
             fin.append('')
     return fin
 
 
 def Organize(infos, vectors, groups, keywords, pictures, matx):
+    print(groups)
     tot = len(groups)
     persons = []
     for i in range(tot):
@@ -343,10 +351,10 @@ def Organize(infos, vectors, groups, keywords, pictures, matx):
         persons[i].index = groups[i]
         persons[i].picture = pictures[i]
         persons[i].keyword = keywords[i]
-        persons[i].Calcweight()
         persons[i].baike = Fitbest(infos, groups[i], matx, 'baike')
         persons[i].zhihu = Fitbest(infos, groups[i], matx, 'zhihu')
         persons[i].weibo = Fitbest(infos, groups[i], matx, 'weibo')
+        persons[i].Calcweight()
 
     return persons
 
@@ -391,10 +399,10 @@ def Cluster(infos, tvalue, imggroup, imgs, typ1=0, typ2=1):
     finword = Getmainword(groups, vectors, cosclass.Getidf())
     pictures = Getpictures(groups, imggroup, imgs)
     persons = Organize(infos, vectors, groups, finword, pictures, matx)
-    for i in persons:
-        i.Getmainwords(vectors, cosclass.Getidf())
 
     persons = sorted(persons, key=lambda x: x.weight, reverse=True)
+    for i in persons:
+        i.Getmainwords(vectors, cosclass.Getidf())
     return persons
 
 
