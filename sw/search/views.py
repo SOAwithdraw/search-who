@@ -78,7 +78,7 @@ def get_result(content, refresh=False):
             if 'https://' not in p.zhihu and 'http://' not in p.zhihu:
                 p.zhihu = head + p.zhihu
             if p.picture == '':
-                p.picture = '/static/image/fake.jpg'
+                p.picture = '/static/image/fake.png'
             p_save = Person_model(name=name, description=description, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
                                   news=json.dumps(p.news), picture=p.picture, keyword=';'.join(p.keywords),
                                   weight=p.weight)
