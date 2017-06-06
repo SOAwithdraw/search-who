@@ -33,20 +33,15 @@ def getnews(s, s0, newscnt = 10):
     response = urllib2.urlopen(request)
     html = response.read()
     #html = html.decode("utf-8")
-
-    soup = BeautifulSoup(html)
+    
 
     newsurl = []
-    text = ""
-    for u in soup.find_all('a'):
-        if "http://cache.baidu.com/" in u['href']:
-            text += u['href'] + '\n'
-            newsurl.append(u['href'])
-    
-    text += '********************\n'
+    pattern = re.compile("href=\"(http://cache.*?)\"")
+    newsurl = pattern.findall(html)
     #print text
     result = []
     for newsurlitem in newsurl:
+        print newsurlitem
         try:
             request = urllib2.Request(newsurlitem)
             request.add_header('User-Agent' , user_agent)
