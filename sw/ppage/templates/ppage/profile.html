@@ -14,6 +14,7 @@
 
 <body>
 
+<div class="navbar-fixed">
 <nav class="blue-grey darken-1 z-depth-0">
 <div class="nav-wrapper">
   <a href="/index" style="display: inline-block;margin-left: 2%"><img src="/static/image/logo.png" style="vertical-align: middle;"></a>
@@ -30,6 +31,7 @@
   </ul>
 </div>
 </nav>
+</div>
 
 <br>
 <div class="container">
@@ -39,6 +41,7 @@
       <img src="{{p.picture}}" style="width: 300px; height: 400px;">
     </div>
     <div class="col s12 m7 l7 offset-m1 offset-l1">
+      <p> {{p.name}} </p>
       {% if p.baike != 'https://'%}
       <p>{{p.baike}}</p>
       {% endif %}
@@ -54,14 +57,14 @@
     </div>
   </div>
   </div>
-  <p style="font-weight: bold; font-size: 20px">新闻</p>
+  <p style="font-weight: bold; font-size: 20px">相关页面</p>
   <div class="col s12 m10 l10 offset-m2 offset-l2">
   {% if news_list %}
   {% for news in news_list %}
   <p><a href="{{news.url}}">{{news.title}}</a></p>
   {% endfor %}
   {% else %}
-  <p>抱歉，没有查到相关新闻</p>
+  <p>抱歉，没有查到相关页面</p>
   {% endif %}
   </div>
 </div>

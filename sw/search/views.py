@@ -77,13 +77,17 @@ def get_result(content, refresh=False):
             if p.picture == '':
                 p.picture = '/static/image/fake.jpg'
             p_save = Person_model(name=name, description=description, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
-                                  news=json.dumps(p.news), picture=p.picture, keyword=p.keyword,
+                                  news=json.dumps(p.news), picture=p.picture, keyword=';'.join(p.keywords),
                                   weight=p.weight)
             p_save.save()
-            result.append(p_save)
+            keywords = p.keywords[:5] if len(p.keywords) > 5 else p.keywords
+            result.append([p_save, keywords])
     else:
-        result = data_from_db
-
+        result = []
+        for p in data_from_db:
+            keywords = p.keyword.split(';')
+            keywords = keywords[:5] if len(keywords) > 5 else keywords
+            result.append([p, keywords])
     return result, name
 
 
@@ -97,5 +101,4 @@ def search_person(request):
     print(content.encode('utf-8'))
     result, name = get_result(content, refresh)
 
-    print(result)
     return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result, 'th': search_settings['th']})

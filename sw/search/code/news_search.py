@@ -221,10 +221,6 @@ def search(name, tvalue, describe=[], cache_dir="data"):
         baidu_result = baidunews.get(search_word, 50)
         output = codecs.open(search_filename, "w", "utf-8")
         yaml.dump(baidu_result, default_flow_style=False, stream=output, indent=4, encoding='utf-8', allow_unicode=True, width=1000)
-        # result = [['清华大学计算机系', '', [('url11', 'title11'), ('url12', 'title12')]],
-        #         ['FF14终身优秀玩家', '', [('url21', 'title21'), ('url22', 'title22')]],
-        #        ['资深睡眠大师', '', [('url31', 'title31'), ('url32', 'title32')]],
-        #       ['美食及外卖协会现任董事长', '/static/image/logo.png', [('url41', 'title41'), ('url42', 'title42')]]]
 
     if os.path.exists(baike_filename):
         print("Load baike from cache...")
@@ -291,25 +287,6 @@ def search(name, tvalue, describe=[], cache_dir="data"):
 
     for i in persons:
         print(i)
-    """search_result = []
-    for i in range(len(persons)):
-        class_info = []
-        for page in persons[i].news:
-            class_info.append([baidu_result[page]['url'], baidu_result[page]['title']])
-        search_result.append([finword[i], pictures[i], class_info])"""
-
-    # for Debug
-    # print(pages)
-    # print(json.dumps(finword, ensure_ascii=False))
-
-    # for i in range(len(pages)):
-    #     with codecs.open(dirname + '/' + str(i) + '.txt', 'w', 'utf-8') as fout:
-    #         for j in range(len(pages[i])):
-    #             fout.write('[' + str(pages[i][j]) + ']\n')
-    #             fout.write('\n'.join(baidu_result[pages[i][j]]['text']))
-    #             fout.write(json.dumps(featured_text[fin[i][j]], ensure_ascii=False))
-    #             fout.write('\n')
-    #             fout.write('\n===========\n')
 
     return persons
 
