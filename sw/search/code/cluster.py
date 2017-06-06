@@ -2,7 +2,6 @@
 import os
 import numpy as np
 from math import log, sqrt
-from gensim.models import Word2Vec
 import json
 import pickle
 
@@ -64,7 +63,6 @@ class CosClass:
         for i in range(self.tot):
             self.matx.append([])
         self.Idf_class()
-        self.model = Word2Vec.load('embed/Word60.model')
 
     def cutFeature(self):
         new_vectors = []
@@ -98,9 +96,7 @@ class CosClass:
         for i in range(self.tot):
             for j in range(i + 1, self.tot):
                 # print(i, j)
-                if typ == 4:
-                    cosval = self.Cosembed(self.vectors[i], self.vectors[j])
-                elif typ == 1:
+                if typ == 1:
                     cosval = self.Cos1(self.vectors[i], self.vectors[j])
                 elif typ >= 2:
                     cosval = self.Cos0(self.vectors[i], self.vectors[j], typ)
@@ -143,28 +139,6 @@ class CosClass:
                 fin += 1
         thtot = sqrt((len(dic1) + 1) * (len(dic2) + 1))
         return fin / thtot
-
-    def Cosembed(self, dic1, dic2):
-        vec1 = np.zeros(60)
-        vec2 = np.zeros(60)
-        for key in dic1:
-            try:
-                curvec = np.array(self.model[key.decode('utf-8')])
-            except:
-                curvec = np.zeros(60)
-            vec1 = vec1 + curvec * dic1[key]
-        for key in dic2:
-            try:
-                curvec = np.array(self.model[key.decode('utf-8')])
-            except:
-                curvec = np.zeros(60)
-            vec2 = vec2 + curvec * dic2[key]
-
-        innerproduct = np.dot(vec1, vec2)
-        if innerproduct == 0:
-            return 0
-        else:
-            return innerproduct / sqrt(np.dot(vec1, vec1) * np.dot(vec2, vec2))
 
     # def Idf(self):
     #     curidf = {}
