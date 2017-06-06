@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^$', search_view.redirect_homepage),
     url(r'^index/$', search_view.index, name='index'),
     url(r'^search/$', search_view.search_person, name='search_person'),
+    url(r'^api/search/$', search_view.search_person_api, name='search_person_api'),
     url(r'^profile/(\d+)$', page_view.profile, name='profile'),
 ]

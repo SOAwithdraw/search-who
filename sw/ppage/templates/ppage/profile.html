@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="/static/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style type="text/css">
+    .parallax-container {
+      height: 300px;
+    }
+  </style>
 </head>
 
 <body>
@@ -38,26 +43,51 @@
   <div class="col s12" >
   <div class="row">
     <div class="col s12 m4 l4">
-      <img src="{{p.picture}}" style="width: 300px; height: 400px;">
+      <img src="{{p.picture}}">
     </div>
     <div class="col s12 m7 l7 offset-m1 offset-l1">
-      <p style="color:#78909c; font-size: 26px; margin-top: 0px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;"> {{p.name}} </p>
-      {% if p.baike != 'https://'%}
-      <p>{{p.baike}}</p>
-      {% endif %}
-      {% if p.weibo != 'https://'%}
-      <p>{{p.weibo}}</p>
-      {% endif %}
-      {% if p.zhihu != 'https://'%}
-      <p>{{p.zhihu}}</p>
-      {% endif %}
+      <p style="color:#78909c; font-size: 36px; margin-top: 0px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;"> {{p.name}} </p>
+      <p>
+        {% for keyword in keywords %}
+        <span class="chip">{{keyword}}</span>
+        {% endfor %}
+        </p>
     </div>
     <div class = "col s12 m7 l7 offset-m1 offset-l1" id="keywords">
 
     </div>
   </div>
   </div>
-  <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">相关页面</span></p>
+  <div class="col s12">
+      {% if p.baike != 'https://'%}
+      <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">百度百科</span></p>
+      <hr style="margin-top: -7px; margin-bottom: 0px; opacity: 0.2;" class="col s7 offset-s3"/>
+      <table width="760" border="0" align="center" cellpadding="1" cellspacing="1">  
+      <tr> 
+      <td> 
+      <p align="center">
+      <iframe width="850" height="500" src="{{p.baike}}" frameborder="no"  marginwidth="0" marginheight="0" sandbox=""  allowtransparency="yes" seamless></iframe> </p>
+      </td> 
+      </tr> 
+      </table>
+      {% endif %}
+      {% if p.weibo != 'https://'%}
+      <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">新浪微博</span></p>
+      <hr style="margin-top: -7px; margin-bottom: 0px; opacity: 0.2;" class="col s7 offset-s3"/>
+      <table width="760" border="0" align="center" cellpadding="1" cellspacing="1">  
+      <tr> 
+      <td> 
+      <p align="center">
+      <iframe width="850" height="500" src="{{p.weibo}}" frameborder="no"  marginwidth="0" marginheight="0"  allowtransparency="yes" seamless></iframe> </p>
+      </td> 
+      </tr> 
+      </table>
+      {% endif %}
+      {% if p.zhihu != 'https://'%}
+      <p>{{p.zhihu}}</p>
+      {% endif %}
+    </div>
+  <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">相关新闻</span></p>
   <hr style="margin-top: -7px; margin-bottom: 0px; opacity: 0.2;" class="col s7 offset-s3"/>
   <div class="col s12 m10 l10 offset-m2 offset-l2">
   {% if news_list %}
@@ -69,7 +99,11 @@
   {% endif %}
   </div>
 </div>
+<!-- <div class="parallax-container">
+  <div class="parallax"><img src="/static/image/parallax3.png"></div>
+</div> -->
 
+</body>
 <!-- Settings -->
   <div id="setting" class="modal modal-fixed-footer">
     <div class="modal-content">
@@ -124,6 +158,10 @@
     $('select').material_select();
     $("#setting").val({{th}});
   });
+    $(document).ready(function(){
+      $('.parallax').parallax();
+    });
+
     $('#apply').click(function(){
       var th = $('#threshold').val();
       var content = '{{p.name}}' + '{{p.description}}';
