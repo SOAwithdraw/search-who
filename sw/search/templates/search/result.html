@@ -86,9 +86,10 @@
 </div>
 <div class="col s12 m6 l6">
 <a style="color:#78909c; font-size: 26px; margin-top: 0px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;" href="/profile/{{person.id}}">{{person.name}}</a>
-<p><i class="small material-icons" style="opacity: 0.8;margin-right: 15px;">class</i>
+
+<p><span><i class="small material-icons" style="opacity: 0.8;margin-right: 15px; margin-bottom: 0px;">class</i></span>
 {% for keyword in keywords %}
-<span>{{keyword}}</span>
+<span class="chip">{{keyword}}</span>
 {% endfor %}
 </p>
 <p>
