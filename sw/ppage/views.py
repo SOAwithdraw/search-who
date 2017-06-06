@@ -12,4 +12,8 @@ from sw.settings import search_settings
 def profile(request, idx):
     p = Person_model.objects.get(id=idx)
     news_list = json.loads(p.news)
-    return render(request, 'ppage/profile.html', {'p': p, 'news_list': news_list, 'th': search_settings['th']})
+    keywords = p.keyword.split(';')
+    for keyword in keywords:
+        if len(keyword) < 2:
+            keywords.remove(keyword)
+    return render(request, 'ppage/profile.html', {'p': p, 'news_list': news_list, 'th': search_settings['th'], 'keywords': keywords})
