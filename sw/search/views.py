@@ -3,9 +3,10 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from search.models import Person as Person_model
 from sw.settings import search_settings, th_list
+from django.views.decorators.csrf import csrf_exempt
 
 import os
 import sys
@@ -65,6 +66,8 @@ def get_result(content, refresh=False):
             search_result = news_search.search(name, th_list[search_settings['th']], describe=contents[1:])
         else:
             search_result = news_search.search(name, th_list[search_settings['th']])
+        for p in search_result:
+            print(p)
         # result = fake_data()
         head = 'https://'
         for p in search_result:
@@ -102,3 +105,23 @@ def search_person(request):
     result, name = get_result(content, refresh)
 
     return render(request, 'search/result.html', {'title': content, 'name': name, 'pn': len(result), 'result': result, 'th': search_settings['th']})
+
+
+@csrf_exempt
+def search_person_api(request):
+    try:
+        name = request.GET['n']
+        des = request.GET.get('d', '')
+        result = Person_model.objects.filter(name=name, description=des)
+        if len(result) == 0:
+            return JsonResponse(json.dumps({'error_code': 1, 'content': 'No result'}), safe=False)
+        else:
+            return_obj = []
+            for p in result:
+                person = {'id': p.id, 'name': p.name, 'description': p.description, 'baike': p.baike,
+                          'weibo': p.weibo, 'zhihu': p.zhihu, 'news': json.loads(p.news), 'picture': p.picture,
+                          'keyword': p.keyword.split(';')}
+                return_obj.append(person)
+            return JsonResponse(json.dumps(return_obj), safe=False)
+    except:
+        return JsonResponse(json.dumps({'error_code': 0, 'content': 'Request must contain NAME.'}), safe=False)
