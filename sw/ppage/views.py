@@ -16,4 +16,6 @@ def profile(request, idx):
     for keyword in keywords:
         if len(keyword) < 2:
             keywords.remove(keyword)
+    if len(keywords) > 10:
+        keywords = keywords[:5]
     return render(request, 'ppage/profile.html', {'p': p, 'news_list': news_list, 'th': search_settings['th'], 'keywords': keywords})
