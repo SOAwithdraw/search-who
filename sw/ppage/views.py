@@ -18,4 +18,7 @@ def profile(request, idx):
             keywords.remove(keyword)
     if len(keywords) > 10:
         keywords = keywords[:5]
-    return render(request, 'ppage/profile.html', {'p': p, 'news_list': news_list, 'th': search_settings['th'], 'keywords': keywords})
+    zhihu_info = json.loads(p.zhihu_info)
+    if 'img' in zhihu_info and '_m.' in zhihu_info['img']:
+        zhihu_info['img'] = zhihu_info['img'].replace('_m.', '.')
+    return render(request, 'ppage/profile.html', {'p': p, 'news_list': news_list, 'th': search_settings['th'], 'keywords': keywords, 'zhihu_info': zhihu_info})

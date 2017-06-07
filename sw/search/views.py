@@ -80,7 +80,7 @@ def get_result(content, refresh=False):
             if p.picture == '':
                 p.picture = '/static/image/fake.png'
             p_save = Person_model(name=name, description=description, baike=p.baike, weibo=p.weibo, zhihu=p.zhihu,
-                                  news=json.dumps(p.news), picture=p.picture, keyword=';'.join(p.keywords),
+                                  news=json.dumps(p.news), picture=p.picture, keyword=';'.join(p.keywords), zhihu_info=json.dumps(p.zhihuinfo),
                                   weight=p.weight)
             p_save.save()
             keywords = p.keywords[:5] if len(p.keywords) > 5 else p.keywords

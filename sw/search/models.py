@@ -10,6 +10,7 @@ class Person(models.Model):
     baike = models.TextField(verbose_name="百度百科")
     weibo = models.TextField(verbose_name="新浪微博")
     zhihu = models.TextField(verbose_name="知乎")
+    zhihu_info = models.TextField(verbose_name="知乎信息")
     news = models.TextField(verbose_name="新闻")
     picture = models.TextField(verbose_name="图片")
     keyword = models.TextField(verbose_name="关键字")

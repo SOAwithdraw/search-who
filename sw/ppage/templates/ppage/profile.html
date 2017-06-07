@@ -84,7 +84,24 @@
       </table>
       {% endif %}
       {% if p.zhihu != 'https://'%}
-      <p>{{p.zhihu}}</p>
+       <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">知乎信息</span></p>
+      <hr style="margin-top: -7px; margin-bottom: 0px; opacity: 0.2;" class="col s7 offset-s3"/>
+      <br>
+      <div class="row col s12 m11 l11">
+      <div class="col s12 m4 l4">
+      <img src="{{zhihu_info.img}}">
+      </div>
+      <div class="col s12 m8 l8">
+      <p>
+      <span><i class="material-icons">perm_identity</i></span>
+      <span><a href="{{p.zhihu}}" style="color:#78909c; font-weight: bold; font-size: 20px; margin-left: 10px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;">perm_identity{{zhihu_info.name}}</a></span>
+      </p>
+      <p>
+      <span><i class="material-icons">loyalty</i></span>
+      <span style="font-size: 20px; margin-left: 10px; font-family: Microsoft Yahei, Hiragino Sans GB, Arial; opacity: 0.8;">{{zhihu_info.info}}</span>
+      </p>
+      </div>
+      </div>
       {% endif %}
     </div>
   <p style="overflow:hidden;"><span><i class="material-icons">language</i></span><span style="font-weight: bold; font-size: 20px; margin-left: 10px;">相关新闻</span></p>

@@ -1,0 +1,16 @@
+-   describe: ' 湖北省洪湖人，曾经在北京有一份稳定的工作，为了追寻心中的自由，2009年开始自学吉他和唱歌。曾经四处行走，足迹遍及二十多个省市、 [1]     2012年至今又定居拉萨. [2]       '
+    id: 1
+    info:
+    - 郭栋
+    - 中国
+    - 汉
+    - 湖北省洪湖市
+    - 自由民谣歌手
+    - 男
+    introdution: 自由民谣歌手
+    url: !!python/unicode 'http://baike.baidu.com/item/%E9%83%AD%E6%A0%8B/10848418'
+-   describe: ' 现任新疆维吾尔自治区克拉玛依区人民法院审判员。 [1]       '
+    id: 2
+    info: []
+    introdution: 新疆克拉玛依区人民法院审判员
+    url: !!python/unicode 'http://baike.baidu.com/item/%E9%83%AD%E6%A0%8B/16019113'
