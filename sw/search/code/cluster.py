@@ -17,7 +17,7 @@ class Person:
         self.keyword = keyword
         self.index = index
         self.weight = weight
-        self.zhihuinfo = ''
+        self.zhihuinfo = {}
 
         self.baikes = []
         self.weibos = []
@@ -41,6 +41,7 @@ class Person:
         fin = fin + 'baike' + ' ' + str(self.baike) + '\n'
         fin = fin + 'weibo' + ' ' + str(self.weibo) + '\n'
         fin = fin + 'zhihu' + ' ' + str(self.zhihu) + '\n'
+        fin = fin + 'zhihuinfo' + ' ' + str(self.zhihuinfo) + '\n'
         fin = fin + 'picture' + ' ' + self.picture + '\n'
         fin = fin + 'keywords ' + str(self.keywords) + '\n'
         fin = fin + 'weight ' + str(self.weight) + '\n'

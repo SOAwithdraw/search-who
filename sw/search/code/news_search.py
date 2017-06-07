@@ -175,7 +175,9 @@ def Findzhihuinfo(zhihu_result, persons):
         if person.zhihu != '':
             for j in zhihu_result:
                 if person.zhihu == j['url']:
-                    person.zhihuinfo = j['info']
+                    person.zhihuinfo['info'] = j['info']
+                    person.zhihuinfo['img'] = j['img']
+                    person.zhihuinfo['name'] = j['name']
 
     return persons
 
